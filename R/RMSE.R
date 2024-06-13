@@ -95,7 +95,7 @@ rmse <- function(data, group, opts, choice) {
     base::colnames()
 
   ## check whether variable is numeric
-  for (i in 1:base::length(alternatives)) {
+  for (i in base::seq_along(alternatives)) {
     if (!base::is.numeric(data[[alternatives[i]]])) {
       stop("Error: 'opts' has to be numeric!")
     }
@@ -127,8 +127,8 @@ rmse <- function(data, group, opts, choice) {
       # factorize choice
       merger = base::factor(
         {{ choice }},
-        levels = c(1:base::length(dplyr::select(., {{ opts }}))),
-        labels = c(1:base::length(dplyr::select(., {{ opts }})))
+        levels = c(base::seq_along(dplyr::select(., {{ opts }}))),
+        labels = c(base::seq_along(dplyr::select(., {{ opts }})))
       )
     ) %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
@@ -160,7 +160,7 @@ rmse <- function(data, group, opts, choice) {
       # adjust labeling
       alt = base::substr(alt, 1, (base::nchar(alt) - base::nchar("_mean"))),
       # prepare merge helper variable
-      merger = base::rep(1:base::length(dplyr::select(data, {{ opts }})),
+      merger = base::rep(base::seq_along(dplyr::select(data, {{ opts }})),
         length.out = base::length(alt)
       )
     ))

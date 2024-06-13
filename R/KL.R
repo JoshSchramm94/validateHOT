@@ -157,7 +157,7 @@ kl <- function(data, group, opts, choice, epsilon = NULL, base = NULL) {
     base::colnames()
 
   ## check whether variable is numeric
-  for (i in 1:base::length(alternatives)) {
+  for (i in base::seq_along(alternatives)) {
     if (!base::is.numeric(data[[alternatives[i]]])) {
       stop("Error: 'opts' has to be numeric!")
     }
@@ -189,10 +189,10 @@ kl <- function(data, group, opts, choice, epsilon = NULL, base = NULL) {
       # create factor for actual choice
       alt = base::factor(
         {{ choice }},
-        levels = c(1:base::length(dplyr::select(., {{ opts }}))),
+        levels = c(base::seq_along(dplyr::select(., {{ opts }}))),
         labels = base::paste0(
           "Option_",
-          c(1:base::length(dplyr::select(
+          c(base::seq_along(dplyr::select(
             ., {{ opts }}
           )))
         )
@@ -210,8 +210,8 @@ kl <- function(data, group, opts, choice, epsilon = NULL, base = NULL) {
     dplyr::mutate(
       alt = base::factor(
         pred,
-        levels = c(1:base::length(dplyr::select(., {{ opts }}))),
-        labels = base::paste0("Option_", c(1:base::length(
+        levels = c(base::seq_along(dplyr::select(., {{ opts }}))),
+        labels = base::paste0("Option_", c(base::seq_along(
           dplyr::select(., {{ opts }})
         )))
       )

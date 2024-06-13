@@ -116,7 +116,7 @@ zero_anchored <- function(data, group = NULL, items,
     base::colnames()
 
   ## check whether variable is numeric
-  for (i in 1:base::length(alternatives)) {
+  for (i in base::seq_along(alternatives)) {
     if (!base::is.numeric(data[[alternatives[i]]])) {
       base::stop("Error: 'items' has to be numeric!")
     }
@@ -135,14 +135,14 @@ zero_anchored <- function(data, group = NULL, items,
   }
 
   # test whether res is correctly specified
-  if ((res != "agg") & (res != "ind")) {
+  if ((res != "agg") && (res != "ind")) {
     base::stop(
       "Error: 'res' can only be set to 'agg' or 'ind'!"
     )
   }
 
   # can not specify res to 'ind' and specify group
-  if ((res == "ind") & !base::missing(group)) {
+  if ((res == "ind") && !base::missing(group)) {
     stop("Error: Can not speficy 'group' if 'res' is set to 'ind'!")
   }
 
@@ -174,7 +174,7 @@ zero_anchored <- function(data, group = NULL, items,
     base::colnames(.)
 
 
-  for (i in 1:base::nrow(data)) {
+  for (i in base::seq_len(base::nrow(data))) {
     vec <- base::unname(base::unlist(c(data[i, var_items])))
 
     # data[i, var_items] <- NA

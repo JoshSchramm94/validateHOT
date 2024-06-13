@@ -121,7 +121,7 @@ marksim <- function(data, group, opts,
     base::colnames()
 
   ## check whether variable is numeric
-  for (i in 1:base::length(alternatives)) {
+  for (i in base::seq_along(alternatives)) {
     if (!base::is.numeric(data[[alternatives[i]]])) {
       stop("Error: 'opts' has to be numeric!")
     }
@@ -138,7 +138,7 @@ marksim <- function(data, group, opts,
   }
 
   # method can only be 'sop' or 'fc'
-  if ((method != "sop") & (method != "fc")) {
+  if ((method != "sop") && (method != "fc")) {
     base::stop(
       "Error: 'method' is wrong, please choose between",
       " 'sop' and 'fc'!"
@@ -190,7 +190,7 @@ marksim <- function(data, group, opts,
     return(data %>%
       dplyr::mutate(pred = base::max.col(dplyr::across({{ opts }}))) %>%
       mutate(pred = factor(pred,
-        levels = c(1:base::length(dplyr::select(., {{ opts }}))),
+        levels = c(base::seq_along(dplyr::select(., {{ opts }}))),
         labels = c(data %>% dplyr::select({{ opts }}) %>%
           base::colnames())
       ))

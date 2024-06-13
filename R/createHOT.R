@@ -221,7 +221,7 @@ createHOT <- function(data, id, none = NULL,
 
   # test numeric input for coding
   if (!(base::is.null(coding))) {
-    for (i in 1:base::length(coding)) {
+    for (i in base::seq_along(coding)) {
       if (!(base::is.numeric(coding[i]))) {
         base::stop("Error: 'coding' only can have numeric input!")
       }
@@ -229,8 +229,8 @@ createHOT <- function(data, id, none = NULL,
   }
 
   if (!(base::is.null(coding))) {
-    if (base::any(coding == 1) | base::any(coding == 2)) {
-      for (q in 1:base::length(prod.levels)) {
+    if (base::any(coding == 1) || base::any(coding == 2)) {
+      for (q in base::seq_along(prod.levels)) {
         if (base::any(is.character(prod.levels[[q]]))) {
           base::stop(
             "Error: Input 'prod.levels' has to be numeric if linear or ",
@@ -254,7 +254,7 @@ createHOT <- function(data, id, none = NULL,
   }
 
   # test whether method is correctly specified
-  if ((method != "ACBC") & (method != "CBC") & (method != "MaxDiff")) {
+  if ((method != "ACBC") && (method != "CBC") && (method != "MaxDiff")) {
     base::stop(
       "Error: Please choose one of the supported methods: 'MaxDiff',",
       " 'ACBC', 'CBC'!"
@@ -262,34 +262,34 @@ createHOT <- function(data, id, none = NULL,
   }
 
   # coding required for CBC or ACBC
-  if (method == "CBC" | method == "ACBC") {
+  if (method == "CBC" || method == "ACBC") {
     if (base::missing(coding)) {
       stop("Error: 'coding' is missing!")
     }
   }
 
   # test whether coding is empty if method == MaxDiff
-  if (method == "MaxDiff" & !(base::is.null(coding))) {
+  if (method == "MaxDiff" && !(base::is.null(coding))) {
     base::stop("Error: 'coding' is not required for ", method, "!")
   }
 
   # test whether interpolate levels is empty is specified if method == MaxDiff
-  if (method == "MaxDiff" & !(base::is.null(interpolate.levels))) {
+  if (method == "MaxDiff" && !(base::is.null(interpolate.levels))) {
     base::stop("Error: 'interpolate.levels' is not required for ", method, "!")
   }
 
   # test whether piece.p is empty is specified if method == MaxDiff
-  if (method == "MaxDiff" & !(base::is.null(piece.p))) {
+  if (method == "MaxDiff" && !(base::is.null(piece.p))) {
     base::stop("Error: 'piece.p' is not required for ", method, "!")
   }
 
   # test whether lin.p is empty is specified if method == MaxDiff
-  if (method == "MaxDiff" & !(base::is.null(lin.p))) {
+  if (method == "MaxDiff" && !(base::is.null(lin.p))) {
     base::stop("Error: 'lin.p' is not required for ", method, "!")
   }
 
   # test whether coding only includes 0, 1, 2
-  if ((method == "ACBC" | method == "CBC") &
+  if ((method == "ACBC" || method == "CBC") &&
     base::any(coding != 0 & coding != 1 & coding != 2)) {
     base::stop(
       "Error: Please only use '0' (for part-worth), '1' (for linear)",
@@ -306,25 +306,25 @@ createHOT <- function(data, id, none = NULL,
   }
 
   # test whether CBC is specified and no coding equal to 2
-  if (method == "CBC" & base::any(coding == 2)) {
+  if (method == "CBC" && base::any(coding == 2)) {
     base::stop("Error: Piecewise coding not possible for ", method, "!")
   }
 
   # test whether CBC is used, one variable linear coded however
   # position not specified (or other way around)
-  if (method == "CBC" & !(base::any(coding == 1)) & !(base::is.null(lin.p))) {
+  if (method == "CBC" && !(base::any(coding == 1)) && !(base::is.null(lin.p))) {
     base::stop("Error: 'lin.p' specified but no '1' in coding!")
   }
 
   # test whether ACBC is used, one variable linear coded however
   # position not specified  (or other way around)
-  if (method == "ACBC" & !(base::any(coding == 1)) & !(base::is.null(lin.p))) {
+  if (method == "ACBC" && !(base::any(coding == 1)) && !(base::is.null(lin.p))) {
     base::stop("Error: 'lin.p' specified but no '1' in coding!")
   }
 
   # test whether ACBC is used, one variable piecewise coded however
   # position not specified  (or other way around)
-  if (method == "ACBC" & !(base::any(coding == 2)) &
+  if (method == "ACBC" && !(base::any(coding == 2)) &&
     !(base::is.null(piece.p))) {
     base::stop("Error: 'piece.p' specified but no '2' in coding!")
   }
@@ -336,7 +336,7 @@ createHOT <- function(data, id, none = NULL,
 
   # test variables of prod.levels
   if (!(base::is.null(prod.levels))) {
-    for (tt in 1:base::length(prod.levels)) {
+    for (tt in base::seq_along(prod.levels)) {
       lng <- base::length(prod.levels[[tt]])
       if (lng == 1) {
         if (!base::is.na(prod.levels[[tt]])) {
@@ -352,7 +352,7 @@ createHOT <- function(data, id, none = NULL,
 
       if (lng > 1) {
         for (lng_lev in 1:lng) {
-          if (coding[lng_lev] != 1 & coding[lng_lev] != 2) {
+          if (coding[lng_lev] != 1 && coding[lng_lev] != 2) {
             if (!base::is.na(prod.levels[[tt]][lng_lev])) {
               var <- prod.levels[[tt]][lng_lev]
               if (!(base::is.numeric(data[[var]]))) {
@@ -369,14 +369,14 @@ createHOT <- function(data, id, none = NULL,
   }
 
   # test input of interpolate levels
-  if (!(base::is.list(interpolate.levels)) &
+  if (!(base::is.list(interpolate.levels)) &&
     !(base::is.null(interpolate.levels))) {
     base::stop("Error: Input of 'interpolate.levels' has to be a list!")
   }
 
   # test variables of interpolate.levels
   if (!(base::is.null(interpolate.levels))) {
-    for (tt in 1:base::length(interpolate.levels)) {
+    for (tt in base::seq_along(interpolate.levels)) {
       lng <- base::length(interpolate.levels[[tt]])
 
       for (lng_lev in 1:lng) {
@@ -393,7 +393,7 @@ createHOT <- function(data, id, none = NULL,
 
   # test lin.p variables format
   if (!(base::is.null(lin.p))) {
-    for (ll in 1:base::length(lin.p)) {
+    for (ll in base::seq_along(lin.p)) {
       if (!base::is.numeric(data[[lin.p[ll]]])) {
         base::stop("Error: Variables included in 'lin.p' have to be numeric!")
       }
@@ -402,28 +402,28 @@ createHOT <- function(data, id, none = NULL,
 
   # test whether coding indicated linear coded variable, however,
   # not specified
-  if (base::any(coding == 1) & base::is.null(lin.p)) {
+  if (base::any(coding == 1) && base::is.null(lin.p)) {
     base::stop("Error: Please specify 'lin.p'!")
   }
 
-  if (base::any(coding == 1 | coding == 2) & base::missing(interpolate.levels)) {
+  if (base::any(coding == 1 | coding == 2) && base::missing(interpolate.levels)) {
     base::stop("Error: 'interpolate.levels' is missing!")
   }
 
   # test whether coding indicated piecewise coded variable, however,
   # not specified
-  if (base::any(coding == 2) & base::is.null(piece.p)) {
+  if (base::any(coding == 2) && base::is.null(piece.p)) {
     base::stop("Error: Please specify 'piece.p'!")
   }
 
   # test input of piece.p
-  if (!(base::is.null(piece.p)) & !(base::is.list(piece.p))) {
+  if (!(base::is.null(piece.p)) && !(base::is.list(piece.p))) {
     base::stop("Error: Input of 'piece.p' has to be a list!")
   }
 
   # test variables specified in piece.p
   if (!(base::is.null(piece.p))) {
-    for (tt in 1:base::length(piece.p)) {
+    for (tt in base::seq_along(piece.p)) {
       lng <- base::length(piece.p[[tt]])
       if (lng == 1) {
         var <- piece.p[[tt]]
@@ -495,13 +495,13 @@ createHOT <- function(data, id, none = NULL,
   df[base::is.na(df)] <- 0
 
 
-  for (row in 1:base::nrow(df)) { # repeat procedure for each row
+  for (row in base::seq_len(base::nrow(df))) { # repeat procedure for each row
     for (q in 1:prod) { # and for each prod
       helper <- 1 # define helper variables
       linear_pos <- 1 # define helper variables
 
       # loop for each level specified for an alternative (prod)
-      for (pq in 1:base::length(prod.levels[[q]])) {
+      for (pq in base::seq_along(prod.levels[[q]])) {
         if (!base::is.na(prod.levels[[q]][pq])) {
           if (coding[pq] == 0) { # only run for part-worth coded variable
 
