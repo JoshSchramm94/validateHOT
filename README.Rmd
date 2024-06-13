@@ -334,8 +334,8 @@ You can install the development version of `validateHOT` from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("JoshSchramm94/validateHOT")
+# install.packages("remotes")
+remotes::install_github("JoshSchramm94/validateHOT")
 ```
 
 ## Example

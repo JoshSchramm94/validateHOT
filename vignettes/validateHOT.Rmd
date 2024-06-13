@@ -49,11 +49,11 @@ This vignette should present you ...
 
 ## Installation
 
-You can install `validateHOT` by using the `devtools` package (Wickham et al., 2022).
+You can install `validateHOT` by using the `remotes` package (Wickham et al., 2022).
 
 ```{r}
-# install.packages("devtools")
-# devtools::install_github("JoshSchramm94/validateHOT")
+# install.packages("remotes")
+# remotes::install_github("JoshSchramm94/validateHOT")
 ```
 
 Afterwards, load the package.
