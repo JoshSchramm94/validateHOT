@@ -544,7 +544,7 @@ hitrate(
 
 In this case, the group assignment is stored in form of integers.
 However, the output is the same if it is a factor or labelled data. To
-prove this we just quickly change `group` into a factor by using the
+proof this we just quickly change `group` into a factor by using the
 `factor()` function provided by the *R* Core Team (2023).
 
 ```{r}
