@@ -91,7 +91,7 @@ medae <- function(data, group, opts, choice) {
     base::colnames()
 
   ## check whether variable is numeric
-  for (i in 1:base::length(alternatives)) {
+  for (i in base::seq_along(alternatives)) {
     if (!base::is.numeric(data[[alternatives[i]]])) {
       stop("Error: 'opts' has to be numeric!")
     }
@@ -123,8 +123,8 @@ medae <- function(data, group, opts, choice) {
       # create factor
       merger = base::factor(
         {{ choice }},
-        levels = c(1:base::length(dplyr::select(., {{ opts }}))),
-        labels = c(1:base::length(dplyr::select(., {{ opts }})))
+        levels = c(base::seq_along(dplyr::select(., {{ opts }}))),
+        labels = c(base::seq_along(dplyr::select(., {{ opts }})))
       )
     ) %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
@@ -158,7 +158,7 @@ medae <- function(data, group, opts, choice) {
         alt, 1,
         (base::nchar(alt) - base::nchar("_mean"))
       ),
-      merger = base::rep(1:base::length(dplyr::select(data, {{ opts }})),
+      merger = base::rep(base::seq_along(dplyr::select(data, {{ opts }})),
         length.out = base::length(alt)
       ) # create merger
     ))

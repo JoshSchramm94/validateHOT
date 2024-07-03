@@ -185,7 +185,7 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
 
   # prohib has to be part of opts
   if (!base::is.null(prohib)) {
-    for (i in 1:base::length(prohib)) {
+    for (i in base::seq_along(prohib)) {
       if (!base::all(prohib[[i]] %in% (data %>% dplyr::select(., {{ opts }}) %>%
         base::colnames()))) {
         base::stop("Error: 'prohib' has to be part of 'opts'!")
@@ -195,7 +195,7 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
 
   # fixed can not be larger than size
   if (!base::is.null(prohib)) {
-    for (i in 1:base::length(prohib)) {
+    for (i in base::seq_along(prohib)) {
       if (length(prohib[[i]]) > size) {
         stop("Error: 'prohib' can not be larger than 'size'!")
       }
@@ -210,7 +210,7 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
 
   # error if prohib and fixed are exactly the same
   if (!base::is.null(prohib) & !base::is.null(fixed)) {
-    for (i in 1:base::length(prohib)) {
+    for (i in base::seq_along(prohib)) {
       if (base::all(prohib[[i]] %in% fixed)) {
         base::stop("Error: 'prohib' and 'fixed' have to be different!")
       }
@@ -224,7 +224,7 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
     base::colnames()
 
   ## check whether variable is numeric
-  for (i in 1:base::length(alternatives)) {
+  for (i in base::seq_along(alternatives)) {
     if (!base::is.numeric(data[[alternatives[i]]])) {
       stop("Error: 'opts' has to be numeric!")
     }
@@ -283,7 +283,7 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
       # store column index with highest value
       dplyr::mutate(maximum = base::max.col(.))
 
-    for (row in 1:base::nrow(df)) { # loop for each row
+    for (row in base::seq_len(base::nrow(df))) { # loop for each row
       # loop for each column (except for last two --> thres and maximum)
       for (col in 1:(base::ncol(df) - 2)) {
         # only run if larger than threshold and if row maximum
@@ -307,7 +307,7 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
   # define new variable names
   var_names <- c(items, paste0("new_col_names_", c(1:size)))
   var_names <- base::make.unique(var_names, sep = "...")
-  var_names <- var_names[-c(1:length(items))]
+  var_names <- var_names[-c(base::seq_along(items))]
 
   # create combos
   # create all possible combinations
@@ -334,7 +334,7 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
   }
 
   if (!base::is.null(prohib)) {
-    for (i in 1:length(prohib)) {
+    for (i in base::seq_along(prohib)) {
       prohibitions <- data %>%
         dplyr::select(tidyselect::all_of(prohib[[i]])) %>%
         base::colnames()
@@ -351,7 +351,7 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
   }
 
   # count reach and frequency for each
-  for (i in 1:nrow(combos)) {
+  for (i in base::seq_len(base::nrow(combos))) {
     combs <- base::unname(c(base::unlist(combos[i, ]))) # store the combos as vector
 
     # create combination and store the rowsum for that
@@ -368,7 +368,7 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
       dplyr::select(tidyselect::all_of(tidyselect::starts_with("comb."))) %>%
       # create the reach score
       dplyr::summarise(dplyr::across(
-        1:base::ncol(.),
+        base::seq_len(base::ncol(.)),
         ~ (base::sum(. > 0) / base::nrow(df)
           * 100)
       )) %>%
@@ -385,7 +385,7 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
       # only select the variables that start with comb. (see approach before)
       dplyr::select(tidyselect::all_of(tidyselect::starts_with("comb."))) %>%
       # create frequency score
-      dplyr::summarise(dplyr::across(1:base::ncol(.), ~ base::mean(.x))) %>%
+      dplyr::summarise(dplyr::across(base::seq_len(base::ncol(.)), ~ base::mean(.x))) %>%
       base::t() %>% # transpose
       base::as.data.frame() %>% # store as data frame
       dplyr::rename_all(., ~"freq") %>% # rename variable into 'freq'
@@ -410,7 +410,7 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
     base::cbind(combos, .) # bind with combos
 
   # prepare the binary coding
-  for (i in 1:base::nrow(new_df)) { # loop for each row
+  for (i in base::seq_len(base::nrow(new_df))) { # loop for each row
     for (j in 1:size) { # repeat for each assortment
       new_df[i, new_df[i, j]] <- 1 # store 1
     }
@@ -421,7 +421,7 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
     dplyr::mutate(combo = 0)
 
   # store the names in the variable for merging purposes
-  for (i in 1:base::nrow(new_df)) { # loop for merging purposes
+  for (i in base::seq_len(base::nrow(new_df))) { # loop for merging purposes
     new_df[i, "combo"] <- base::paste0(
       "comb.",
       base::paste0(new_df[i, c(1:size)],

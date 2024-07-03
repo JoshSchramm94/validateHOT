@@ -105,7 +105,7 @@ att_imp <- function(data, group = NULL, attrib, coding,
 
   # test numeric input for coding
   if (!(base::is.null(coding))) {
-    for (i in 1:base::length(coding)) {
+    for (i in base::seq_along(coding)) {
       if (!(base::is.numeric(coding[i]))) {
         base::stop("Error: 'coding' only can have numeric input!")
       }
@@ -121,14 +121,14 @@ att_imp <- function(data, group = NULL, attrib, coding,
 
 
   # test input of interpolate levels
-  if (!(base::is.list(interpolate.levels)) &
+  if (!(base::is.list(interpolate.levels)) &&
     !(base::is.null(interpolate.levels))) {
     base::stop("Error: Input of 'interpolate.levels' has to be a list!")
   }
 
   # test variables of interpolate.levels
   if (!(base::is.null(interpolate.levels))) {
-    for (tt in 1:base::length(interpolate.levels)) {
+    for (tt in base::seq_along(interpolate.levels)) {
       lng <- base::length(interpolate.levels[[tt]])
 
       for (lng_lev in 1:lng) {
@@ -143,7 +143,7 @@ att_imp <- function(data, group = NULL, attrib, coding,
   }
 
   # interpolate.levels can not be larger than number of attributes
-  if (!base::is.null(interpolate.levels) &
+  if (!base::is.null(interpolate.levels) &&
     (base::length(interpolate.levels) > base::length(attrib))) {
     base::stop(
       "Error: List of 'interpolate.levels' can not be larger than list of 'attrib'!"
@@ -153,20 +153,20 @@ att_imp <- function(data, group = NULL, attrib, coding,
   # check length of 'attrib' and coding
   # test input of list in prod.levels
   if (!(base::is.null(attrib))) {
-    for (tt in 1:base::length(attrib)) {
-      if (base::length(attrib[[tt]]) == 1 & coding[tt] == 0) {
+    for (tt in base::seq_along(attrib)) {
+      if (base::length(attrib[[tt]]) == 1 && coding[tt] == 0) {
         base::stop(
           "Error: If attribute is part-worth coded at least 2 attribute levels need to be specified!"
         )
       }
 
-      if (base::length(attrib[[tt]]) > 1 & coding[tt] == 1) {
+      if (base::length(attrib[[tt]]) > 1 && coding[tt] == 1) {
         base::stop(
           "Error: If attribute is linear coded only one attribute level needs to be specified!"
         )
       }
 
-      if (base::length(attrib[[tt]]) == 1 & coding[tt] == 2) {
+      if (base::length(attrib[[tt]]) == 1 && coding[tt] == 2) {
         base::stop(
           "Error: If attribute is piecewise coded at least 2 attribute levels need to be specified!"
         )
@@ -175,14 +175,14 @@ att_imp <- function(data, group = NULL, attrib, coding,
   }
 
   # if 1 is coded, interpolate.levels needs to be specified
-  if (base::any(coding == 1) & base::is.null(interpolate.levels)) {
+  if (base::any(coding == 1) && base::is.null(interpolate.levels)) {
     base::stop(
       "Error: 'interpolate.levels' is missing!"
     )
   }
 
   # if no 1 coded interpolate.levels is not needed
-  if (!base::any(coding == 1) & !base::is.null(interpolate.levels)) {
+  if (!base::any(coding == 1) && !base::is.null(interpolate.levels)) {
     base::stop(
       "Error: 'interpolate.levels' only needs to be specified for linear coded variables!"
     )
@@ -190,7 +190,7 @@ att_imp <- function(data, group = NULL, attrib, coding,
 
   # number of coding larger than length of interpolate levels
 
-  if (!base::is.null(interpolate.levels) & (base::sum(coding == 1) != base::length(interpolate.levels))) {
+  if (!base::is.null(interpolate.levels) && (base::sum(coding == 1) != base::length(interpolate.levels))) {
     base::stop(
       "Error: Number of linear coded variables is not equal to length of 'interpolate.levels'!"
     )
@@ -202,7 +202,7 @@ att_imp <- function(data, group = NULL, attrib, coding,
   }
 
   # test whether res is correctly specified
-  if ((res != "agg") & (res != "ind")) {
+  if ((res != "agg") && (res != "ind")) {
     base::stop(
       "Error: 'res' can only be set to 'agg' or 'ind'!"
     )
@@ -217,7 +217,7 @@ att_imp <- function(data, group = NULL, attrib, coding,
   }
 
   # can not specify res to 'ind' and specify group
-  if ((res == "ind") & !base::missing(group)) {
+  if ((res == "ind") && !base::missing(group)) {
     stop("Error: Can not speficy 'group' if 'res' is set to 'ind'!")
   }
 
@@ -235,8 +235,8 @@ att_imp <- function(data, group = NULL, attrib, coding,
 
     new <- c(new, base::paste0("att_imp_", i))
 
-    for (j in 1:base::nrow(data)) {
-      if (coding[i] == 0 | coding[i] == 2) {
+    for (j in base::seq_len(base::nrow(data))) {
+      if (coding[i] == 0 || coding[i] == 2) {
         data[j, base::paste0("att_imp_", i)] <- base::abs(base::diff(base::range(data[j, vars])))
       }
 

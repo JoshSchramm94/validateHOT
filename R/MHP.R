@@ -90,7 +90,7 @@ mhp <- function(data, group, opts, choice) {
     base::colnames()
 
   ## check whether variable is numeric
-  for (i in 1:base::length(alternatives)) {
+  for (i in base::seq_along(alternatives)) {
     if (!base::is.numeric(data[[alternatives[i]]])) {
       stop("Error: 'opts' has to be numeric!")
     }
@@ -142,7 +142,7 @@ mhp <- function(data, group, opts, choice) {
     base::unname()
 
   # assign correct hit probability
-  for (j in 1:nrow(data)) {
+  for (j in base::seq_len(base::nrow(data))) {
     data$mhp[j] <- base::unlist(data[j, choi[j]])
   }
 
