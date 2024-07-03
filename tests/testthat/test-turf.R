@@ -213,7 +213,7 @@ test_that("'fc' can not be larger than 'thres' in terms of statistics ", {
 test_that("if 'fc' 'reach' and 'freq' ", {
   t2 <- turf(data = HOT, opts = c(Option_1:Option_16), none = None, size = 3, approach = "fc")
 
-  expect_true(base::all(t2$reach == (t2$freq * 100)))
+  expect_true(base::all(round(t2$reach, digits = 3) == round((t2$freq * 100), digits = 3)))
 })
 
 # other data format is working as well
