@@ -19,20 +19,16 @@ affiliations:
  - name: Otto von Guericke University of Magdeburg, Germany
    index: 1
 citation_author: Schramm & Lichters
-date: 04 March
+date: 07 July
 year: 2024
 bibliography: paper.bib
 link-citations: true
 output: rticles::joss_article
 journal: JOSS
-header-includes: 
- - \usepackage{float}
- - \usepackage{fancyhdr}
 ---
 
-```{=tex}
 \newcommand{\colcod}[1]{\texttt{\color{purple}#1}}
-```
+
 
 
 # Summary
@@ -56,13 +52,11 @@ Other packages provide functions to calculate validation metrics, however, these
   \label{comparison}
 \end{figure}
 ```
-
 validateHOT is introduced with data estimated with Lighthouse Studio using effects-coding for creating the design matrix. It, however, can easily be used with data estimated with ChoiceModelR [@ChoiceModelR], bayesm [@bayesm], or STAN [@rstan], if used with similar settings (ChoiceModelR, for example, automatically implements effects-coding).
 
 # Key functions
 
 validateHOT's functions can be categorized into four main components, see \autoref{tab:table1}. To bring the data into the right format for some functions, the \texttt{\color{purple}createHOT()} function can be applied, which creates each alternatives' total utility by applying the additive utility model.
-
 
 | Validation metrics | Confusion matrix | Market simulations | Rescaling scores |
 |:----------------:|:----------------:|:----------------:|:----------------:|
@@ -77,17 +71,16 @@ validateHOT's functions can be categorized into four main components, see \autor
 
 # Typical workflow
 
-We provide the workflow for a MaxDiff study and a CBC study with only part-worth coded attributes (the vignette provides detailed examples for other CBCs and an ACBC).
+We provide the workflow for a MaxDiff study and a CBC study with only part-worth coded attributes (the vignette provides detailed examples for other CBCs and an ACBC). To run the following code chunks, make sure to also install the dplyr package [@dplyr] since it is a dependency of validateHOT.
 
 ## MaxDiff
 
 ### Creating Holdout Task / Market Scenario
 
-After running the HB estimation [@allenby1995], the **raw** utility scores have to be exported and read into an *R* data frame. 
-Assuming you included a validation task with seven alternatives plus the no-buy alternative (\texttt{\color{purple}none}). To create this validation task in *R*, we use the \texttt{\color{purple}createHOT()} function.
+After running the HB estimation [@allenby1995], the **raw** utility scores have to be exported and read into an *R* data frame. Assuming you included a validation task with seven alternatives plus the no-buy alternative (\texttt{\color{purple}none}). To create this validation task in *R*, we use the \texttt{\color{purple}createHOT()} function.
 
 
-```r
+``` r
 HOT <- createHOT(
   data = MaxDiff,
   id = "ID",
@@ -104,8 +97,7 @@ HOT <- createHOT(
 To get the relevant validation metrics that are reported in conjoint studies, for example, hit rate or mean hit probability, we provide the data, the alternatives in the validation task (\texttt{\color{purple}opts}), and the actual choice (\texttt{\color{purple}choice}). The function can be implemented using the tidyverse [@tidyverse] logic.
 
 
-
-```r
+``` r
 hitrate(
   data = HOT,
   opts = c(Option_1:None),
@@ -121,14 +113,12 @@ hitrate(
 ## 1  55.7  5.98   12.5    39    70
 ```
 
-
 ### Market Simulations
 
 We also introduce two functions for market simulations, namely \texttt{\color{purple}marksim()} and \texttt{\color{purple}turf()}. In the following example, the market share is calculated according to the multinomial logit model [@McFadden1974].
 
 
-
-```r
+``` r
 marksim(
   data = HOT,
   opts = c(Option_1:None),
@@ -153,11 +143,10 @@ marksim(
 
 Next, \texttt{\color{purple}turf()}, a "product line extension model" [@miaoulis1990, p. 29], is a tool to find the perfect assortment that creates the highest reach and is especially powerful for MaxDiff studies [@chrzan2019, p. 108]. To optimize the search for the optimal assortment, we also include the arguments \texttt{\color{purple}fixed}, to define alternatives that have to be part of the assortment, and \texttt{\color{purple}prohib}, to prohibit certain item combinations in the assortment (see the vignette for more details and how to apply \texttt{\color{purple}turf()} with data obtained using a likert scale).
 
-
 For the following example, let's assume that the user conducted an anchored MaxDiff analysis with 10 items (\texttt{\color{purple}opts}) and now wants to find the best assortment with a size of 3 items. The user uses the anchor (no-buy alternative) as a threshold.
 
 
-```r
+``` r
 turf(
   data = MaxDiff,
   opts = c(Option_01:Option_10),
@@ -196,7 +185,7 @@ turf(
 The setup is almost the same, only the arguments \texttt{\color{purple}prod.levels}, \texttt{\color{purple}coding}, and \texttt{\color{purple}method} are different or new, respectively.
 
 
-```r
+``` r
 HOT_CBC <- createHOT(
   data = CBC,
   id = "ID",
@@ -208,13 +197,12 @@ HOT_CBC <- createHOT(
 )
 ```
 
-
 ### Rescaling Scores
 
 We can also display the attributes importance scores. Therefore, we need to define the attribute levels as well as the coding of the attributes.
 
 
-```r
+``` r
 att_imp(
   data = CBC,
   attrib = list(

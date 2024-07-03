@@ -53,7 +53,8 @@ your validation/holdout tasks you also need to provide the actual choice
 of your validation/holdout task. You can use the `merge()` function
 provided by the *R* base package to do so (R Core Team, 2023). We
 provide a short tutorial in the markdown, for a more detailed tutorial,
-please see the vignette that comes along with `validateHOT`.
+please see the vignette that comes along with `validateHOT`
+(`vignette("validateHOT", package = "validateHOT")`).
 
 👈🏾 <u>**What you get**</u>:<br> At the moment, `validateHOT` provides
 functions for 4 key components:
@@ -333,7 +334,7 @@ You can install the development version of `validateHOT` from
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("JoshSchramm94/validateHOT")
+remotes::install_github("JoshSchramm94/validateHOT", dependencies = T, build_vignettes = T)
 ```
 
 ## Example
