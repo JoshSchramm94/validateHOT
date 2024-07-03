@@ -332,8 +332,8 @@ You can install the development version of `validateHOT` from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("JoshSchramm94/validateHOT")
+# install.packages("remotes")
+remotes::install_github("JoshSchramm94/validateHOT")
 ```
 
 ## Example
@@ -363,7 +363,7 @@ and as well as the `id`. Since we also have a *no-buy* alternative in
 our validation task, we specify the `none` argument, otherwise we would
 have left it empty. Afterwards, we define each alternative with the
 argument `prod.levels`. If we look back at the data frame, we can see
-that the first alternative in the holdout task (`c(4, 9, 19)`) is
+that the first alternative in the holdout task (`c(4, 9, 18)`) is
 composed of the following attribute levels `Att1_Lev1`, `Att2_Lev1`, and
 `Att3_Lev5`.
 
