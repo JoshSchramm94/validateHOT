@@ -13,7 +13,7 @@ Contributions to the validateHOT project are welcomed. For an easy contribution 
 
 ## Code of Conduct
 
-We take our open source community seriously and hold ourselves and other contributors to high standards of communication. By participating and contributing to this project, you agree to uphold our [Code of Conduct]().
+We take our open source community seriously and hold ourselves and other contributors to high standards of communication. By participating and contributing to this project, you agree to uphold our [Code of Conduct](https://github.com/JoshSchramm94/validateHOT/blob/main/Code_of_Conduct.md).
 
 ## Getting Started
 
