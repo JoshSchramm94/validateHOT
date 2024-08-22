@@ -1,7 +1,7 @@
 Type: Package
 Package: validateHOT
 Title: validateHOT - An R Package to validate holdout tasks and run market simulations 
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: c(person("Joshua", "Schramm", email = "joshua.schramm@mail.de", role = c("aut", "cre"),
     comment = c(ORCID = "0000-0001-5602-4632")),
     person("Marcel", "Lichers", role = "ctb",
