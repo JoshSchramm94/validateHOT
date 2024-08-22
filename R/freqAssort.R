@@ -34,7 +34,7 @@
 #' threshold variable).
 #'
 #'
-#' @importFrom dplyr select mutate across rowwise c_across pick summarise
+#' @importFrom dplyr select mutate across rowwise c_across pick reframe
 #' group_by ungroup
 #' @importFrom magrittr "%>%"
 #'
@@ -143,5 +143,5 @@ freqassort <- function(data, group, none, opts) {
     dplyr::mutate(freq = base::sum(dplyr::c_across({{ opts }}))) %>%
     dplyr::ungroup() %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
-    dplyr::summarise(freq = base::mean(freq)))
+    dplyr::reframe(freq = base::mean(freq)))
 }

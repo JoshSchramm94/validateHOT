@@ -367,7 +367,7 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
       # only select the variables that start with comb. (see approach before)
       dplyr::select(tidyselect::all_of(tidyselect::starts_with("comb."))) %>%
       # create the reach score
-      dplyr::summarise(dplyr::across(
+      dplyr::reframe(dplyr::across(
         base::seq_len(base::ncol(.)),
         ~ (base::sum(. > 0) / base::nrow(df)
           * 100)
@@ -385,7 +385,7 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
       # only select the variables that start with comb. (see approach before)
       dplyr::select(tidyselect::all_of(tidyselect::starts_with("comb."))) %>%
       # create frequency score
-      dplyr::summarise(dplyr::across(base::seq_len(base::ncol(.)), ~ base::mean(.x))) %>%
+      dplyr::reframe(dplyr::across(base::seq_len(base::ncol(.)), ~ base::mean(.x))) %>%
       base::t() %>% # transpose
       base::as.data.frame() %>% # store as data frame
       dplyr::rename_all(., ~"freq") %>% # rename variable into 'freq'

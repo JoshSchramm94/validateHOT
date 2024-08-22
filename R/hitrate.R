@@ -39,7 +39,7 @@
 #' Input of opts \code{choice} has to be column name of actual choice.
 #'
 #' @return a tibble
-#' @importFrom dplyr select mutate pick group_by summarise n
+#' @importFrom dplyr select mutate pick group_by reframe n
 #' @importFrom magrittr "%>%"
 #' @importFrom stats sd
 #'
@@ -126,7 +126,7 @@ hitrate <- function(data, group, opts, choice) {
     # store column index with highest utility
     dplyr::mutate(pred = base::max.col(dplyr::pick({{ opts }}))) %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
-    dplyr::summarise(
+    dplyr::reframe(
       # calculate the hit rate
       HR = base::mean(as.integer({{ choice }} == pred)) * 100,
       # calculate se

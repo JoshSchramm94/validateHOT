@@ -31,7 +31,7 @@
 #' Input of opts \code{choice} has to be column name of actual choice.
 #'
 #' @return a tibble
-#' @importFrom dplyr select mutate group_by pick count ungroup across summarise
+#' @importFrom dplyr select mutate group_by pick count ungroup across reframe
 #' @importFrom magrittr "%>%"
 #' @importFrom stats median
 #' @importFrom tidyr pivot_longer
@@ -144,7 +144,7 @@ medae <- function(data, group, opts, choice) {
     dplyr::mutate(dplyr::across({{ opts }}, ~ .x / Summe * 100)) %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
     # aggregate choice probability
-    dplyr::summarise(across({{ opts }}, ~ mean(.x),
+    dplyr::reframe(across({{ opts }}, ~ mean(.x),
       .names = "{.col}_mean"
     )) %>%
     # change to longer format
@@ -172,5 +172,5 @@ medae <- function(data, group, opts, choice) {
     ) %>% # merge
     dplyr::group_by(dplyr::pick({{ group }})) %>%
     dplyr::mutate(MEDAE = base::abs(mean - chosen)) %>% # calculate medae
-    dplyr::summarise(medae = stats::median(MEDAE))))
+    dplyr::reframe(medae = stats::median(MEDAE))))
 }

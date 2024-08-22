@@ -34,7 +34,7 @@
 #'
 #' @return a tibble
 #' @importFrom dplyr select relocate mutate rowwise pick across ungroup
-#' group_by summarise
+#' group_by reframe
 #' @importFrom magrittr "%>%"
 #' @importFrom stats sd
 #'
@@ -149,7 +149,7 @@ mhp <- function(data, group, opts, choice) {
   # calculate MHP
   return(suppressMessages(data %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
-    dplyr::summarise(
+    dplyr::reframe(
       MHP = base::mean(mhp),
       se = (stats::sd(mhp) / base::sqrt(dplyr::n()))
     )))

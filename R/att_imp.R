@@ -49,14 +49,19 @@
 #' \code{\link[=zc_diffs]{zc_diffs}} for zero-centered diff scores for (A)CBC
 #' }
 #'
+#' @return a tibble
+#' @importFrom dplyr across group_by mutate pick reframe select vars
+#' @importFrom magrittr "%>%"
+#' @importFrom stats sd
+#' @importFrom tidyselect all_of ends_with
+#' @importFrom tidyr pivot_longer
+#'
 #' @references {
 #'
 #' Orme, B. K. (2020). \emph{Getting Started with Conjoint Analysis: Strategies for Product Design and Pricing Research}.
 #' 4th edition. Manhattan Beach, CA: Research Publishers LLC.
 #'
 #' }
-#'
-#' @return a tibble
 #'
 #' @examples
 #'
@@ -254,7 +259,7 @@ att_imp <- function(data, group = NULL, attrib, coding,
     return(data %>%
       dplyr::mutate(dplyr::across(tidyselect::all_of(new), ~ .x / base::rowSums(data[new]))) %>%
       dplyr::group_by(dplyr::pick({{ group }})) %>%
-      dplyr::summarise(dplyr::across(tidyselect::all_of(new), c(mw = base::mean, std = stats::sd),
+      dplyr::reframe(dplyr::across(tidyselect::all_of(new), c(mw = base::mean, std = stats::sd),
         .names = "{.col}....{.fn}"
       )) %>%
       tidyr::pivot_longer(.,

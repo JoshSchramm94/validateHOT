@@ -38,7 +38,7 @@
 #' \code{method = "sop"}.
 #'
 #' @return a tibble
-#' @importFrom dplyr select pick mutate across ungroup group_by summarise count
+#' @importFrom dplyr select pick mutate across ungroup group_by reframe count
 #' @importFrom magrittr "%>%"
 #' @importFrom stats sd
 #' @importFrom tibble as_tibble
@@ -162,7 +162,7 @@ marksim <- function(data, group, opts,
       dplyr::mutate(dplyr::across({{ opts }}, ~ .x / Summe * 100)) %>% # scale
       dplyr::group_by(dplyr::pick({{ group }})) %>%
       # calculate mean and sd
-      dplyr::summarise(dplyr::across({{ opts }},
+      dplyr::reframe(dplyr::across({{ opts }},
         c(mw = base::mean, std = stats::sd),
         .names = "{.col}....{.fn}"
       )) %>%
@@ -207,7 +207,7 @@ marksim <- function(data, group, opts,
         {{ opts }},
         ~ .x * 100
       )) %>%
-      dplyr::summarise(dplyr::across({{ opts }},
+      dplyr::reframe(dplyr::across({{ opts }},
         c(mw = base::mean, std = stats::sd),
         .names = "{.col}....{.fn}"
       )) %>%

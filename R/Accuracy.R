@@ -54,7 +54,7 @@
 #'  \tab No-Buy \tab C \tab D  \cr
 #' }
 #'
-#' @importFrom dplyr group_by summarise select pick
+#' @importFrom dplyr group_by reframe select pick
 #' @importFrom magrittr "%>%"
 #'
 #' @return a tibble
@@ -190,7 +190,7 @@ accuracy <- function(data, group, opts, choice, none) {
       ), 1, 2) # dichotomies pred choice (1 = prod, 2 = none)
     ) %>%
     dplyr::group_by(pick({{ group }})) %>% # potential grouping variable
-    dplyr::summarise(
+    dplyr::reframe(
       accuracy = 100 * base::mean(buy == pred) # calculate accuracy
     ))
 }

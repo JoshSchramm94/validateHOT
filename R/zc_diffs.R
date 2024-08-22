@@ -47,7 +47,7 @@
 #' column name or column index of \code{none} needs to be specified. If no
 #' \code{none} option was included, leave it empty.
 #'
-#' @importFrom dplyr select mutate across summarise pick
+#' @importFrom dplyr select mutate across reframe pick
 #' @importFrom tidyr pivot_longer
 #' @importFrom tidyselect all_of ends_with
 #' @importFrom magrittr "%>%"
@@ -334,7 +334,7 @@ zc_diffs <- function(data, group = NULL, attrib, coding, interpolate.levels = NU
       dplyr::mutate(factor = (att * 100) / base::rowSums(data[new])) %>%
       dplyr::mutate(dplyr::across(tidyselect::all_of(attrib_all), ~ .x * factor)) %>%
       dplyr::group_by(dplyr::pick({{ group }})) %>%
-      dplyr::summarise(dplyr::across(tidyselect::all_of(attrib_all), c(mw = base::mean, std = stats::sd),
+      dplyr::reframe(dplyr::across(tidyselect::all_of(attrib_all), c(mw = base::mean, std = stats::sd),
         .names = "{.col}....{.fn}"
       )) %>%
       tidyr::pivot_longer(.,

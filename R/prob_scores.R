@@ -39,7 +39,7 @@
 #' \code{anchor} only needs to be specified if anchored MaxDiff is applied.
 #' Input for \code{anchor} has to be variable names.
 #'
-#' @importFrom dplyr select across pick group_by ungroup rowwise
+#' @importFrom dplyr select across pick group_by ungroup rowwise reframe
 #' @importFrom magrittr "%>%"
 #' @importFrom tidyr pivot_longer
 #' @importFrom tidyselect ends_with
@@ -182,8 +182,9 @@ prob_scores <- function(data, group = NULL, items, set.size,
         dplyr::mutate(Summe = base::sum(dplyr::pick({{ items }}))) %>% # sum up
         dplyr::ungroup() %>%
         dplyr::mutate(dplyr::across({{ items }}, ~ .x / Summe * 100)) %>%
+        dplyr::select(-Summe) %>%
         dplyr::group_by(dplyr::pick({{ group }})) %>%
-        dplyr::summarise(dplyr::across({{ items }},
+        dplyr::reframe(dplyr::across({{ items }},
           c(mw = base::mean, std = stats::sd),
           .names = "{.col}....{.fn}"
         )) %>%
@@ -200,7 +201,8 @@ prob_scores <- function(data, group = NULL, items, set.size,
         dplyr::rowwise() %>%
         dplyr::mutate(Summe = base::sum(dplyr::pick({{ items }}))) %>% # sum up
         dplyr::ungroup() %>%
-        dplyr::mutate(dplyr::across({{ items }}, ~ .x / Summe * 100)))
+        dplyr::mutate(dplyr::across({{ items }}, ~ .x / Summe * 100)) %>%
+        dplyr::select(-Summe))
     }
   }
 
@@ -210,7 +212,7 @@ prob_scores <- function(data, group = NULL, items, set.size,
         data %>%
           dplyr::mutate(dplyr::across({{ items }}, ~ (base::exp(.x) / (base::exp(.x) + (set.size - 1))) * 100 / (1 / set.size))) %>%
           dplyr::group_by(dplyr::pick({{ group }})) %>%
-          dplyr::summarise(dplyr::across({{ items }},
+          dplyr::reframe(dplyr::across({{ items }},
             c(mw = base::mean, std = stats::sd),
             .names = "{.col}....{.fn}"
           )) %>%

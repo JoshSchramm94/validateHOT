@@ -35,7 +35,7 @@
 #' threshold variable).
 #'
 #'
-#' @importFrom dplyr select mutate across rowwise c_across pick summarise
+#' @importFrom dplyr select mutate across rowwise c_across pick reframe
 #' group_by
 #' @importFrom magrittr "%>%"
 #'
@@ -143,5 +143,5 @@ reach <- function(data, group, none, opts) {
     # if sum of alternatves is at least once above 0 --> reached
     dplyr::mutate(reach = base::ifelse(sum({{ opts }}) > 0, 1, 0)) %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
-    dplyr::summarise(reach = base::mean(reach) * 100))
+    dplyr::reframe(reach = base::mean(reach) * 100))
 }

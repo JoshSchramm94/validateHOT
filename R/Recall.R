@@ -50,7 +50,7 @@
 #'  \tab No-Buy \tab C \tab D  \cr
 #' }
 #'
-#' @importFrom dplyr group_by summarise select pick
+#' @importFrom dplyr group_by reframe select pick
 #' @importFrom magrittr "%>%"
 #'
 #' @return a tibble
@@ -185,7 +185,7 @@ recall <- function(data, group, opts, choice, none) {
       ), 1, 2) # dichotomies pred choice (1 = prod, 2 = none)
     ) %>%
     dplyr::group_by(pick({{ group }})) %>%
-    dplyr::summarise(
+    dplyr::reframe(
       recall = 100 * (base::sum(buy == 1 & pred == 1) /
         (base::sum(buy == 1 & pred == 1) +
           base::sum(buy == 1 & pred == 2)))

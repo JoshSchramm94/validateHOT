@@ -33,7 +33,7 @@
 #'
 #' @return a tibble
 #' @importFrom dplyr select mutate group_by pick count rowwise ungroup
-#' across summarise
+#' across reframe
 #' @importFrom magrittr %>%
 #' @importFrom tidyr pivot_longer
 #' @importFrom tidyselect ends_with
@@ -142,7 +142,7 @@ mae <- function(data, group, opts, choice) {
     dplyr::mutate(dplyr::across({{ opts }}, ~ .x / Summe * 100)) %>% # rescale
     dplyr::group_by(dplyr::pick({{ group }})) %>%
     # aggregate
-    dplyr::summarise(across({{ opts }}, ~ mean(.x),
+    dplyr::reframe(across({{ opts }}, ~ mean(.x),
       .names = "{.col}_mean"
     )) %>%
     # change to longer format
@@ -166,5 +166,5 @@ mae <- function(data, group, opts, choice) {
       base::colnames(), "merger")) %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
     dplyr::mutate(MAE = base::abs(mean - chosen)) %>% # calculate MAE
-    dplyr::summarise(mae = base::mean(MAE))))
+    dplyr::reframe(mae = base::mean(MAE))))
 }

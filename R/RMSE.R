@@ -36,7 +36,7 @@
 #'
 #' @return a tibble
 #' @importFrom dplyr select mutate group_by pick count rowwise ungroup across
-#' summarise
+#' reframe
 #' @importFrom magrittr %>%
 #' @importFrom tidyr pivot_longer
 #' @importFrom tidyselect ends_with
@@ -148,7 +148,7 @@ rmse <- function(data, group, opts, choice) {
     dplyr::mutate(dplyr::across({{ opts }}, ~ .x / Summe * 100)) %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
     # aggreagte choice probability
-    dplyr::summarise(across({{ opts }}, ~ mean(.x),
+    dplyr::reframe(across({{ opts }}, ~ mean(.x),
       .names = "{.col}_mean"
     )) %>%
     tidyr::pivot_longer(.,
@@ -174,5 +174,5 @@ rmse <- function(data, group, opts, choice) {
     ) %>% # merge
     dplyr::group_by(dplyr::pick({{ group }})) %>%
     dplyr::mutate(RMSE = (base::abs(mean - chosen))^2) %>% # calculate RMSE
-    dplyr::summarise(rmse = base::sqrt(base::mean(RMSE)))))
+    dplyr::reframe(rmse = base::sqrt(base::mean(RMSE)))))
 }

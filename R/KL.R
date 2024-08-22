@@ -15,7 +15,7 @@
 #' namely \code{log} (default) and \code{log2}.
 #'
 #' @return a tibble
-#' @importFrom dplyr select mutate group_by pick count summarise
+#' @importFrom dplyr select mutate group_by pick count reframe
 #' @importFrom magrittr "%>%"
 #'
 #' @details
@@ -238,7 +238,7 @@ kl <- function(data, group, opts, choice, epsilon = NULL, base = NULL) {
         chosen = base::ifelse(chosen == 0, epsilon, chosen), # add epsilon if 0
         pred = base::ifelse(pred == 0, epsilon, pred) # add epsilon if 0
       ) %>%
-      dplyr::summarise(
+      dplyr::reframe(
         kl_o_p = base::sum(chosen * base::log(chosen / pred)),
         kl_p_o = base::sum(pred * base::log(pred / chosen))
       ))
@@ -260,7 +260,7 @@ kl <- function(data, group, opts, choice, epsilon = NULL, base = NULL) {
         chosen = base::ifelse(chosen == 0, epsilon, chosen), # add epsilon if 0
         pred = base::ifelse(pred == 0, epsilon, pred) # add epsilon if 0
       ) %>%
-      dplyr::summarise(
+      dplyr::reframe(
         kl_o_p = base::sum(chosen * base::log2(chosen / pred)),
         kl_p_o = base::sum(pred * base::log2(pred / chosen))
       ))

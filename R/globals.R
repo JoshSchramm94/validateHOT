@@ -19,6 +19,7 @@ utils::globalVariables(
     "thres",
     "not",
     "prod",
-    "vec"
+    "vec",
+    "Summe"
   )
 )

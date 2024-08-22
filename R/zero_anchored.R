@@ -29,7 +29,7 @@
 #' \code{anchor} only needs to be specified if anchored MaxDiff is applied.
 #' Input for \code{anchor} has to be variable name.
 #'
-#' @importFrom dplyr select mutate_at vars summarise_at group_by_at
+#' @importFrom dplyr select across reframe group_by pick
 #' @importFrom magrittr "%>%"
 #' @importFrom tidyselect all_of ends_with
 #' @importFrom tidyr pivot_longer
@@ -194,7 +194,7 @@ zero_anchored <- function(data, group = NULL, items,
   if (res == "agg") {
     if (base::missing(group)) {
       return(data %>%
-        dplyr::summarise(dplyr::across(tidyselect::all_of(var_items), c(mw = base::mean, std = stats::sd),
+        dplyr::reframe(dplyr::across(tidyselect::all_of(var_items), c(mw = base::mean, std = stats::sd),
           .names = "{.col}....{.fn}"
         )) %>%
         tidyr::pivot_longer(.,
@@ -206,7 +206,7 @@ zero_anchored <- function(data, group = NULL, items,
     if (!(base::missing(group))) {
       return(data %>%
         dplyr::group_by(dplyr::pick({{ group }})) %>%
-        dplyr::summarise(dplyr::across(tidyselect::all_of(var_items), c(mw = base::mean, std = stats::sd),
+        dplyr::reframe(dplyr::across(tidyselect::all_of(var_items), c(mw = base::mean, std = stats::sd),
           .names = "{.col}....{.fn}"
         )) %>%
         tidyr::pivot_longer(.,
