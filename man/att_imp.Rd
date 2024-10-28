@@ -26,9 +26,9 @@ coding, '1' = linear coding, or '2' = piecewise coding.}
 
 \item{interpolate.levels}{A list of the attribute levels that should
 be interpolated. These have to be the same as specified in model estimation
-(e.g., if you center attribute levels before estimation, insert the centered levels).
-Please make sure to provide the whole list. Only has to be specified for the
-variables that are coded as '1' (linear).}
+(e.g., if you center attribute levels before estimation, insert the centered
+levels). Please make sure to provide the whole list. Only has to be
+specified for the variables that are coded as '1' (linear).}
 
 \item{res}{A vector indicating whether individual shares (\code{ind}) or
 aggregated (\code{agg}) shares should be returned.}
@@ -40,18 +40,19 @@ a tibble
 Function to calculate attributes' importance score of (A)CBCs
 }
 \details{
-\code{att_imp} converts raw utilities of a CBC or an ACBC to relative importance
-scores (see, Orme, 2020, p. 80, for more information).
+\code{att_imp} converts raw utilities of a CBC or an ACBC to relative
+importance scores (see, Orme, 2020, p. 80, for more information).
 
-\code{data} has to be a data frame with all attributes and the corresponding levels.
-Attribute levels need to be the raw utilities of hierarchical Bayes estimation.
+\code{data} has to be a data frame with all attributes and the corresponding
+levels. Attribute levels need to be the raw utilities of hierarchical Bayes
+ estimation.
 
 \code{group} optional grouping variable, if results should be displayed by
 different groups. Has to be column name of variables in \code{data}.
 
 \code{attrib} specifies the attribute levels for each alternative.
-Input for \code{attrib} has to be a list. Needs to specify the column names or
-column indexes of the attribute levels.
+Input for \code{attrib} has to be a list. Needs to specify the column names
+or column indexes of the attribute levels.
 
 \code{coding} is required to indicate the attribute coding. \code{0}
 to indicated part-worth coding, \code{1} for linear coding, or \code{2} for
@@ -63,9 +64,9 @@ estimation, these need to be defined in \code{att_imp}.
 All values have to be specified. For example, if one linear coded attribute
 has 5 levels, all 5 levels have to be inserted.
 
-\code{res} specifies whether results should be aggregated across all participants
-or across \code{group} (\code{res} needs to be set to \code{agg}) or if scores
-should be converted for individuals only.
+\code{res} specifies whether results should be aggregated across all
+participants or across \code{group} (\code{res} needs to be set to
+\code{agg}) or if scores should be converted for individuals only.
 }
 \examples{
 
@@ -76,7 +77,8 @@ att_imp(
   attrib = list(
     c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
     c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-    c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5", "Att3_Lev6", "Att3_Lev7")
+    c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4",
+    "Att3_Lev5", "Att3_Lev6", "Att3_Lev7")
   ),
   coding = c(0, 0, 0),
   res = "agg"
@@ -98,15 +100,17 @@ att_imp(
 \references{
 {
 
-Orme, B. K. (2020). \emph{Getting Started with Conjoint Analysis: Strategies for Product Design and Pricing Research}.
-4th edition. Manhattan Beach, CA: Research Publishers LLC.
+Orme, B. K. (2020). \emph{Getting Started with Conjoint Analysis: Strategies
+for Product Design and Pricing Research}. 4th edition. Manhattan Beach,
+CA: Research Publishers LLC.
 
 }
 }
 \seealso{
 {
 \code{\link[=prob_scores]{prob_scores}} for probability scores for MaxDiff
-\code{\link[=zero_anchored]{zero_anchored}} for zero-anchored interval scores for MaxDiff
+\code{\link[=zero_anchored]{zero_anchored}} for zero-anchored interval
+scores for MaxDiff
 \code{\link[=zc_diffs]{zc_diffs}} for zero-centered diff scores for (A)CBC
 }
 }

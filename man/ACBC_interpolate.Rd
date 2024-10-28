@@ -3,7 +3,8 @@
 \docType{data}
 \name{ACBC_interpolate}
 \alias{ACBC_interpolate}
-\title{ACBC data set with part-worth coded attributes, linear-coded attribute and piecewise-coded price}
+\title{ACBC data set with part-worth coded attributes, linear-coded attribute and
+piecewise-coded price}
 \format{
 A data frame with 95 rows and 41 variables
 }

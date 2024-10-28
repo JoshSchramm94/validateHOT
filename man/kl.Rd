@@ -2,7 +2,8 @@
 % Please edit documentation in R/KL.R
 \name{kl}
 \alias{kl}
-\title{Function to calculate Kullback-Leibler divergence of validation/holdout task}
+\title{Function to calculate Kullback-Leibler divergence of validation/holdout
+task}
 \usage{
 kl(data, group, opts, choice, epsilon = NULL, base = NULL)
 }
@@ -15,13 +16,14 @@ to get \code{kl} by group(s).}
 \item{opts}{Column names of the alternatives included in the
 validation/holdout task.}
 
-\item{choice}{Column name of the actual choice in the validation/holdout task.}
+\item{choice}{Column name of the actual choice in the validation/holdout
+task.}
 
 \item{epsilon}{A vector of noise that should be added to 0 values, per
 default set to 1e-05 (see Drost, 2018).}
 
-\item{base}{A character string to define the logarithm base, currently two are provided,
-namely \code{log} (default) and \code{log2}.}
+\item{base}{A character string to define the logarithm base, currently two
+are provided, namely \code{log} (default) and \code{log2}.}
 }
 \value{
 a tibble
@@ -33,8 +35,8 @@ validation/holdout task.
 \details{
 Kullback-Leibler-Divergence measures the divergence between the actual
 choice distribution and the predicted choice distribution (Ding et al., 2011;
-Drost, 2018). Currently only provides the deviation measured based on \eqn{log}
-and \eqn{log{_2}} algorithm. \eqn{log} set as default.
+Drost, 2018). Currently only provides the deviation measured based on
+\eqn{log} and \eqn{log{_2}} algorithm. \eqn{log} set as default.
 
 Due to Kullback-Leibler divergence's asymmetry, the output provides both
 \code{"KL_O_P"} which is equivalent to (Observed || Predicted) and
@@ -51,8 +53,8 @@ by different groups. Has to be column name of variables in \code{data}.
 validation/holdout task (also includes the \code{none} alternative).
 Input of \code{opts} has to be column names of variables in \code{data}.
 
-\code{choice} to specify column of actual choice in the validation/holdout task.
-Input of opts \code{choice} has to be column name of actual choice.
+\code{choice} to specify column of actual choice in the validation/holdout
+task. Input of opts \code{choice} has to be column name of actual choice.
 
 \code{epsilon} has to be a numeric input in case of 0 in the numerator or
 denominator. 0 then will be replaced by \code{epsilon}. Default value
@@ -120,7 +122,8 @@ kl(
 Ding, Min, John R. Hauser, Songting Dong, Daria Dzyabura, Zhilin Yang,
 SU Chenting, and Steven P. Gaskin. (2011).
 Unstructured Direct Elicitation of Decision Rules. \emph{Journal of
-Marketing Research 48}(1): 116-27. \verb{https://doi.org/10.1509/jmkr.48.1.116}.
+Marketing Research 48}(1): 116-27.
+\verb{https://doi.org/10.1509/jmkr.48.1.116}.
 
 
 Drost, Hajk-Georg. (2018). Philentropy: Information Theory and Distance

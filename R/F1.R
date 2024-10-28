@@ -10,19 +10,20 @@
 #' to get \code{f1} by group(s).
 #' @param opts Column names of the alternatives included in the
 #' validation/holdout task.
-#' @param choice Column name of the actual choice in the validation/holdout task.
+#' @param choice Column name of the actual choice in the validation/holdout
+#' task.
 #' @param none Column name of none alternative.
 #'
 #' @details
 #' The current logic of \code{f1} is to determine whether a binary coded choice
-#' is correctly predicted by the model. To use the function, the validation/holdout task
-#' must include a \code{none} alternative.
+#' is correctly predicted by the model. To use the function, the
+#' validation/holdout task must include a \code{none} alternative.
 #' One possible application is, for example, whether a buy or a no-buy choice
-#' has been correctly predicted. For example, suppose you have three alternatives plus
-#' a \code{none} alternative and want to check whether a buy or no-buy was
-#' correctly predicted. This function can be useful if you, for example,
-#' test whether your model significantly overestimates or underestimates
-#' a purchase likelihood.
+#' has been correctly predicted. For example, suppose you have three
+#' alternatives plus a \code{none} alternative and want to check whether a buy
+#' or no-buy was correctly predicted. This function can be useful if you, for
+#' example, test whether your model significantly overestimates or
+#' underestimates a purchase likelihood.
 #'
 #'
 #' \code{data} has to be a data frame including the alternatives shown in
@@ -36,11 +37,11 @@
 #' validation/holdout task (also includes the \code{none} alternative).
 #' Input of \code{opts} has to be column names of variables in \code{data}.
 #'
-#' \code{choice} to specify column of actual choice in the validation/holdout task.
-#' Input of \code{choice} has to be column name of actual choice.
+#' \code{choice} to specify column of actual choice in the validation/holdout
+#' task. Input of \code{choice} has to be column name of actual choice.
 #'
-#' \code{none} is required to specify column name of the \code{none} alternative in the
-#' validation/holdout task.
+#' \code{none} is required to specify column name of the \code{none}
+#' alternative in the validation/holdout task.
 #'
 #' Please be aware about the following 2x2 table regarding coding of buy and
 #' no-buy choice:

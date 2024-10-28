@@ -9,9 +9,11 @@
 #'
 #'
 #' @details
-#' \code{zero_anchored} converts raw utilities of a MaxDiff to zero-anchored interval scores that have a range of 100.
+#' \code{zero_anchored} converts raw utilities of a MaxDiff to zero-anchored
+#' interval scores that have a range of 100.
 #'
-#' For anchored MaxDiff the anchor is set to 0. More information can be obtained here: https://sawtoothsoftware.com/help/lighthouse-studio/manual/analysis-manager-maxdiff-export-settings.html
+#' For anchored MaxDiff the anchor is set to 0. More information can be
+#' obtained here: https://sawtoothsoftware.com/help/lighthouse-studio/manual/analysis-manager-maxdiff-export-settings.html
 #'
 #' \code{data} has to be a data frame with the attributes. Items have
 #' to be the raw utilities.
@@ -22,9 +24,9 @@
 #' \code{items} specifies the items of the MaxDiff.
 #' Input for \code{items} has to be variable names.
 #'
-#' \code{res} specifies whether results should be aggregated across all participants
-#' or across \code{group} (\code{res} needs to be set to \code{agg}) or if scores
-#' should be converted for individuals only.
+#' \code{res} specifies whether results should be aggregated across all
+#' participants or across \code{group} (\code{res} needs to be set to
+#' \code{agg}) or if scores should be converted for individuals only.
 #'
 #' \code{anchor} only needs to be specified if anchored MaxDiff is applied.
 #' Input for \code{anchor} has to be variable name.
@@ -56,7 +58,8 @@
 #'
 #' library(validateHOT)
 #'
-#' # zero-anchored interval scores for unanchored MaxDiff - without group argument defined
+#' # zero-anchored interval scores for unanchored MaxDiff - without group
+#' # argument defined
 #' zero_anchored(
 #'   data = MaxDiff,
 #'   items = c(Option_01:Option_16),
@@ -179,7 +182,8 @@ zero_anchored <- function(data, group = NULL, items,
 
     # data[i, var_items] <- NA
 
-    vec <- scales::rescale(vec, to = c(0, 100)) - base::mean(scales::rescale(vec, to = c(0, 100)))
+    vec <- scales::rescale(vec, to = c(0, 100)) - base::mean(
+      scales::rescale(vec, to = c(0, 100)))
 
     if (!(base::missing(anchor))) {
       vec <- vec - vec[match(
@@ -194,7 +198,8 @@ zero_anchored <- function(data, group = NULL, items,
   if (res == "agg") {
     if (base::missing(group)) {
       return(data %>%
-        dplyr::reframe(dplyr::across(tidyselect::all_of(var_items), c(mw = base::mean, std = stats::sd),
+        dplyr::reframe(dplyr::across(tidyselect::all_of(var_items),
+                                     c(mw = base::mean, std = stats::sd),
           .names = "{.col}....{.fn}"
         )) %>%
         tidyr::pivot_longer(.,
@@ -206,7 +211,8 @@ zero_anchored <- function(data, group = NULL, items,
     if (!(base::missing(group))) {
       return(data %>%
         dplyr::group_by(dplyr::pick({{ group }})) %>%
-        dplyr::reframe(dplyr::across(tidyselect::all_of(var_items), c(mw = base::mean, std = stats::sd),
+        dplyr::reframe(dplyr::across(tidyselect::all_of(var_items),
+                                     c(mw = base::mean, std = stats::sd),
           .names = "{.col}....{.fn}"
         )) %>%
         tidyr::pivot_longer(.,

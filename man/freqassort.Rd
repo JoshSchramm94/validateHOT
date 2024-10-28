@@ -2,7 +2,8 @@
 % Please edit documentation in R/freqAssort.R
 \name{freqassort}
 \alias{freqassort}
-\title{Function to calculate averaged number of times a participant is reached by assortment}
+\title{Function to calculate averaged number of times a participant is reached by
+assortment}
 \usage{
 freqassort(data, group, none, opts)
 }

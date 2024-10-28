@@ -9,7 +9,8 @@
 #' to get \code{mhp} by group(s).
 #' @param opts Column names of the alternatives included in the
 #' validation/holdout task.
-#' @param choice Column name of the actual choice in the validation/holdout task.
+#' @param choice Column name of the actual choice in the validation/holdout
+#' task.
 #'
 #' @details
 #' Mean hit probability (MHP) measures the averaged hit probability of
@@ -26,7 +27,8 @@
 #' validation/holdout task.
 #' Input of \code{opts} has to be column names of variables in \code{data}.
 #'
-#' \code{choice} to specify column of actual choice in the validation/holdout task.
+#' \code{choice} to specify column of actual choice in the validation/holdout
+#' task.
 #' Input of opts \code{choice} has to be column name of actual choice.
 #'
 #' Output will display both mean hit probability and its corresponding standard

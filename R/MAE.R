@@ -10,7 +10,8 @@
 #' to get \code{mae} by group(s).
 #' @param opts Column names of the alternatives included in the
 #' validation/holdout task.
-#' @param choice Column name of the actual choice in the validation/holdout task.
+#' @param choice Column name of the actual choice in the validation/holdout
+#' task.
 #'
 #' @details
 #' Mean absolute error (MAE) calculates the deviation between predicted and
@@ -28,8 +29,8 @@
 #' validation/holdout task.
 #' Input of \code{opts} has to be column names of variables in \code{data}.
 #'
-#' \code{choice} to specify column of actual choice in the validation/holdout task.
-#' Input of opts \code{choice} has to be column name of actual choice.
+#' \code{choice} to specify column of actual choice in the validation/holdout
+#' task. Input of opts \code{choice} has to be column name of actual choice.
 #'
 #' @return a tibble
 #' @importFrom dplyr select mutate group_by pick count rowwise ungroup
@@ -128,7 +129,7 @@ mae <- function(data, group, opts, choice) {
       )
     ) %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
-    dplyr::count(merger, .drop = F) %>% # count number of choices
+    dplyr::count(merger, .drop = FALSE) %>% # count number of choices
     dplyr::mutate(chosen = n / base::sum(n) * 100) %>% # calculate percentage
     dplyr::select(-"n")) # drop variable
 

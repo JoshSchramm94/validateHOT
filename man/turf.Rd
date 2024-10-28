@@ -23,8 +23,8 @@ turf(
 
 \item{size}{A numeric vector to determine size of the assortment.}
 
-\item{fixed}{An optional vector to determine alternatives/item that have to be
-included in the assortment.}
+\item{fixed}{An optional vector to determine alternatives/item that have to
+be included in the assortment.}
 
 \item{prohib}{An optional list with vectors to determine prohibitions, i.e.,
 alternatives/items that are not allowed to be together in one assortment.}
@@ -65,10 +65,11 @@ in the assortment, i.e., alternatives that are not allowed to be together in
 one assortment.
 
 \code{approach} character defining whether first
-choice \code{approach = 'fc'} or threshold \code{approach = 'thres'} should be applied for running \code{turf()}.
-If \code{approach = 'fc'}, participants are considered being reached, if
-their alternative with the highest utility is included in the assortment
-and this alternative's utilitiy is larger than the threshold's utility (Chrzan & Orme, 2019, p. 111).
+choice \code{approach = 'fc'} or threshold \code{approach = 'thres'} should
+be applied for running \code{turf()}. If \code{approach = 'fc'},
+participants are considered being reached, if their alternative with the
+highest utility is included in the assortment and this alternative's utility
+is larger than the threshold's utility (Chrzan & Orme, 2019, p. 111).
 On the contrary, if \code{approach = 'thres'}, participants are considered
 being reached, if utility of one product is higher than the one of
 the \code{none} alternative (Chrzan & Orme, 2019, p. 112).
@@ -97,7 +98,7 @@ t1 <- turf(
   data = HOT,
   opts = c(Option_1:Option_16),
   none = None,
-  size = 3,
+  size = 3L,
   approach = "thres"
 )
 
@@ -108,7 +109,7 @@ t2 <- turf(
   data = HOT,
   opts = c(Option_1:Option_16),
   none = None,
-  size = 4,
+  size = 4L,
   fixed = c("Option_4", "Option_5"),
   approach = "thres"
 )
@@ -120,7 +121,7 @@ t3 <- turf(
   data = HOT,
   opts = c(Option_1:Option_16),
   none = None,
-  size = 4,
+  size = 4L,
   fixed = c("Option_4", "Option_5"),
   prohib = list(c("Option_2", "Option_9")),
   approach = "thres"

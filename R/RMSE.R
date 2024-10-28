@@ -11,7 +11,8 @@
 #' to get \code{rmse} by group(s).
 #' @param opts Column names of the alternatives included in the
 #' validation/holdout task.
-#' @param choice Column name of the actual choice in the validation/holdout task.
+#' @param choice Column name of the actual choice in the validation/holdout
+#' task.
 #'
 #' @details
 #' Root mean square error (RMSE) calculates the root mean square error when
@@ -30,8 +31,8 @@
 #' validation/holdout task. Input of \code{opts} has to be column names
 #' of variables in \code{data}.
 #'
-#' \code{choice} to specify column of actual choice in the validation/holdout task.
-#' Input of opts \code{choice} has to be column name of actual choice.
+#' \code{choice} to specify column of actual choice in the validation/holdout
+#' task. Input of opts \code{choice} has to be column name of actual choice.
 #'
 #'
 #' @return a tibble
@@ -133,7 +134,7 @@ rmse <- function(data, group, opts, choice) {
     ) %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
     # count choice
-    dplyr::count(merger, .drop = F) %>%
+    dplyr::count(merger, .drop = FALSE) %>%
     # calculate percentage
     dplyr::mutate(chosen = n / base::sum(n) * 100) %>%
     dplyr::select(-"n")) # drop variable

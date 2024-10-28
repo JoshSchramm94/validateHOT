@@ -7,8 +7,10 @@ test_that("Structure of DF", {
 })
 
 test_that("Variables numeric", {
-  names <- base::colnames(ACBC)[-(base::which(base::colnames(ACBC) == "Group"))]
-  for (i in 1:length(names)) {
+  names <- base::colnames(
+    ACBC)[-(base::which(
+      base::colnames(ACBC) == "Group"))]
+  for (i in seq_along(names)) {
     expect_true(!base::is.character(ACBC[names[i]]))
   }
 })

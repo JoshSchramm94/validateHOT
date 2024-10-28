@@ -8,7 +8,8 @@
 #' to get \code{hitrate} by group(s).
 #' @param opts Column names of the alternatives included in the
 #' validation/holdout task.
-#' @param choice Column name of the actual choice in the validation/holdout task.
+#' @param choice Column name of the actual choice in the validation/holdout
+#' task.
 #'
 #' @details
 #' \code{hitrate} measures number of times a participant's choice was correctly
@@ -35,8 +36,8 @@
 #' validation/holdout task.
 #' Input of \code{opts} has to be column names of variables in \code{data}.
 #'
-#' \code{choice} to specify column of actual choice in the validation/holdout task.
-#' Input of opts \code{choice} has to be column name of actual choice.
+#' \code{choice} to specify column of actual choice in the validation/holdout
+#' task. Input of opts \code{choice} has to be column name of actual choice.
 #'
 #' @return a tibble
 #' @importFrom dplyr select mutate pick group_by reframe n
@@ -130,7 +131,8 @@ hitrate <- function(data, group, opts, choice) {
       # calculate the hit rate
       HR = base::mean(as.integer({{ choice }} == pred)) * 100,
       # calculate se
-      se = (stats::sd(as.integer({{ choice }} == pred)) / base::sqrt(dplyr::n())) * 100,
+      se = (stats::sd(as.integer({{ choice }} == pred)) /
+              base::sqrt(dplyr::n())) * 100,
       # calculate the chance level
       chance = 1 / base::length(dplyr::select(data, {{ opts }})) * 100,
       # calculate number of correct predicted

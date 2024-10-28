@@ -1,8 +1,8 @@
 #' Function to run market simulations for validation task / market scenario
 #'
 #' @description
-#' \code{marksim} runs market simulations with options in a validation/holdout task
-#' or a market scenario.
+#' \code{marksim} runs market simulations with options in a validation/holdout
+#' task or a market scenario.
 #'
 #' @param data A data frame with all relevant variables.
 #' @param group Optional column name(s) to specify grouping variable(s)
@@ -30,12 +30,13 @@
 #' \code{group} optional grouping variable, if results should be displayed by
 #' different groups. Has to be column name of variables in \code{data}.
 #'
-#' \code{opts} is required to specify the different alternatives in the simulation
-#' task. Input of \code{opts} has to be column names of variables in \code{data}.
+#' \code{opts} is required to specify the different alternatives in the
+#' simulation task. Input of \code{opts} has to be column names of variables
+#' in \code{data}.
 #'
-#' \code{method} can either be set to \code{method = "sop"} to run share of preference
-#' as method or \code{method = "fc"} to run first choice rule. Default is
-#' \code{method = "sop"}.
+#' \code{method} can either be set to \code{method = "sop"} to run share of
+#' preference as method or \code{method = "fc"} to run first choice rule.
+#' Default is \code{method = "sop"}.
 #'
 #' @return a tibble
 #' @importFrom dplyr select pick mutate across ungroup group_by reframe count
@@ -198,8 +199,8 @@ marksim <- function(data, group, opts,
       dplyr::select({{ group }}, pred) %>%
       fastDummies::dummy_cols(.,
         select_columns = "pred",
-        remove_selected_columns = T,
-        omit_colname_prefix = T
+        remove_selected_columns = TRUE,
+        omit_colname_prefix = TRUE
       )
       %>%
       dplyr::group_by(dplyr::pick({{ group }})) %>%

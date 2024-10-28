@@ -1,4 +1,5 @@
-#' Function to calculate Kullback-Leibler divergence of validation/holdout task
+#' Function to calculate Kullback-Leibler divergence of validation/holdout
+#' task
 #'
 #' @description Function to measure the Kullback-Leibler Divergence of a
 #' validation/holdout task.
@@ -8,11 +9,12 @@
 #' to get \code{kl} by group(s).
 #' @param opts Column names of the alternatives included in the
 #' validation/holdout task.
-#' @param choice Column name of the actual choice in the validation/holdout task.
+#' @param choice Column name of the actual choice in the validation/holdout
+#' task.
 #' @param epsilon A vector of noise that should be added to 0 values, per
 #' default set to 1e-05 (see Drost, 2018).
-#' @param base A character string to define the logarithm base, currently two are provided,
-#' namely \code{log} (default) and \code{log2}.
+#' @param base A character string to define the logarithm base, currently two
+#' are provided, namely \code{log} (default) and \code{log2}.
 #'
 #' @return a tibble
 #' @importFrom dplyr select mutate group_by pick count reframe
@@ -21,8 +23,8 @@
 #' @details
 #' Kullback-Leibler-Divergence measures the divergence between the actual
 #' choice distribution and the predicted choice distribution (Ding et al., 2011;
-#' Drost, 2018). Currently only provides the deviation measured based on \eqn{log}
-#' and \eqn{log{_2}} algorithm. \eqn{log} set as default.
+#' Drost, 2018). Currently only provides the deviation measured based on
+#' \eqn{log} and \eqn{log{_2}} algorithm. \eqn{log} set as default.
 #'
 #' Due to Kullback-Leibler divergence's asymmetry, the output provides both
 #' \code{"KL_O_P"} which is equivalent to (Observed || Predicted) and
@@ -39,8 +41,8 @@
 #' validation/holdout task (also includes the \code{none} alternative).
 #' Input of \code{opts} has to be column names of variables in \code{data}.
 #'
-#' \code{choice} to specify column of actual choice in the validation/holdout task.
-#' Input of opts \code{choice} has to be column name of actual choice.
+#' \code{choice} to specify column of actual choice in the validation/holdout
+#' task. Input of opts \code{choice} has to be column name of actual choice.
 #'
 #' \code{epsilon} has to be a numeric input in case of 0 in the numerator or
 #' denominator. 0 then will be replaced by \code{epsilon}. Default value
@@ -55,7 +57,8 @@
 #' Ding, Min, John R. Hauser, Songting Dong, Daria Dzyabura, Zhilin Yang,
 #' SU Chenting, and Steven P. Gaskin. (2011).
 #' Unstructured Direct Elicitation of Decision Rules. \emph{Journal of
-#' Marketing Research 48}(1): 116-27. \verb{https://doi.org/10.1509/jmkr.48.1.116}.
+#' Marketing Research 48}(1): 116-27.
+#' \verb{https://doi.org/10.1509/jmkr.48.1.116}.
 #'
 #'
 #' Drost, Hajk-Georg. (2018). Philentropy: Information Theory and Distance
@@ -199,7 +202,7 @@ kl <- function(data, group, opts, choice, epsilon = NULL, base = NULL) {
       )
     ) %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
-    dplyr::count(alt, .drop = F) %>% # count choices
+    dplyr::count(alt, .drop = FALSE) %>% # count choices
     dplyr::mutate(chosen = n / base::sum(n)) %>% # calculate percentage
     dplyr::select(-"n")) # drop variable
 
@@ -217,7 +220,7 @@ kl <- function(data, group, opts, choice, epsilon = NULL, base = NULL) {
       )
     ) %>% # create factor
     dplyr::group_by(dplyr::pick({{ group }})) %>%
-    dplyr::count(alt, .drop = F) %>% # count number of predicted choice
+    dplyr::count(alt, .drop = FALSE) %>% # count number of predicted choice
     dplyr::mutate(pred = n / base::sum(n)) %>% # calculate percentage
     dplyr::select(-"n")) # drop variable
 

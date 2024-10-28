@@ -1,4 +1,5 @@
-#' Function to calculate averaged number of times a participant is reached by assortment
+#' Function to calculate averaged number of times a participant is reached by
+#' assortment
 #'
 #' @description
 #' Frequency function of T(otal) U(nduplicated) R(each) and F(requency)

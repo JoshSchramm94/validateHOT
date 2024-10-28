@@ -2,7 +2,8 @@
 % Please edit documentation in R/Precision.R
 \name{precision}
 \alias{precision}
-\title{Function to calculate precision of confusion matrix for general product demand}
+\title{Function to calculate precision of confusion matrix for general product
+demand}
 \usage{
 precision(data, group, opts, choice, none)
 }
@@ -15,7 +16,8 @@ to get \code{precision} by group(s).}
 \item{opts}{Column names of the alternatives included in the
 validation/holdout task.}
 
-\item{choice}{Column name of the actual choice in the validation/holdout task.}
+\item{choice}{Column name of the actual choice in the validation/holdout
+task.}
 
 \item{none}{Column name of none alternative.}
 }
@@ -28,15 +30,15 @@ and is defined as \eqn{\frac{TP}{TP + FP}}, where TP =
 True Positives, FP = False Positives (see, e.g., Burger, 2018).
 }
 \details{
-The current logic of \code{precision} is to determine whether a binary coded choice
-is correctly predicted by the model. To use the function, the validation/holdout task
-must include a \code{none} alternative.
+The current logic of \code{precision} is to determine whether a binary coded
+choice is correctly predicted by the model. To use the function, the
+validation/holdout task must include a \code{none} alternative.
 One possible application is, for example, whether a buy or a no-buy choice
-has been correctly predicted. For example, suppose you have three alternatives plus
-a \code{none} alternative and want to check whether a buy or no-buy was
-correctly predicted. This function can be useful if you, for example,
-test whether your model significantly overestimates or underestimates
-a purchase likelihood.
+has been correctly predicted. For example, suppose you have three
+alternatives plus a \code{none} alternative and want to check whether a buy
+or no-buy was correctly predicted. This function can be useful if you, for
+example, test whether your model significantly overestimates or
+underestimates a purchase likelihood.
 
 \code{data} has to be a data frame including the alternatives shown in
 the validation/holdout task. Can be created using the \code{createHOT()}
@@ -49,11 +51,11 @@ different conditions. Has to be column name of variables in \code{data}.
 validation/holdout task (also includes the \code{none} alternative).
 Input of \code{opts} has to be column names of variables in \code{data}.
 
-\code{choice} to specify column of actual choice in the validation/holdout task.
-Input of \code{choice} has to be column name of actual choice.
+\code{choice} to specify column of actual choice in the validation/holdout
+task. Input of \code{choice} has to be column name of actual choice.
 
-\code{none} is required to specify column name of the \code{none} alternative in the
-validation/holdout task.
+\code{none} is required to specify column name of the \code{none}
+alternative in the validation/holdout task.
 
 Please be aware about the following 2x2 table regarding coding of buy and
 no-buy choice:

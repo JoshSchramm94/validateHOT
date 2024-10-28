@@ -13,8 +13,8 @@
 #' @param opts Column names of the alternatives included in the assortment.
 #' @param none Column name of none / threshold alternative.
 #' @param size A numeric vector to determine size of the assortment.
-#' @param fixed An optional vector to determine alternatives/item that have to be
-#' included in the assortment.
+#' @param fixed An optional vector to determine alternatives/item that have to
+#' be included in the assortment.
 #' @param prohib An optional list with vectors to determine prohibitions, i.e.,
 #' alternatives/items that are not allowed to be together in one assortment.
 #' @param approach A character whether to run First Choice approach ('fc') or
@@ -42,10 +42,11 @@
 #' one assortment.
 #'
 #' \code{approach} character defining whether first
-#' choice \code{approach = 'fc'} or threshold \code{approach = 'thres'} should be applied for running \code{turf()}.
-#' If \code{approach = 'fc'}, participants are considered being reached, if
-#' their alternative with the highest utility is included in the assortment
-#' and this alternative's utilitiy is larger than the threshold's utility (Chrzan & Orme, 2019, p. 111).
+#' choice \code{approach = 'fc'} or threshold \code{approach = 'thres'} should
+#' be applied for running \code{turf()}. If \code{approach = 'fc'},
+#' participants are considered being reached, if their alternative with the
+#' highest utility is included in the assortment and this alternative's utility
+#' is larger than the threshold's utility (Chrzan & Orme, 2019, p. 111).
 #' On the contrary, if \code{approach = 'thres'}, participants are considered
 #' being reached, if utility of one product is higher than the one of
 #' the \code{none} alternative (Chrzan & Orme, 2019, p. 112).
@@ -93,7 +94,7 @@
 #'   data = HOT,
 #'   opts = c(Option_1:Option_16),
 #'   none = None,
-#'   size = 3,
+#'   size = 3L,
 #'   approach = "thres"
 #' )
 #'
@@ -104,7 +105,7 @@
 #'   data = HOT,
 #'   opts = c(Option_1:Option_16),
 #'   none = None,
-#'   size = 4,
+#'   size = 4L,
 #'   fixed = c("Option_4", "Option_5"),
 #'   approach = "thres"
 #' )
@@ -116,7 +117,7 @@
 #'   data = HOT,
 #'   opts = c(Option_1:Option_16),
 #'   none = None,
-#'   size = 4,
+#'   size = 4L,
 #'   fixed = c("Option_4", "Option_5"),
 #'   prohib = list(c("Option_2", "Option_9")),
 #'   approach = "thres"
@@ -186,7 +187,8 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
   # prohib has to be part of opts
   if (!base::is.null(prohib)) {
     for (i in base::seq_along(prohib)) {
-      if (!base::all(prohib[[i]] %in% (data %>% dplyr::select(., {{ opts }}) %>%
+      if (!base::all(prohib[[i]] %in% (data %>%
+                                       dplyr::select(., {{ opts }}) %>%
         base::colnames()))) {
         base::stop("Error: 'prohib' has to be part of 'opts'!")
       }
@@ -352,7 +354,8 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
 
   # count reach and frequency for each
   for (i in base::seq_len(base::nrow(combos))) {
-    combs <- base::unname(c(base::unlist(combos[i, ]))) # store the combos as vector
+    # store the combos as vector
+    combs <- base::unname(c(base::unlist(combos[i, ])))
 
     # create combination and store the rowsum for that
     # combination for each participant
@@ -385,7 +388,8 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
       # only select the variables that start with comb. (see approach before)
       dplyr::select(tidyselect::all_of(tidyselect::starts_with("comb."))) %>%
       # create frequency score
-      dplyr::reframe(dplyr::across(base::seq_len(base::ncol(.)), ~ base::mean(.x))) %>%
+      dplyr::reframe(dplyr::across(base::seq_len(base::ncol(.)),
+                                   ~ base::mean(.x))) %>%
       base::t() %>% # transpose
       base::as.data.frame() %>% # store as data frame
       dplyr::rename_all(., ~"freq") %>% # rename variable into 'freq'

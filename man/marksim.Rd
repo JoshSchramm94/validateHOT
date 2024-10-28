@@ -24,8 +24,8 @@ is \code{"sop"}.}
 a tibble
 }
 \description{
-\code{marksim} runs market simulations with options in a validation/holdout task
-or a market scenario.
+\code{marksim} runs market simulations with options in a validation/holdout
+task or a market scenario.
 }
 \details{
 \code{marksim} provides the expected aggregated market shares of each
@@ -43,12 +43,13 @@ using the \code{createHOT()} function.
 \code{group} optional grouping variable, if results should be displayed by
 different groups. Has to be column name of variables in \code{data}.
 
-\code{opts} is required to specify the different alternatives in the simulation
-task. Input of \code{opts} has to be column names of variables in \code{data}.
+\code{opts} is required to specify the different alternatives in the
+simulation task. Input of \code{opts} has to be column names of variables
+in \code{data}.
 
-\code{method} can either be set to \code{method = "sop"} to run share of preference
-as method or \code{method = "fc"} to run first choice rule. Default is
-\code{method = "sop"}.
+\code{method} can either be set to \code{method = "sop"} to run share of
+preference as method or \code{method = "fc"} to run first choice rule.
+Default is \code{method = "sop"}.
 }
 \examples{
 

@@ -290,7 +290,7 @@ createHOT <- function(data, id, none = NULL,
 
   # test whether coding only includes 0, 1, 2
   if ((method == "ACBC" || method == "CBC") &&
-    base::any(coding != 0 & coding != 1 & coding != 2)) {
+      base::any(coding != 0 & coding != 1 & coding != 2)) {
     base::stop(
       "Error: Please only use '0' (for part-worth), '1' (for linear)",
       ", or '2' (for piecewise)!"
@@ -325,7 +325,7 @@ createHOT <- function(data, id, none = NULL,
   # test whether ACBC is used, one variable piecewise coded however
   # position not specified  (or other way around)
   if (method == "ACBC" && !(base::any(coding == 2)) &&
-    !(base::is.null(piece.p))) {
+      !(base::is.null(piece.p))) {
     base::stop("Error: 'piece.p' specified but no '2' in coding!")
   }
 
@@ -370,7 +370,7 @@ createHOT <- function(data, id, none = NULL,
 
   # test input of interpolate levels
   if (!(base::is.list(interpolate.levels)) &&
-    !(base::is.null(interpolate.levels))) {
+      !(base::is.null(interpolate.levels))) {
     base::stop("Error: Input of 'interpolate.levels' has to be a list!")
   }
 
@@ -524,7 +524,7 @@ createHOT <- function(data, id, none = NULL,
 
             # center the attribute levels
             lin.levels_eff <- c(base::scale(inter.levels,
-              center = TRUE, scale = FALSE
+                                            center = TRUE, scale = FALSE
             ))
 
             # get utility of lower bound of linear coded attribute

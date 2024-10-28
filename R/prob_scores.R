@@ -13,12 +13,14 @@
 #'
 #' @details
 #' \code{prob_scores} converts raw utilities of a MaxDiff to probability scores.
-#' Probability scores for the unanchored MaxDiff are calculated according to the formula provided by
-#' Chrzan & Orme (2019, p. 56): \eqn{\frac{e^U}{(e^U + (a - 1)}}, where \emph{U} is the
-#' raw utility of the item and \emph{a} is the number of items shown per choice task.
+#' Probability scores for the unanchored MaxDiff are calculated according to the
+#' formula provided by Chrzan & Orme (2019, p. 56):
+#' \eqn{\frac{e^U}{(e^U + (a - 1)}}, where \emph{U} is the raw utility of the
+#' item and \emph{a} is the number of items shown per choice task.
 #'
-#' For anchored MaxDiff the following formula is applied \eqn{\frac{e^U}{(e^U + (a - 1)} * 100 / (1 / a)}
-#' (Chrzan & Orme, 2019, pp. 59-60).
+#' For anchored MaxDiff the following formula is applied
+#' \eqn{\frac{e^U}{(e^U + (a - 1)} * 100 / (1 / a)} (Chrzan & Orme, 2019,
+#' pp. 59-60).
 #'
 #' \code{data} has to be a data frame with the attributes. Items have
 #' to be the raw utilities.
@@ -32,9 +34,9 @@
 #' \code{set.size} specifies the size of the choice sets (how many items were
 #' shown in one task). Input needs to be a whole number.
 #'
-#' \code{res} specifies whether results should be aggregated across all participants
-#' or across \code{group} (\code{res} needs to be set to \code{agg}) or if scores
-#' should be converted for individuals only.
+#' \code{res} specifies whether results should be aggregated across all
+#' participants or across \code{group} (\code{res} needs to be set to
+#' \code{agg}) or if scores should be converted for individuals only.
 #'
 #' \code{anchor} only needs to be specified if anchored MaxDiff is applied.
 #' Input for \code{anchor} has to be variable names.
@@ -45,7 +47,8 @@
 #' @importFrom tidyselect ends_with
 #'
 #' @seealso {
-#' \code{\link[=zero_anchored]{zero_anchored}} for zero-anchored interval scores for MaxDiff
+#' \code{\link[=zero_anchored]{zero_anchored}} for zero-anchored interval
+#' scores for MaxDiff
 #' \code{\link[=att_imp]{att_imp}} for attribute importance scores for (A)CBC
 #' \code{\link[=zc_diffs]{zc_diffs}} for zero-centered diff scores for (A)CBC
 #' }
@@ -177,7 +180,9 @@ prob_scores <- function(data, group = NULL, items, set.size,
   if (base::missing(anchor)) {
     if (res == "agg") {
       return(data %>%
-        dplyr::mutate(dplyr::across({{ items }}, ~ (base::exp(.x) / (base::exp(.x) + (set.size - 1))))) %>%
+        dplyr::mutate(dplyr::across({{ items }},
+                                    ~ (base::exp(.x) /
+                                         (base::exp(.x) + (set.size - 1))))) %>%
         dplyr::rowwise() %>%
         dplyr::mutate(Summe = base::sum(dplyr::pick({{ items }}))) %>% # sum up
         dplyr::ungroup() %>%
@@ -197,7 +202,9 @@ prob_scores <- function(data, group = NULL, items, set.size,
 
     if (res == "ind") {
       return(data %>%
-        dplyr::mutate(dplyr::across({{ items }}, ~ (base::exp(.x) / (base::exp(.x) + (set.size - 1))))) %>%
+        dplyr::mutate(dplyr::across({{ items }}, ~
+                                      (base::exp(.x) /
+                                         (base::exp(.x) + (set.size - 1))))) %>%
         dplyr::rowwise() %>%
         dplyr::mutate(Summe = base::sum(dplyr::pick({{ items }}))) %>% # sum up
         dplyr::ungroup() %>%
@@ -210,7 +217,11 @@ prob_scores <- function(data, group = NULL, items, set.size,
     if (res == "agg") {
       return(
         data %>%
-          dplyr::mutate(dplyr::across({{ items }}, ~ (base::exp(.x) / (base::exp(.x) + (set.size - 1))) * 100 / (1 / set.size))) %>%
+          dplyr::mutate(dplyr::across({{ items }}, ~
+                                        (base::exp(.x) /
+                                           (base::exp(.x) +
+                                              (set.size - 1))) * 100 /
+                                        (1 / set.size))) %>%
           dplyr::group_by(dplyr::pick({{ group }})) %>%
           dplyr::reframe(dplyr::across({{ items }},
             c(mw = base::mean, std = stats::sd),
@@ -226,7 +237,11 @@ prob_scores <- function(data, group = NULL, items, set.size,
     if (res == "ind") {
       return(
         data %>%
-          dplyr::mutate(dplyr::across({{ items }}, ~ (base::exp(.x) / (base::exp(.x) + (set.size - 1))) * 100 / (1 / set.size)))
+          dplyr::mutate(dplyr::across({{ items }},
+                                      ~ (base::exp(.x) /
+                                           (base::exp(.x) +
+                                              (set.size - 1))) * 100 /
+                                        (1 / set.size)))
       )
     }
   }

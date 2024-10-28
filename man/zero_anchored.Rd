@@ -25,9 +25,11 @@ a tibble
 Function to calculate zero-anchored interval scores for (anchored) MaxDiff
 }
 \details{
-\code{zero_anchored} converts raw utilities of a MaxDiff to zero-anchored interval scores that have a range of 100.
+\code{zero_anchored} converts raw utilities of a MaxDiff to zero-anchored
+interval scores that have a range of 100.
 
-For anchored MaxDiff the anchor is set to 0. More information can be obtained here: https://sawtoothsoftware.com/help/lighthouse-studio/manual/analysis-manager-maxdiff-export-settings.html
+For anchored MaxDiff the anchor is set to 0. More information can be
+obtained here: https://sawtoothsoftware.com/help/lighthouse-studio/manual/analysis-manager-maxdiff-export-settings.html
 
 \code{data} has to be a data frame with the attributes. Items have
 to be the raw utilities.
@@ -38,9 +40,9 @@ different groups. Has to be column name of variables in \code{data}.
 \code{items} specifies the items of the MaxDiff.
 Input for \code{items} has to be variable names.
 
-\code{res} specifies whether results should be aggregated across all participants
-or across \code{group} (\code{res} needs to be set to \code{agg}) or if scores
-should be converted for individuals only.
+\code{res} specifies whether results should be aggregated across all
+participants or across \code{group} (\code{res} needs to be set to
+\code{agg}) or if scores should be converted for individuals only.
 
 \code{anchor} only needs to be specified if anchored MaxDiff is applied.
 Input for \code{anchor} has to be variable name.
@@ -49,7 +51,8 @@ Input for \code{anchor} has to be variable name.
 
 library(validateHOT)
 
-# zero-anchored interval scores for unanchored MaxDiff - without group argument defined
+# zero-anchored interval scores for unanchored MaxDiff - without group
+# argument defined
 zero_anchored(
   data = MaxDiff,
   items = c(Option_01:Option_16),

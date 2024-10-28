@@ -2,7 +2,8 @@
 % Please edit documentation in R/Reach.R
 \name{reach}
 \alias{reach}
-\title{Function to calculate percentage of participants that are reached by assortment}
+\title{Function to calculate percentage of participants that are reached by
+assortment}
 \usage{
 reach(data, group, none, opts)
 }
@@ -30,8 +31,8 @@ a purchase option) is reached with a specific product bundle assortment.
 reached with a particular product assortment. The current
 logic of \code{reach} is that the utility of an alternative has to
 exceed a threshold. In the case of \code{reach} this threshold is referred
-to the \code{none} argument in \code{data}, however, could also be, e.g., a current
-product.
+to the \code{none} argument in \code{data}, however, could also be, e.g., a
+current product.
 
 
 \code{data} has to be a data frame including the alternatives that
