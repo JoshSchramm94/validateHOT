@@ -40,42 +40,42 @@ T(otal) U(nduplicated) R(each) and F(requency) is
 a "product line extension model" (Miaoulis et al., 1990, p. 29). For each
 possible combinations, it looks for the reach and frequency of this
 combination. Participants are reached, if at least one of the alternatives
-in a combination has a higher utility than \code{none}. On the contrary,
+in a combination has a higher utility than `none`. On the contrary,
 frequency calculates the averaged number of alternatives that have a
-higher utility than \code{none}.
+higher utility than `none`.
 }
 \details{
-\code{data} has to be a data frame including the alternatives that should be
+`data` has to be a data frame including the alternatives that should be
 tested.
 
-\code{opts} is required to specify the different alternatives in the
+`opts` is required to specify the different alternatives in the
 product assortment that should be considered.
-Input of \code{opts} has to be column names of variables in \code{data}.
+Input of `opts` has to be column names of variables in `data`.
 
-\code{none} to specify column name of the \code{none} alternative in the
+`none` to specify column name of the `none` alternative in the
 validation/holdout task.
 
-\code{size} has to be a whole number determining the size of the assortment.
+`size` has to be a whole number determining the size of the assortment.
 
-\code{fixed} has to be a vector of variables that are fixed in the
+`fixed` has to be a vector of variables that are fixed in the
 assortment, i.e., they have to be part of the assortment.
 
-\code{prohib} has to be a list of vectors of variables that are prohibited
+`prohib` has to be a list of vectors of variables that are prohibited
 in the assortment, i.e., alternatives that are not allowed to be together in
 one assortment.
 
-\code{approach} character defining whether first
-choice \code{approach = 'fc'} or threshold \code{approach = 'thres'} should
-be applied for running \code{turf()}. If \code{approach = 'fc'},
+`approach` character defining whether first
+choice `approach = 'fc'` or threshold `approach = 'thres'` should
+be applied for running `turf()`. If `approach = 'fc'`,
 participants are considered being reached, if their alternative with the
 highest utility is included in the assortment and this alternative's utility
 is larger than the threshold's utility (Chrzan & Orme, 2019, p. 111).
-On the contrary, if \code{approach = 'thres'}, participants are considered
+On the contrary, if `approach = 'thres'`, participants are considered
 being reached, if utility of one product is higher than the one of
-the \code{none} alternative (Chrzan & Orme, 2019, p. 112).
-If \code{approach = 'fc'}, \code{reach} equals \code{freq} since
+the `none` alternative (Chrzan & Orme, 2019, p. 112).
+If `approach = 'fc'`, `reach` equals `freq` since
 participants have at maximum their most preferred alternative that
-exceeds the \code{none} alternative.
+exceeds the `none` alternative.
 }
 \examples{
 

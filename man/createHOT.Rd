@@ -21,32 +21,32 @@ createHOT(
 \arguments{
 \item{data}{A data frame with all relevant variables.}
 
-\item{id}{A vector of unique identifier in \code{data}.}
+\item{id}{A vector of unique identifier in `data`.}
 
-\item{none}{An optional vector to specify \code{none}
-alternative in \code{data}.}
+\item{none}{An optional vector to specify `none`
+alternative in `data`.}
 
 \item{prod.levels}{A list to define the attribute levels of the
-alternatives (\code{prod}). If linear-coded or piecewise-coded
+alternatives (`prod`). If linear-coded or piecewise-coded
 attributes are included, column indexes are required for the input.}
 
-\item{coding}{A vector to define attributes coding, '0' = part-worth
-coding,'1' = linear coding, '2' = piecewise coding; please make sure to code
+\item{coding}{A vector to define attributes coding, `0` = part-worth
+coding,`1` = linear coding, `2` = piecewise coding; please make sure to code
 linear price of ACBC as piecewise since there are usually two values to interpolate.}
 
 \item{interpolate.levels}{A list of the levels of the attribute that should
 be interpolated. These have to be the same as specified in model estimation
 (e.g., if you scale or center attribute levels before estimation, insert the same levels).
 Please make sure to provide the whole list. Only has to be specified for the
-attributes that are coded as '1' (linear) or '2' (piecewise).}
+attributes that are coded as `1` (linear) or `2` (piecewise).}
 
 \item{lin.p}{A vector to specify linear coded variables.}
 
 \item{piece.p}{A list of the lower level and the upper
 level that should be used for interpolating.}
 
-\item{method}{A character to specify the \code{method} of your study.
-\code{method} has to be one of the following: "MaxDiff", "CBC", or "ACBC".}
+\item{method}{A character to specify the `method` of your study.
+`method` has to be one of the following: `"MaxDiff"`, `"CBC"`, or `"ACBC"`.}
 
 \item{varskeep}{A vector specifying variables that should be kept
 in the data frame.}
@@ -65,74 +65,74 @@ for the alternatives in a market scenario.
 To test the validation metrics of a holdout/validation task or to run a
 market scenario, the scenario first has to be created, by summing up
 the alternatives part-worth utilities.
-This is done with the \code{createHOT} function.
+This is done with the `createHOT()` function.
 Make sure you upload the raw utilities of your study (either from Sawtooth Software
 or ChoiceModelR, Sermas, 2022).
 The function then creates the alternatives' utility based on the additive
 utility model (Rao, 2014, p. 82). If you are working with alternative specific-designs,
-insert \code{NA} if attribute is not specified.
+insert `NA` if attribute is not specified.
 
-\code{data} has to be a data frame with raw scores of the attribute
+`data` has to be a data frame with raw scores of the attribute
 levels.
 
-\code{id} has to be the column index or column name of the id (unique for each participant)
+`id` has to be the column index or column name of the id (unique for each participant)
 in data frame.
 
-\code{none} is required in case a \code{none} alternative is
+`none` is required in case a `none` alternative is
 included in holdout/validation task, specify
-column index or column name of \code{none} alternative, otherwise leave it empty.
+column index or column name of `none` alternative, otherwise leave it empty.
 
 
-\code{prod.levels} specifies the attribute levels for each alternative.
-Input for \code{prod.levels} has to be a list. In case
-\code{method = "MaxDiff"}, list should only contain column indexes or
+`prod.levels` specifies the attribute levels for each alternative.
+Input for `prod.levels` has to be a list. In case
+`method = "MaxDiff"`, list should only contain column indexes or
 column names of the alternatives in the holdout/validation task or market scenario.
 If values for one attribute are interpolated (assuming linear or
 piecewise coding), the value to be interpolated has to be specified (numeric
-input). In addition, \code{lin.p} and/or \code{piece.p}, \code{interpolate.levels},
-as well as \code{coding} have to be specified.
+input). In addition, `lin.p` and/or `piece.p`, `interpolate.levels`,
+as well as `coding` have to be specified.
 
-\code{interpolate.levels} is required in case interpolating is used
+`interpolate.levels` is required in case interpolating is used
 (only if variables are coded as linear or piecewise).
 If scaled or centered values were used for hierarchical Bayes
 estimation, the exact same levels are required (all of them).
 For example, if one linear coded attribute
 had 5 levels, all 5 levels are required. In case for linear coded
-price for \code{method = "ACBC"}, specify both lower bound and upper
-bound and code as piecewise in \code{coding}.
+price for `method = "ACBC"`, specify both lower bound and upper
+bound and code as piecewise in `coding`.
 For piecewise-coded price, specify each breakpoint.
-Input for \code{interpolate.levels} has to be a list.
+Input for `interpolate.levels` has to be a list.
 
-\code{piece.p} is required in case a variable is coded as
+`piece.p` is required in case a variable is coded as
 piecewise (see coding). Positions of both lower and upper bound are required.
 In case interpolated values (see
-\code{prod.levels}) is equal to a lower or upper bound, this can be specified
-either as lower or upper bound. Input for \code{piece.p} has to be a list.
+`prod.levels`) is equal to a lower or upper bound, this can be specified
+either as lower or upper bound. Input for `piece.p` has to be a list.
 
-\code{lin.p} is required in case a variable is coded as linear
+`lin.p` is required in case a variable is coded as linear
 (see coding). Since for linear coding (except for price
-in \code{method = "ACBC"}) only one coefficient is provided in the output,
+in `method = "ACBC"`) only one coefficient is provided in the output,
 just this column index or column name is required.
 
-\code{coding} is required if \code{method = "CBC"}
-or \code{method = "ACBC"}. Use \code{0} for part-worth
-coding, \code{1} for linear coding, and \code{2} for piecewise coding.
-In case \code{method = "ACBC"} and linear price function is used, this
-variable has to be coded as piecewise (\code{2}). In
-case \code{method} is set to \code{"MaxDiff"}, leave
-\code{coding} empty. Input for \code{coding} has to be a vector.
+`coding` is required if `method = "CBC"`
+or `method = "ACBC"`. Use `0` for part-worth
+coding, `1` for linear coding, and `2` for piecewise coding.
+In case `method = "ACBC"` and linear price function is used, this
+variable has to be coded as piecewise (`2`). In
+case `method` is set to `"MaxDiff"`, leave
+`coding` empty. Input for `coding` has to be a vector.
 
-\code{method} specifies the preference measurement method. Can be set to
-\code{"MaxDiff"}, \code{"CBC"}, or \code{"ACBC"}.
+`method` specifies the preference measurement method. Can be set to
+`"MaxDiff"`, `"CBC"`, or `"ACBC"`.
 
-\code{varskeep} is required in case other variables should be kept
+`varskeep` is required in case other variables should be kept
 in the data frame (for example, a grouping variable). Input
-for \code{varskeep} has to be a vector with the column index(es) or names of the
+for `varskeep` has to be a vector with the column index(es) or names of the
 variable(s) that should be kept.
 
-\code{choice} specifies the column index or column name of the actual choice
+`choice` specifies the column index or column name of the actual choice
 in the holdout/validation task. If only a market scenario is specified,
-leave \code{choice} empty, however, a warning will be displayed in this case.
+leave `choice` empty, however, a warning will be displayed in this case.
 }
 \examples{
 \dontrun{

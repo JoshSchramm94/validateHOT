@@ -5,9 +5,9 @@
 #' a "product line extension model" (Miaoulis et al., 1990, p. 29). For each
 #' possible combinations, it looks for the reach and frequency of this
 #' combination. Participants are reached, if at least one of the alternatives
-#' in a combination has a higher utility than \code{none}. On the contrary,
+#' in a combination has a higher utility than `none`. On the contrary,
 #' frequency calculates the averaged number of alternatives that have a
-#' higher utility than \code{none}.
+#' higher utility than `none`.
 #'
 #' @param data A data frame with all relevant variables.
 #' @param opts Column names of the alternatives included in the assortment.
@@ -22,37 +22,37 @@
 #'
 #' @details
 #'
-#' \code{data} has to be a data frame including the alternatives that should be
+#' `data` has to be a data frame including the alternatives that should be
 #' tested.
 #'
-#' \code{opts} is required to specify the different alternatives in the
+#' `opts` is required to specify the different alternatives in the
 #' product assortment that should be considered.
-#' Input of \code{opts} has to be column names of variables in \code{data}.
+#' Input of `opts` has to be column names of variables in `data`.
 #'
-#' \code{none} to specify column name of the \code{none} alternative in the
+#' `none` to specify column name of the `none` alternative in the
 #' validation/holdout task.
 #'
-#' \code{size} has to be a whole number determining the size of the assortment.
+#' `size` has to be a whole number determining the size of the assortment.
 #'
-#' \code{fixed} has to be a vector of variables that are fixed in the
+#' `fixed` has to be a vector of variables that are fixed in the
 #' assortment, i.e., they have to be part of the assortment.
 #'
-#' \code{prohib} has to be a list of vectors of variables that are prohibited
+#' `prohib` has to be a list of vectors of variables that are prohibited
 #' in the assortment, i.e., alternatives that are not allowed to be together in
 #' one assortment.
 #'
-#' \code{approach} character defining whether first
-#' choice \code{approach = 'fc'} or threshold \code{approach = 'thres'} should
-#' be applied for running \code{turf()}. If \code{approach = 'fc'},
+#' `approach` character defining whether first
+#' choice `approach = 'fc'` or threshold `approach = 'thres'` should
+#' be applied for running `turf()`. If `approach = 'fc'`,
 #' participants are considered being reached, if their alternative with the
 #' highest utility is included in the assortment and this alternative's utility
 #' is larger than the threshold's utility (Chrzan & Orme, 2019, p. 111).
-#' On the contrary, if \code{approach = 'thres'}, participants are considered
+#' On the contrary, if `approach = 'thres'`, participants are considered
 #' being reached, if utility of one product is higher than the one of
-#' the \code{none} alternative (Chrzan & Orme, 2019, p. 112).
-#' If \code{approach = 'fc'}, \code{reach} equals \code{freq} since
+#' the `none` alternative (Chrzan & Orme, 2019, p. 112).
+#' If `approach = 'fc'`, `reach` equals `freq` since
 #' participants have at maximum their most preferred alternative that
-#' exceeds the \code{none} alternative.
+#' exceeds the `none` alternative.
 #'
 #' @references {
 #'
@@ -129,27 +129,27 @@
 turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
                  approach = c("thres", "fc")) {
   # check for wrong / missing input
-  if (base::length(data %>% dplyr::select(., {{ none }})) == 0) {
-    base::stop("Error: argument 'none' is missing!")
+  if (length(data %>% dplyr::select({{ none }})) == 0) {
+    stop("Error: argument 'none' is missing!")
   }
 
-  if (base::length(data %>% dplyr::select(., {{ opts }})) == 0) {
-    base::stop("Error: argument 'opts' is missing!")
+  if (length(data %>% dplyr::select({{ opts }})) == 0) {
+    stop("Error: argument 'opts' is missing!")
   }
 
   # size can not be larger than or equal to opts
-  if (size > base::length(data %>% dplyr::select(., {{ opts }}))) {
-    base::stop("Error: 'size' can not be larger than size of 'opts'!")
+  if (size > length(data %>% dplyr::select({{ opts }}))) {
+    stop("Error: 'size' can not be larger than size of 'opts'!")
   }
 
   # approach needs to be specified
-  if (base::missing(approach)) {
-    base::stop("Error: 'approach' is missing!")
+  if (missing(approach)) {
+    stop("Error: 'approach' is missing!")
   }
 
   # approach can only be 'thres' or 'fc'
   if ((approach != "thres") & (approach != "fc")) {
-    base::stop(
+    stop(
       "Error: 'approach' is wrong, please choose between",
       " 'fc' and 'thres'!"
     )
@@ -160,61 +160,61 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
   is.wholenumber <-
     function(x, tol = .Machine$double.eps^0.5) abs(x - round(x)) < tol
   if (!is.wholenumber(size)) {
-    base::stop("Error: 'size' must be a whole number!")
+    stop("Error: 'size' must be a whole number!")
   }
   rm(is.wholenumber)
 
   # fixed has to be part of opts
-  if (!base::is.null(fixed)) {
+  if (!is.null(fixed)) {
     fix_ones <- data %>%
       dplyr::select(tidyselect::all_of(fixed)) %>%
-      base::colnames()
+      colnames()
 
-    if (!base::all(fix_ones %in% (data %>% dplyr::select(., {{ opts }}) %>%
-      base::colnames()))) {
-      base::stop("Error: 'fixed' has to be part of 'opts'!")
+    if (!all(fix_ones %in% (data %>% dplyr::select({{ opts }}) %>%
+      colnames()))) {
+      stop("Error: 'fixed' has to be part of 'opts'!")
     }
   }
 
 
   # fixed can not be larger than size
-  if (!base::is.null(fixed)) {
+  if (!is.null(fixed)) {
     if (length(data %>% dplyr::select(tidyselect::all_of(fixed))) > size) {
       stop("Error: 'fixed' can not be larger than 'size'!")
     }
   }
 
   # prohib has to be part of opts
-  if (!base::is.null(prohib)) {
-    for (i in base::seq_along(prohib)) {
-      if (!base::all(prohib[[i]] %in% (data %>%
-                                       dplyr::select(., {{ opts }}) %>%
-        base::colnames()))) {
-        base::stop("Error: 'prohib' has to be part of 'opts'!")
+  if (!is.null(prohib)) {
+    for (i in seq_along(prohib)) {
+      if (!all(prohib[[i]] %in% (data %>%
+        dplyr::select({{ opts }}) %>%
+        colnames()))) {
+        stop("Error: 'prohib' has to be part of 'opts'!")
       }
     }
   }
 
   # fixed can not be larger than size
-  if (!base::is.null(prohib)) {
-    for (i in base::seq_along(prohib)) {
+  if (!is.null(prohib)) {
+    for (i in seq_along(prohib)) {
       if (length(prohib[[i]]) > size) {
         stop("Error: 'prohib' can not be larger than 'size'!")
       }
     }
   }
 
-  if (!base::is.null(prohib)) {
-    if (!base::is.list(prohib)) {
-      base::stop("Error: 'prohib' has to be a list!")
+  if (!is.null(prohib)) {
+    if (!is.list(prohib)) {
+      stop("Error: 'prohib' has to be a list!")
     }
   }
 
   # error if prohib and fixed are exactly the same
-  if (!base::is.null(prohib) & !base::is.null(fixed)) {
-    for (i in base::seq_along(prohib)) {
-      if (base::all(prohib[[i]] %in% fixed)) {
-        base::stop("Error: 'prohib' and 'fixed' have to be different!")
+  if (!is.null(prohib) & !is.null(fixed)) {
+    for (i in seq_along(prohib)) {
+      if (all(prohib[[i]] %in% fixed)) {
+        stop("Error: 'prohib' and 'fixed' have to be different!")
       }
     }
   }
@@ -222,55 +222,55 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
   # alternatives
   ## store names of alternatives
   alternatives <- data %>%
-    dplyr::select(., {{ opts }}) %>%
-    base::colnames()
+    dplyr::select({{ opts }}) %>%
+    colnames()
 
   ## check whether variable is numeric
-  for (i in base::seq_along(alternatives)) {
-    if (!base::is.numeric(data[[alternatives[i]]])) {
+  for (i in seq_along(alternatives)) {
+    if (!is.numeric(data[[alternatives[i]]])) {
       stop("Error: 'opts' has to be numeric!")
     }
   }
 
   ## check for missings
-  if (anyNA(data %>% dplyr::select(., {{ opts }}))) {
+  if (anyNA(data %>% dplyr::select({{ opts }}))) {
     stop("Error: 'opts' contains NAs!")
   }
 
   # None
   ## check for missing
-  if (base::anyNA(data %>% dplyr::select(., {{ none }}))) {
+  if (anyNA(data %>% dplyr::select({{ none }}))) {
     stop("Error: 'none' contains NAs!")
   }
 
   ## check for str
   Noo <- data %>%
-    dplyr::select(., {{ none }}) %>%
-    base::colnames()
+    dplyr::select({{ none }}) %>%
+    colnames()
 
-  if (!base::is.numeric(data[[Noo]])) {
+  if (!is.numeric(data[[Noo]])) {
     stop("Error: 'none' has to be numeric!")
   }
 
   ## check none can not be part of opts
-  if ((data %>% dplyr::select(., {{ none }}) %>% base::colnames()) %in%
-    (data %>% dplyr::select(., {{ opts }}) %>% base::colnames())) {
+  if ((data %>% dplyr::select({{ none }}) %>% colnames()) %in%
+    (data %>% dplyr::select({{ opts }}) %>% colnames())) {
     stop("Error: 'none' can not be part of 'opts'!")
   }
 
-  if (base::length(Noo) > 1) {
-    base::stop("Error: 'none' can only be one variable!")
+  if (length(Noo) > 1) {
+    stop("Error: 'none' can only be one variable!")
   }
 
 
   # prepare data frame and threshold approach
   if (approach == "thres") { # threshold approach
     df <- data %>%
-      dplyr::select(., {{ opts }}, {{ none }}) %>% # select relevant variables
+      dplyr::select({{ opts }}, {{ none }}) %>% # select relevant variables
       dplyr::rename("thres" = ncol(.)) %>% # rename variable
       dplyr::mutate(
         # if value of alternatives above threshold --> reached
-        dplyr::across({{ opts }}, ~ base::ifelse(.x > thres, 1, 0))
+        dplyr::across({{ opts }}, ~ ifelse(.x > thres, 1, 0))
       ) %>%
       dplyr::select(-thres) # delete threshold
   }
@@ -279,15 +279,15 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
   if (approach == "fc") { # first choice rule
     df <- data %>%
       # select relevant variables
-      dplyr::select(., {{ opts }}, {{ none }}) %>%
+      dplyr::select({{ opts }}, {{ none }}) %>%
       # rename variable
       dplyr::rename("thres" = ncol(.)) %>%
       # store column index with highest value
-      dplyr::mutate(maximum = base::max.col(.))
+      dplyr::mutate(maximum = max.col(.))
 
-    for (row in base::seq_len(base::nrow(df))) { # loop for each row
+    for (row in seq_len(nrow(df))) { # loop for each row
       # loop for each column (except for last two --> thres and maximum)
-      for (col in 1:(base::ncol(df) - 2)) {
+      for (col in 1:(ncol(df) - 2)) {
         # only run if larger than threshold and if row maximum
         if (df[row, col] > df[row, "thres"] & col == df[row, "maximum"]) {
           df[row, col] <- 1 # assign buy
@@ -303,48 +303,48 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
 
   # prepare items
   items <- data %>%
-    dplyr::select(., {{ opts }}) %>% # select specified opts
-    base::colnames() # store column names only
+    dplyr::select({{ opts }}) %>% # select specified opts
+    colnames() # store column names only
 
   # define new variable names
   var_names <- c(items, paste0("new_col_names_", c(1:size)))
-  var_names <- base::make.unique(var_names, sep = "...")
-  var_names <- var_names[-c(base::seq_along(items))]
+  var_names <- make.unique(var_names, sep = "...")
+  var_names <- var_names[-c(seq_along(items))]
 
   # create combos
   # create all possible combinations
-  combos <- base::as.data.frame(base::t(utils::combn(items, size))) %>%
+  combos <- as.data.frame(t(utils::combn(items, size))) %>%
     dplyr::rename_all(., ~var_names) # rename variables
 
   # only run if there are fixed values and delete ones that do not contain
   # fixed values
-  if (!base::is.null(fixed)) {
+  if (!is.null(fixed)) {
     # create all possible combinations
 
     fixies <- data %>%
       dplyr::select(tidyselect::all_of(fixed)) %>% # store the fixed values
-      base::colnames() # store the column names
+      colnames() # store the column names
 
     combos <- combos %>%
       # check for each combo whether the fixed ones are included
-      dplyr::mutate(must = base::apply(., 1, function(x) {
-        base::as.integer(base::all(fixies %in% x))
+      dplyr::mutate(must = apply(., 1, function(x) {
+        as.integer(all(fixies %in% x))
       })) %>%
       # only choose those that have the fixed options
       dplyr::filter(must == 1) %>%
       dplyr::select(-must) # delete must variable
   }
 
-  if (!base::is.null(prohib)) {
-    for (i in base::seq_along(prohib)) {
+  if (!is.null(prohib)) {
+    for (i in seq_along(prohib)) {
       prohibitions <- data %>%
         dplyr::select(tidyselect::all_of(prohib[[i]])) %>%
-        base::colnames()
+        colnames()
 
       combos <- combos %>%
         # check for each combo whether the fixed ones are included
-        dplyr::mutate(not = base::apply(., 1, function(x) {
-          base::as.integer(base::all(prohibitions %in% x))
+        dplyr::mutate(not = apply(., 1, function(x) {
+          as.integer(all(prohibitions %in% x))
         })) %>%
         # only choose those that have the fixed options
         dplyr::filter(not == 0) %>%
@@ -353,34 +353,34 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
   }
 
   # count reach and frequency for each
-  for (i in base::seq_len(base::nrow(combos))) {
+  for (i in seq_len(nrow(combos))) {
     # store the combos as vector
-    combs <- base::unname(c(base::unlist(combos[i, ])))
+    combs <- unname(c(unlist(combos[i, ])))
 
     # create combination and store the rowsum for that
     # combination for each participant
-    df[[base::paste0("comb.", base::paste0(combs, collapse = "_"))]] <-
-      base::rowSums(df[, combs])
+    df[[paste0("comb.", paste0(combs, collapse = "_"))]] <-
+      rowSums(df[, combs])
   }
 
 
   # next create the total data frame
-  total <- base::merge(
+  total <- merge(
     x = (df %>%
       # only select the variables that start with comb. (see approach before)
       dplyr::select(tidyselect::all_of(tidyselect::starts_with("comb."))) %>%
       # create the reach score
       dplyr::reframe(dplyr::across(
-        base::seq_len(base::ncol(.)),
-        ~ (base::sum(. > 0) / base::nrow(df)
+        seq_len(ncol(.)),
+        ~ (sum(. > 0) / nrow(df)
           * 100)
       )) %>%
-      base::t() %>% # transpose
-      base::as.data.frame() %>% # store as data frame
+      t() %>% # transpose
+      as.data.frame() %>% # store as data frame
       # rename variable into 'reach'
       dplyr::rename_all(., ~"reach") %>%
       # store rownames in new variable
-      dplyr::mutate(combo = base::rownames(.)) %>%
+      dplyr::mutate(combo = rownames(.)) %>%
       tibble::remove_rownames() %>% # remove rownames
       # relocate combo variable at the beginning
       dplyr::relocate(combo, .before = tidyselect::everything())),
@@ -388,13 +388,15 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
       # only select the variables that start with comb. (see approach before)
       dplyr::select(tidyselect::all_of(tidyselect::starts_with("comb."))) %>%
       # create frequency score
-      dplyr::reframe(dplyr::across(base::seq_len(base::ncol(.)),
-                                   ~ base::mean(.x))) %>%
-      base::t() %>% # transpose
-      base::as.data.frame() %>% # store as data frame
+      dplyr::reframe(dplyr::across(
+        seq_len(ncol(.)),
+        ~ mean(.x)
+      )) %>%
+      t() %>% # transpose
+      as.data.frame() %>% # store as data frame
       dplyr::rename_all(., ~"freq") %>% # rename variable into 'freq'
       # store rownames in new variable
-      dplyr::mutate(combo = base::rownames(.)) %>%
+      dplyr::mutate(combo = rownames(.)) %>%
       tibble::remove_rownames() %>% # remove rownames
       # relocate combo variable at the beginning
       dplyr::relocate(combo, .before = tidyselect::everything())),
@@ -404,17 +406,17 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
   # prepare a new data frame that mimics output of turfR (variables are
   # coded as 1 and 0 whether or not item is present in that assortment or not)
   # create a new data frame
-  new_df <- base::data.frame(base::matrix(
-    nrow = base::nrow(combos),
-    ncol = base::length(items)
+  new_df <- data.frame(matrix(
+    nrow = nrow(combos),
+    ncol = length(items)
   )) %>%
     dplyr::rename_all(., ~items) %>% # rename columns
     # replace nas by 0s
-    dplyr::mutate_all(., ~ base::ifelse(base::is.na(.x), 0, NA)) %>%
-    base::cbind(combos, .) # bind with combos
+    dplyr::mutate_all(., ~ ifelse(is.na(.x), 0, NA)) %>%
+    cbind(combos, .) # bind with combos
 
   # prepare the binary coding
-  for (i in base::seq_len(base::nrow(new_df))) { # loop for each row
+  for (i in seq_len(nrow(new_df))) { # loop for each row
     for (j in 1:size) { # repeat for each assortment
       new_df[i, new_df[i, j]] <- 1 # store 1
     }
@@ -425,10 +427,10 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
     dplyr::mutate(combo = 0)
 
   # store the names in the variable for merging purposes
-  for (i in base::seq_len(base::nrow(new_df))) { # loop for merging purposes
-    new_df[i, "combo"] <- base::paste0(
+  for (i in seq_len(nrow(new_df))) { # loop for merging purposes
+    new_df[i, "combo"] <- paste0(
       "comb.",
-      base::paste0(new_df[i, c(1:size)],
+      paste0(new_df[i, c(1:size)],
         collapse = "_"
       )
     )
@@ -436,10 +438,12 @@ turf <- function(data, opts, none, size, fixed = NULL, prohib = NULL,
 
   # prepare final step
 
-  return(new_df %>%
+  turf_data <- new_df %>%
     # delete the first variables (variables indicating name of item)
-    dplyr::select(-tidyselect::all_of(base::colnames(new_df)[1:size])) %>%
-    base::merge(x = total, y = ., by = "combo") %>% # merge with total
+    dplyr::select(-tidyselect::all_of(colnames(new_df)[1:size])) %>%
+    merge(x = total, y = ., by = "combo") %>% # merge with total
     arrange(-reach, -freq) %>% # sort descending for reach and frequency
-    mutate(combo = paste0("Combo ", dplyr::row_number()))) # rename combo
+    mutate(combo = paste0("Combo ", dplyr::row_number())) # rename combo
+
+  return(turf_data)
 }

@@ -11,7 +11,7 @@ freqassort(data, group, none, opts)
 \item{data}{A data frame with all relevant variables.}
 
 \item{group}{Optional column name(s) to specify grouping variable(s)
-to get \code{freqassort} by group(s).}
+to get `freqassort()` by group(s).}
 
 \item{none}{Column name of none / threshold alternative.}
 
@@ -27,24 +27,24 @@ is reached with a particular product bundle assortment.
 }
 \details{
 Frequency calculates the average times a consumer would be reached with the
-tested product assortment. The current logic of \code{freqassort}
+tested product assortment. The current logic of `freqassort()`
 is that the utility of an alternative has to exceed a threshold. In the case
-of \code{freqassort} this threshold is referred to the \code{none} argument
-in \code{data}.
+of `freqassort()` this threshold is referred to the `none` argument
+in `data`.
 The frequency is calculated based on the 'threshold' approach, i.e.,
-each alternative that exceeds utility of \code{none} alternative is
+each alternative that exceeds utility of `none` alternative is
 considered as, for example, purchase option.
 
-\code{data} has to be a data frame including the alternatives that should
+`data` has to be a data frame including the alternatives that should
 be tested.
 
-\code{group} optional grouping variable, if results should be displayed
-by different groups. Has to be column name of variables in \code{data}.
+`group` optional grouping variable, if results should be displayed
+by different groups. Has to be column name of variables in `data`.
 
-\code{opts} defines product assortment that should be considered.
-Input of \code{opts} has to be column names of variables in \code{data}.
+`opts` defines product assortment that should be considered.
+Input of `opts` has to be column names of variables in `data`.
 
-\code{none} to specify column name of the \code{none} alternative (i.e.,
+`none` to specify column name of the `none` alternative (i.e.,
 threshold variable).
 }
 \examples{

@@ -90,7 +90,7 @@ test_that("group output equals group input - labelled input ", {
 
 
 test_that("Structure of Output data.frame ", {
-  expect_true(base::is.data.frame(
+  expect_true(is.data.frame(
     zero_anchored(
       data = MaxDiff,
       items = c(Option_01:Option_16),
@@ -112,7 +112,7 @@ test_that("Structure of Output tibble ", {
 
 test_that("check whether examples are correct ", {
   tday <- validateHOT::MaxDiff
-  expect_equal(base::round(zero_anchored(
+  expect_equal(round(zero_anchored(
     data = tday,
     items = c(Option_01:Option_16),
     res = "agg"
@@ -124,12 +124,12 @@ test_that("check whether examples are correct ", {
     data = MaxDiff,
     items = c(Option_01:Option_16),
     res = "agg"
-  )[[1]], c(base::paste0("Option_0", c(1:9)), base::paste0("Option_", c(10:16))))
+  )[[1]], c(paste0("Option_0", c(1:9)), paste0("Option_", c(10:16))))
 })
 
 test_that("check whether examples are correct ", {
   tday <- validateHOT::MaxDiff
-  expect_equal(base::round(base::as.numeric(zero_anchored(
+  expect_equal(round(as.numeric(zero_anchored(
     data = tday,
     items = c(Option_01:Option_16),
     res = "agg"

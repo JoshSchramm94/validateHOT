@@ -3,33 +3,33 @@
 #' @param data A data frame with all relevant variables.
 #' @param group Optional column name(s) to specify grouping variable(s).
 #' @param items Vector that specifies the items.
-#' @param res A vector indicating whether individual shares (\code{ind}) or
-#' aggregated (\code{agg}) shares should be returned.
+#' @param res A vector indicating whether individual shares (`ind`) or
+#' aggregated (`agg`) shares should be returned.
 #' @param anchor An optional variable to specify anchor variable.
 #'
 #'
 #' @details
-#' \code{zero_anchored} converts raw utilities of a MaxDiff to zero-anchored
+#' `zero_anchored()` converts raw utilities of a MaxDiff to zero-anchored
 #' interval scores that have a range of 100.
 #'
 #' For anchored MaxDiff the anchor is set to 0. More information can be
 #' obtained here: https://sawtoothsoftware.com/help/lighthouse-studio/manual/analysis-manager-maxdiff-export-settings.html
 #'
-#' \code{data} has to be a data frame with the attributes. Items have
+#' `data` has to be a data frame with the attributes. Items have
 #' to be the raw utilities.
 #'
-#' \code{group} optional grouping variable, if results should be displayed by
-#' different groups. Has to be column name of variables in \code{data}.
+#' `group` optional grouping variable, if results should be displayed by
+#' different groups. Has to be column name of variables in `data`.
 #'
-#' \code{items} specifies the items of the MaxDiff.
-#' Input for \code{items} has to be variable names.
+#' `items` specifies the items of the MaxDiff.
+#' Input for `items` has to be variable names.
 #'
-#' \code{res} specifies whether results should be aggregated across all
-#' participants or across \code{group} (\code{res} needs to be set to
-#' \code{agg}) or if scores should be converted for individuals only.
+#' `res` specifies whether results should be aggregated across all
+#' participants or across `group` (`res` needs to be set to
+#' `agg`) or if scores should be converted for individuals only.
 #'
-#' \code{anchor} only needs to be specified if anchored MaxDiff is applied.
-#' Input for \code{anchor} has to be variable name.
+#' `anchor` only needs to be specified if anchored MaxDiff is applied.
+#' Input for `anchor` has to be variable name.
 #'
 #' @importFrom dplyr select across reframe group_by pick
 #' @importFrom magrittr "%>%"
@@ -96,7 +96,7 @@
 #' @export
 zero_anchored <- function(data, group = NULL, items,
                           res = c("agg", "ind"), anchor = NULL) {
-  if (base::missing(items)) {
+  if (missing(items)) {
     stop("Error: 'items' is missing!")
   }
 
@@ -104,65 +104,65 @@ zero_anchored <- function(data, group = NULL, items,
     stop("Error: 'data' has to be a data frame!")
   }
 
-  if (base::length(data %>% dplyr::select(., {{ items }})) < 2) {
-    base::stop("Error: specify at least 2 items in 'items'!")
+  if (length(data %>% dplyr::select({{ items }})) < 2) {
+    stop("Error: specify at least 2 items in 'items'!")
   }
 
-  if (base::anyNA(data %>% dplyr::select(., {{ group }}))) {
-    base::warning("Warning: 'group' contains NAs!")
+  if (anyNA(data %>% dplyr::select({{ group }}))) {
+    warning("Warning: 'group' contains NAs!")
   }
 
   # alternatives
   ## store names of alternatives
   alternatives <- data %>%
-    dplyr::select(., {{ items }}) %>%
-    base::colnames()
+    dplyr::select({{ items }}) %>%
+    colnames()
 
   ## check whether variable is numeric
-  for (i in base::seq_along(alternatives)) {
-    if (!base::is.numeric(data[[alternatives[i]]])) {
-      base::stop("Error: 'items' has to be numeric!")
+  for (i in seq_along(alternatives)) {
+    if (!is.numeric(data[[alternatives[i]]])) {
+      stop("Error: 'items' has to be numeric!")
     }
   }
 
   ## check for missings
-  if (base::anyNA(data %>% dplyr::select(., {{ items }}))) {
-    base::stop("Error: 'items' contains NAs!")
+  if (anyNA(data %>% dplyr::select({{ items }}))) {
+    stop("Error: 'items' contains NAs!")
   }
 
 
 
   # test whether res is specified
-  if (base::missing(res)) {
-    base::stop("Error: 'res' is not defined!")
+  if (missing(res)) {
+    stop("Error: 'res' is not defined!")
   }
 
   # test whether res is correctly specified
   if ((res != "agg") && (res != "ind")) {
-    base::stop(
+    stop(
       "Error: 'res' can only be set to 'agg' or 'ind'!"
     )
   }
 
   # can not specify res to 'ind' and specify group
-  if ((res == "ind") && !base::missing(group)) {
+  if ((res == "ind") && !missing(group)) {
     stop("Error: Can not speficy 'group' if 'res' is set to 'ind'!")
   }
 
   # test length of anchor
-  if (!base::missing(anchor)) {
+  if (!missing(anchor)) {
     anc <- data %>%
-      dplyr::select(., {{ anchor }}) %>%
-      base::colnames(.)
+      dplyr::select({{ anchor }}) %>%
+      colnames(.)
 
     if (length(anc) > 1) {
-      base::stop("Error: 'anchor' can only be one variable!")
+      stop("Error: 'anchor' can only be one variable!")
     }
   }
 
-  if (!base::missing(anchor)) {
-    if (!(data %>% dplyr::select(., {{ anchor }}) %>% base::colnames()) %in%
-      (data %>% dplyr::select(., {{ items }}) %>% base::colnames())) {
+  if (!missing(anchor)) {
+    if (!(data %>% dplyr::select({{ anchor }}) %>% colnames()) %in%
+      (data %>% dplyr::select({{ items }}) %>% colnames())) {
       stop("Error: 'anchor' has to be part of 'items'!")
     }
   }
@@ -173,21 +173,22 @@ zero_anchored <- function(data, group = NULL, items,
   #######################################################
 
   var_items <- data %>%
-    dplyr::select(., {{ items }}) %>%
-    base::colnames(.)
+    dplyr::select({{ items }}) %>%
+    colnames(.)
 
 
-  for (i in base::seq_len(base::nrow(data))) {
-    vec <- base::unname(base::unlist(c(data[i, var_items])))
+  for (i in seq_len(nrow(data))) {
+    vec <- unname(unlist(c(data[i, var_items])))
 
     # data[i, var_items] <- NA
 
-    vec <- scales::rescale(vec, to = c(0, 100)) - base::mean(
-      scales::rescale(vec, to = c(0, 100)))
+    vec <- scales::rescale(vec, to = c(0, 100)) - mean(
+      scales::rescale(vec, to = c(0, 100))
+    )
 
-    if (!(base::missing(anchor))) {
+    if (!(missing(anchor))) {
       vec <- vec - vec[match(
-        (data %>% dplyr::select(., {{ anchor }}) %>% colnames()),
+        (data %>% dplyr::select({{ anchor }}) %>% colnames()),
         var_items
       )]
     }
@@ -196,10 +197,10 @@ zero_anchored <- function(data, group = NULL, items,
   }
 
   if (res == "agg") {
-    if (base::missing(group)) {
+    if (missing(group)) {
       return(data %>%
         dplyr::reframe(dplyr::across(tidyselect::all_of(var_items),
-                                     c(mw = base::mean, std = stats::sd),
+          c(mw = mean, std = stats::sd),
           .names = "{.col}....{.fn}"
         )) %>%
         tidyr::pivot_longer(.,
@@ -208,21 +209,25 @@ zero_anchored <- function(data, group = NULL, items,
         ))
     }
 
-    if (!(base::missing(group))) {
-      return(data %>%
+    if (!(missing(group))) {
+      zero_anchored_data <- data %>%
         dplyr::group_by(dplyr::pick({{ group }})) %>%
         dplyr::reframe(dplyr::across(tidyselect::all_of(var_items),
-                                     c(mw = base::mean, std = stats::sd),
+          c(mw = mean, std = stats::sd),
           .names = "{.col}....{.fn}"
         )) %>%
         tidyr::pivot_longer(.,
           cols = tidyselect::ends_with(c("....mw", "....std")),
           names_to = c("Option", ".value"), names_sep = "\\.\\.\\.\\."
-        ))
+        )
+
+      return(zero_anchored_data)
     }
   }
 
   if (res == "ind") {
-    return(data)
+    zero_anchored_data <- data
+
+    return(zero_anchored_data)
   }
 }

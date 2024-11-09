@@ -10,7 +10,7 @@ hitrate(data, group, opts, choice)
 \item{data}{A data frame with all relevant variables.}
 
 \item{group}{Optional column name(s) to specify grouping variable(s)
-to get \code{hitrate} by group(s).}
+to get `hitrate()` by group(s).}
 
 \item{opts}{Column names of the alternatives included in the
 validation/holdout task.}
@@ -22,36 +22,36 @@ task.}
 a tibble
 }
 \description{
-\code{hitrate} measures number of times a choice was correctly
+`hitrate()` measures number of times a choice was correctly
 predicted in a validation/holdout task.
 }
 \details{
-\code{hitrate} measures number of times a participant's choice was correctly
+`hitrate()` measures number of times a participant's choice was correctly
 predicted by the model.
 Output contains the following 5 metrics:
 \itemize{
-\item \code{HR} hit rate (number of correctly predicted
+\item `HR` hit rate (number of correctly predicted
 choices) in percentages
-\item \code{se} standard error in percentages
-\item \code{chance} chance level of correctly predicted choices by just
+\item `se` standard error in percentages
+\item `chance` chance level of correctly predicted choices by just
 guessing
-\item \code{cor} absolute number of correctly predicted choices
-\item \code{n} total number of choices
+\item `cor` absolute number of correctly predicted choices
+\item `n` total number of choices
 }
 
-\code{data} has to be a data frame including the alternatives shown in
-the validation/holdout task. Can be created using the \code{createHOT()}
+`data` has to be a data frame including the alternatives shown in
+the validation/holdout task. Can be created using the `createHOT()`
 function.
 
-\code{group} optional grouping variable, if results should be displayed by
-different groups. Has to be column name of variables in \code{data}.
+`group` optional grouping variable, if results should be displayed by
+different groups. Has to be column name of variables in `data`.
 
-\code{opts} is required to specify the different alternatives in the
+`opts` is required to specify the different alternatives in the
 validation/holdout task.
-Input of \code{opts} has to be column names of variables in \code{data}.
+Input of `opts` has to be column names of variables in `data`.
 
-\code{choice} to specify column of actual choice in the validation/holdout
-task. Input of opts \code{choice} has to be column name of actual choice.
+`choice` to specify column of actual choice in the validation/holdout
+task. Input of opts `choice` has to be column name of actual choice.
 }
 \examples{
 

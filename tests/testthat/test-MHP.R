@@ -32,7 +32,7 @@ test_that("Error if alternatives contains NA ", {
 test_that("Error if alternatives is not numeric ", {
   HOT2 <- HOT
 
-  HOT2$Option_2 <- base::as.character(HOT2$Option_2)
+  HOT2$Option_2 <- as.character(HOT2$Option_2)
 
   expect_error(mhp(data = HOT2, opts = c(Option_1:None), choice = choice, group = Group))
 })
@@ -48,13 +48,13 @@ test_that("Error if choice contains NA ", {
 test_that("Error if choice is not numeric ", {
   HOT2 <- HOT
 
-  HOT2$choice <- base::as.character(HOT2$choice)
+  HOT2$choice <- as.character(HOT2$choice)
 
   expect_error(mhp(data = HOT2, opts = c(Option_1:None), choice = choice, group = Group))
 })
 
 test_that("Structure of Output data.frame ", {
-  expect_true(base::is.data.frame(mhp(data = HOT, opts = c(Option_1:None), choice = choice)))
+  expect_true(is.data.frame(mhp(data = HOT, opts = c(Option_1:None), choice = choice)))
 })
 
 test_that("Structure of Output tibble ", {
@@ -62,24 +62,24 @@ test_that("Structure of Output tibble ", {
 })
 
 test_that("Length of output equals number of groups - no group ", {
-  expect_equal(base::nrow(mhp(data = HOT, opts = c(Option_1:None), choice = choice)), 1)
+  expect_equal(nrow(mhp(data = HOT, opts = c(Option_1:None), choice = choice)), 1)
 })
 
 test_that("Length of output equals number of groups - 1 group ", {
-  expect_equal(base::nrow(mhp(data = HOT, opts = c(Option_1:None), choice = choice, group = Group)), base::length(base::unique(HOT$Group)))
+  expect_equal(nrow(mhp(data = HOT, opts = c(Option_1:None), choice = choice, group = Group)), length(unique(HOT$Group)))
 })
 
 test_that("Length of output equals number of groups - 2 group ", {
   HOT$Group2 <- c("Group 1", "Group 2")
-  expect_equal(base::nrow(mhp(data = HOT, opts = c(Option_1:None), choice = choice, group = c(Group, Group2))), (base::length(base::unique(HOT$Group)) * base::length(base::unique(HOT$Group2))))
+  expect_equal(nrow(mhp(data = HOT, opts = c(Option_1:None), choice = choice, group = c(Group, Group2))), (length(unique(HOT$Group)) * length(unique(HOT$Group2))))
 })
 
 test_that("Numeric output - no group ", {
-  expect_true(base::is.numeric(mhp(data = HOT, opts = c(Option_1:None), choice = choice)[[1]]))
+  expect_true(is.numeric(mhp(data = HOT, opts = c(Option_1:None), choice = choice)[[1]]))
 })
 
 test_that("Numeric output - 1 group ", {
-  expect_true(base::is.numeric(mhp(data = HOT, opts = c(Option_1:None), choice = choice, group = Group)[[2]]))
+  expect_true(is.numeric(mhp(data = HOT, opts = c(Option_1:None), choice = choice, group = Group)[[2]]))
 })
 
 test_that("group output equals group input ", {
@@ -106,29 +106,29 @@ test_that("group output equals group input - multiple grouping variables ", {
   )
   expect_equal(utils::str(mhp(data = HOT, opts = c(Option_1:None), choice = choice, group = c(Group, Group2))[[1]]), utils::str(HOT$Group))
   expect_true(labelled::is.labelled(mhp(data = HOT, opts = c(Option_1:None), choice = choice, group = c(Group, Group2))[[2]]))
-  expect_true(base::is.numeric(mhp(data = HOT, opts = c(Option_1:None), choice = choice, group = c(Group, Group2))[[3]]))
+  expect_true(is.numeric(mhp(data = HOT, opts = c(Option_1:None), choice = choice, group = c(Group, Group2))[[3]]))
 })
 
 test_that("mhp() also working with data.frame not created with createHOT()", {
-  base::set.seed(2023)
+  set.seed(2023)
 
-  newHOT <- base::data.frame(
+  newHOT <- data.frame(
     Option_1 = stats::runif(10, min = -5, max = 5),
     Option_2 = stats::runif(10, min = -5, max = 5),
     Option_3 = stats::runif(10, min = -5, max = 5),
     Option_4 = stats::runif(10, min = -5, max = 5),
     Option_5 = stats::runif(10, min = -5, max = 5),
-    Choice = base::sample(c(1:5), 10, replace = T)
+    Choice = sample(c(1:5), 10, replace = T)
   )
-  expect_true(base::is.numeric(mhp(data = newHOT, opts = c(Option_1:Option_5), choice = Choice)[[1]]))
-  expect_true(base::is.numeric(mhp(data = newHOT, opts = c(Option_1:Option_5), choice = Choice)[[2]]))
+  expect_true(is.numeric(mhp(data = newHOT, opts = c(Option_1:Option_5), choice = Choice)[[1]]))
+  expect_true(is.numeric(mhp(data = newHOT, opts = c(Option_1:Option_5), choice = Choice)[[2]]))
   expect_true(tibble::is_tibble(mhp(data = newHOT, opts = c(Option_1:Option_5), choice = Choice)))
-  expect_false(base::anyNA(mhp(data = newHOT, opts = c(Option_1:Option_5), choice = Choice)))
+  expect_false(anyNA(mhp(data = newHOT, opts = c(Option_1:Option_5), choice = Choice)))
 })
 
 test_that("check whether examples are correct ", {
-  expect_equal(base::round(base::as.numeric(mhp(data = HOT, opts = c(Option_1:None), choice = choice))[[1]], 0), 48)
-  expect_equal(base::round(base::as.numeric(mhp(data = HOT, opts = c(Option_1:None), choice = choice))[[2]], 1), 4.5)
-  expect_equal(base::round(base::as.numeric(mhp(data = HOT, opts = c(Option_1:None), choice = choice, group = Group)[[2]]), 0), c(49, 50, 44))
-  expect_equal(base::round(base::as.numeric(mhp(data = HOT, opts = c(Option_1:None), choice = choice, group = Group)[[3]]), 1), c(7.7, 7.6, 8.6))
+  expect_equal(round(as.numeric(mhp(data = HOT, opts = c(Option_1:None), choice = choice))[[1]], 0), 48)
+  expect_equal(round(as.numeric(mhp(data = HOT, opts = c(Option_1:None), choice = choice))[[2]], 1), 4.5)
+  expect_equal(round(as.numeric(mhp(data = HOT, opts = c(Option_1:None), choice = choice, group = Group)[[2]]), 0), c(49, 50, 44))
+  expect_equal(round(as.numeric(mhp(data = HOT, opts = c(Option_1:None), choice = choice, group = Group)[[3]]), 1), c(7.7, 7.6, 8.6))
 })

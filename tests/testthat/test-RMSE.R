@@ -32,7 +32,7 @@ test_that("Error if alternatives contains NA ", {
 test_that("Error if alternatives is not numeric ", {
   HOT2 <- HOT
 
-  HOT2$Option_2 <- base::as.character(HOT2$Option_2)
+  HOT2$Option_2 <- as.character(HOT2$Option_2)
 
   expect_error(rmse(data = HOT2, opts = c(Option_1:None), choice = choice, group = Group))
 })
@@ -48,13 +48,13 @@ test_that("Error if choice contains NA ", {
 test_that("Error if choice is not numeric ", {
   HOT2 <- HOT
 
-  HOT2$choice <- base::as.character(HOT2$choice)
+  HOT2$choice <- as.character(HOT2$choice)
 
   expect_error(rmse(data = HOT2, opts = c(Option_1:None), choice = choice, group = Group))
 })
 
 test_that("Structure of Output data.frame ", {
-  expect_true(base::is.data.frame(rmse(data = HOT, opts = c(Option_1:None), choice = choice)))
+  expect_true(is.data.frame(rmse(data = HOT, opts = c(Option_1:None), choice = choice)))
 })
 
 test_that("Structure of Output tibble ", {
@@ -62,25 +62,25 @@ test_that("Structure of Output tibble ", {
 })
 
 test_that("Length of output equals number of groups - no group ", {
-  expect_equal(base::nrow(rmse(data = HOT, opts = c(Option_1:None), choice = choice)), 1)
+  expect_equal(nrow(rmse(data = HOT, opts = c(Option_1:None), choice = choice)), 1)
 })
 
 
 test_that("Length of output equals number of groups - 1 group ", {
-  expect_equal(base::nrow(rmse(data = HOT, opts = c(Option_1:None), choice = choice, group = Group)), base::length(base::unique(HOT$Group)))
+  expect_equal(nrow(rmse(data = HOT, opts = c(Option_1:None), choice = choice, group = Group)), length(unique(HOT$Group)))
 })
 
 test_that("Length of output equals number of groups - 2 group ", {
   HOT$Group2 <- c("Group 1", "Group 2")
-  expect_equal(base::nrow(rmse(data = HOT, opts = c(Option_1:None), choice = choice, group = c(Group, Group2))), (base::length(base::unique(HOT$Group)) * base::length(base::unique(HOT$Group2))))
+  expect_equal(nrow(rmse(data = HOT, opts = c(Option_1:None), choice = choice, group = c(Group, Group2))), (length(unique(HOT$Group)) * length(unique(HOT$Group2))))
 })
 
 test_that("Numeric output - no group ", {
-  expect_true(base::is.numeric(rmse(data = HOT, opts = c(Option_1:None), choice = choice)[[1]]))
+  expect_true(is.numeric(rmse(data = HOT, opts = c(Option_1:None), choice = choice)[[1]]))
 })
 
 test_that("Numeric output - 1 group ", {
-  expect_true(base::is.numeric(rmse(data = HOT, opts = c(Option_1:None), choice = choice, group = Group)[[2]]))
+  expect_true(is.numeric(rmse(data = HOT, opts = c(Option_1:None), choice = choice, group = Group)[[2]]))
 })
 
 test_that("group output equals group input ", {
@@ -107,39 +107,39 @@ test_that("group output equals group input - multiple grouping variables ", {
   )
   expect_equal(utils::str(rmse(data = HOT, opts = c(Option_1:None), choice = choice, group = c(Group, Group2))[[1]]), utils::str(HOT$Group))
   expect_true(labelled::is.labelled(rmse(data = HOT, opts = c(Option_1:None), choice = choice, group = c(Group, Group2))[[2]]))
-  expect_true(base::is.numeric(rmse(data = HOT, opts = c(Option_1:None), choice = choice, group = c(Group, Group2))[[3]]))
+  expect_true(is.numeric(rmse(data = HOT, opts = c(Option_1:None), choice = choice, group = c(Group, Group2))[[3]]))
 })
 
 test_that("rmse() also working with data.frame not created with createHOT()", {
-  base::set.seed(2023)
+  set.seed(2023)
 
-  newHOT <- base::data.frame(
+  newHOT <- data.frame(
     Option_1 = stats::runif(10, min = -5, max = 5),
     Option_2 = stats::runif(10, min = -5, max = 5),
     Option_3 = stats::runif(10, min = -5, max = 5),
     Option_4 = stats::runif(10, min = -5, max = 5),
     Option_5 = stats::runif(10, min = -5, max = 5),
-    Choice = base::sample(c(1:5), 10, replace = T)
+    Choice = sample(c(1:5), 10, replace = T)
   )
-  expect_true(base::is.numeric(rmse(data = newHOT, opts = c(Option_1:Option_5), choice = Choice)[[1]]))
+  expect_true(is.numeric(rmse(data = newHOT, opts = c(Option_1:Option_5), choice = Choice)[[1]]))
   expect_true(tibble::is_tibble(rmse(data = newHOT, opts = c(Option_1:Option_5), choice = Choice)))
-  expect_false(base::anyNA(rmse(data = newHOT, opts = c(Option_1:Option_5), choice = Choice)))
+  expect_false(anyNA(rmse(data = newHOT, opts = c(Option_1:Option_5), choice = Choice)))
 })
 
 test_that("check whether examples are correct ", {
-  expect_equal(base::round(base::as.numeric(rmse(data = HOT, opts = c(Option_1:None), choice = choice)), 2), 7.88)
-  expect_equal(base::round(base::as.numeric(rmse(data = HOT, opts = c(Option_1:None), choice = choice, group = Group)[[2]]), 2), c(5.25, 9.98, 10.61))
+  expect_equal(round(as.numeric(rmse(data = HOT, opts = c(Option_1:None), choice = choice)), 2), 7.88)
+  expect_equal(round(as.numeric(rmse(data = HOT, opts = c(Option_1:None), choice = choice, group = Group)[[2]]), 2), c(5.25, 9.98, 10.61))
 })
 
 
 test_that("Test whether results equals Metrics::rmse ", {
   actual <- HOT %>%
-    dplyr::mutate(dplyr::across(Option_1:None, function(x) (base::exp(x) / base::rowSums(base::exp(.[c(2:9)]))))) %>%
+    dplyr::mutate(dplyr::across(Option_1:None, function(x) (exp(x) / rowSums(exp(.[c(2:9)]))))) %>%
     dplyr::summarise(dplyr::across(Option_1:None, ~ mean(.x))) %>%
-    base::unlist() %>%
-    base::unname()
+    unlist() %>%
+    unname()
 
-  predicted <- base::unname(c(base::prop.table(base::table(HOT$choice))))
+  predicted <- unname(c(prop.table(table(HOT$choice))))
 
-  expect_equal(base::round(base::as.numeric(rmse(data = HOT, opts = c(Option_1:None), choice = choice)), digits = 2), round(Metrics::rmse(actual, predicted) * 100, digits = 2))
+  expect_equal(round(as.numeric(rmse(data = HOT, opts = c(Option_1:None), choice = choice)), digits = 2), round(Metrics::rmse(actual, predicted) * 100, digits = 2))
 })

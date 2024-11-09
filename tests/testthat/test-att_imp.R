@@ -4,8 +4,10 @@ test_that("Coding missing ", {
     attrib = list(
       c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
       c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7")
+      c(
+        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
+        "Att3_Lev6", "Att3_Lev7"
+      )
     ),
     res = "agg"
   ))
@@ -17,8 +19,10 @@ test_that("Coding not 0, 1, or 2 ", {
     attrib = list(
       c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
       c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7")
+      c(
+        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
+        "Att3_Lev6", "Att3_Lev7"
+      )
     ),
     coding = c(0, 0, 3),
     res = "agg"
@@ -31,8 +35,10 @@ test_that("Coding not 0, 1, or 2 ", {
     attrib = list(
       c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
       c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7")
+      c(
+        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
+        "Att3_Lev6", "Att3_Lev7"
+      )
     ),
     coding = c(0, 0, "a"),
     res = "agg"
@@ -104,8 +110,10 @@ test_that("Warning if group contains NA ", {
     attrib = list(
       c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
       c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7")
+      c(
+        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
+        "Att3_Lev6", "Att3_Lev7"
+      )
     ),
     coding = c(0, 0, 0),
     group = Group,
@@ -190,14 +198,16 @@ test_that("Interpolate.levels only for linear coded variables ", {
 
 
 test_that("Structure of Output data.frame ", {
-  expect_true(base::is.data.frame(
+  expect_true(is.data.frame(
     att_imp(
       data = CBC,
       attrib = list(
         c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
         c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-        c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-          "Att3_Lev6", "Att3_Lev7")
+        c(
+          "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
+          "Att3_Lev6", "Att3_Lev7"
+        )
       ),
       coding = c(0, 0, 0),
       res = "agg"
@@ -212,8 +222,10 @@ test_that("Structure of Output tibble ", {
       attrib = list(
         c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
         c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-        c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-          "Att3_Lev6", "Att3_Lev7")
+        c(
+          "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
+          "Att3_Lev6", "Att3_Lev7"
+        )
       ),
       coding = c(0, 0, 0),
       res = "agg"
@@ -228,8 +240,10 @@ test_that("group output equals group input ", {
       attrib = list(
         c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
         c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-        c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-          "Att3_Lev6", "Att3_Lev7")
+        c(
+          "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
+          "Att3_Lev6", "Att3_Lev7"
+        )
       ),
       coding = c(0, 0, 0),
       group = Group,
@@ -245,8 +259,10 @@ test_that("group output equals group input - character input ", {
     attrib = list(
       c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
       c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7")
+      c(
+        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
+        "Att3_Lev6", "Att3_Lev7"
+      )
     ),
     coding = c(0, 0, 0),
     group = Group2,
@@ -264,8 +280,10 @@ test_that("group output equals group input - labelled input ", {
     attrib = list(
       c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
       c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7")
+      c(
+        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
+        "Att3_Lev6", "Att3_Lev7"
+      )
     ),
     coding = c(0, 0, 0),
     group = Group2,
@@ -274,13 +292,15 @@ test_that("group output equals group input - labelled input ", {
 })
 
 test_that("check whether examples are correct ", {
-  expect_equal(base::round(base::as.numeric(att_imp(
+  expect_equal(round(as.numeric(att_imp(
     data = CBC,
     attrib = list(
       c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
       c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7")
+      c(
+        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
+        "Att3_Lev6", "Att3_Lev7"
+      )
     ),
     coding = c(0, 0, 0),
     res = "agg"
@@ -291,20 +311,24 @@ test_that("check whether examples are correct ", {
     attrib = list(
       c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
       c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7")
+      c(
+        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
+        "Att3_Lev6", "Att3_Lev7"
+      )
     ),
     coding = c(0, 0, 0),
     res = "agg"
   )[[1]], c("att_imp_1", "att_imp_2", "att_imp_3"))
 
-  expect_equal(base::round(base::as.numeric(att_imp(
+  expect_equal(round(as.numeric(att_imp(
     data = CBC,
     attrib = list(
       c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
       c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7")
+      c(
+        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
+        "Att3_Lev6", "Att3_Lev7"
+      )
     ),
     coding = c(0, 0, 0),
     res = "agg"
@@ -313,7 +337,7 @@ test_that("check whether examples are correct ", {
 
 
 test_that("check whether examples are correct - CBC_lin ", {
-  expect_equal(base::round(base::as.numeric(att_imp(
+  expect_equal(round(as.numeric(att_imp(
     data = CBC_lin,
     attrib = list(
       c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
@@ -337,7 +361,7 @@ test_that("check whether examples are correct - CBC_lin ", {
     res = "agg"
   )[[1]], c("att_imp_1", "att_imp_2", "att_imp_3"))
 
-  expect_equal(base::round(base::as.numeric(att_imp(
+  expect_equal(round(as.numeric(att_imp(
     data = CBC_lin,
     attrib = list(
       c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
@@ -357,8 +381,10 @@ test_that("res missing ", {
     attrib = list(
       c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
       c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7")
+      c(
+        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
+        "Att3_Lev6", "Att3_Lev7"
+      )
     ),
     coding = c(0, 0, 0)
   ))
@@ -370,8 +396,10 @@ test_that("res noz specified to ind or agg ", {
     attrib = list(
       c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
       c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7")
+      c(
+        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
+        "Att3_Lev6", "Att3_Lev7"
+      )
     ),
     coding = c(0, 0, 0),
     res = "xyz"
@@ -384,8 +412,10 @@ test_that("group can not be specified when res set to ind ", {
     attrib = list(
       c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
       c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7")
+      c(
+        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
+        "Att3_Lev6", "Att3_Lev7"
+      )
     ),
     coding = c(0, 0, 0),
     res = "ind", group = "Group"
@@ -399,8 +429,10 @@ test_that("rows of inputs equals rows of output ", {
     attrib = list(
       c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
       c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7")
+      c(
+        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
+        "Att3_Lev6", "Att3_Lev7"
+      )
     ),
     coding = c(0, 0, 0),
     res = "ind"
@@ -415,8 +447,10 @@ test_that("each row equals 100 ", {
       attrib = list(
         c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
         c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-        c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-          "Att3_Lev6", "Att3_Lev7")
+        c(
+          "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
+          "Att3_Lev6", "Att3_Lev7"
+        )
       ),
       coding = c(0, 0, 0),
       res = "ind"

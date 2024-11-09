@@ -10,42 +10,41 @@
 #' (e.g., if you scale or center attribute levels before estimation, insert these levels).
 #' Please make sure to provide the whole list. Only has to be specified for the
 #' variables that are coded as '1' (linear).
-#' @param res A vector indicating whether individual zero-centered diffs (\code{ind}) or
-#' aggregated (\code{agg}) zero-centered diffs should be returned.
-#' @param none A vector whether \code{none} option was included.
+#' @param res A vector indicating whether individual zero-centered diffs (`ind`) or
+#' aggregated (`agg`) zero-centered diffs should be returned.
+#' @param none A vector whether `none` option was included.
 #'
 #' @details
-#' \code{zc_diffs} converts raw utilities of a CBC or an ACBC to
+#' `zc_diffs()` converts raw utilities of a CBC or an ACBC to
 #' zero-centered diffs (Orme, 2020, p. 78). This allows for comparison between
 #' the attributes.
 #'
-#' \code{data} has to be a data frame with the attributes. Attribute levels have
+#' `data` has to be a data frame with the attributes. Attribute levels have
 #' to be the raw utilities.
 #'
-#' \code{group} optional grouping variable, if results should be displayed by
-#' different groups. Has to be column name of variables in \code{data}.
+#' `group` optional grouping variable, if results should be displayed by
+#' different groups. Has to be column name of variables in `data`.
 #'
-#' \code{attrib} specifies the attribute levels for each alternative.
-#' Input for \code{attrib} has to be a list. Needs to specify the column names or
+#' `attrib` specifies the attribute levels for each alternative.
+#' Input for `attrib` has to be a list. Needs to specify the column names or
 #' column indexes of the attribute levels.
 #'
-#' \code{coding} indicates the attribute coding. \code{0}
-#' to indicated part-worth coding, \code{1} for linear coding, or \code{2} for
-#' piecewise coding.
+#' `coding` indicates the attribute coding. `0`to indicated part-worth coding,
+#' `1` for linear coding, or `2` for piecewise coding.
 #'
-#' \code{interpolate.levels} is required for linear-coded variables.
+#' `interpolate.levels` is required for linear-coded variables.
 #' If scaled or centered values were used for Hierarchical Bayes
 #' estimation, these have to be specified in this case.
 #' All values have to be specified. For example, if one linear-coded attribute
 #' has 5 levels, all 5 levels have to be inserted.
 #'
-#' \code{res} specifies whether results should be aggregated across all participants
-#' or across \code{group} (\code{res} needs to be set to \code{agg}) or if scores
+#' `res` specifies whether results should be aggregated across all participants
+#' or across `group` (`res` needs to be set to `agg`) or if scores
 #' should be converted for individuals only.
 #'
-#' \code{none} specifies whether none option was included or not, if yes,
-#' column name or column index of \code{none} needs to be specified. If no
-#' \code{none} option was included, leave it empty.
+#' `none` specifies whether none option was included or not, if yes,
+#' column name or column index of `none` needs to be specified. If no
+#' `none` option was included, leave it empty.
 #'
 #' @importFrom dplyr select mutate across reframe pick
 #' @importFrom tidyr pivot_longer
@@ -137,52 +136,52 @@ zc_diffs <- function(data, group = NULL, attrib, coding, interpolate.levels = NU
                      res = c("agg", "ind"), none = NULL) {
   # grouping variable
   ## check for missings
-  if (!(base::is.null(coding))) {
-    if (base::anyNA(data %>% dplyr::select(., {{ group }}))) {
+  if (!(is.null(coding))) {
+    if (anyNA(data %>% dplyr::select({{ group }}))) {
       warning("Warning: 'group' contains NAs!")
     }
   }
 
-  if (base::is.null(coding)) {
-    base::stop("Error: 'coding' has to be specified!")
+  if (is.null(coding)) {
+    stop("Error: 'coding' has to be specified!")
   }
 
-  if (base::length(attrib) != base::length(coding)) {
-    base::stop("Error: 'coding' and 'attrib' have to have the same length!")
+  if (length(attrib) != length(coding)) {
+    stop("Error: 'coding' and 'attrib' have to have the same length!")
   }
 
 
   # test numeric input for coding
-  if (!(base::is.null(coding))) {
-    for (i in base::seq_along(coding)) {
-      if (!(base::is.numeric(coding[i]))) {
-        base::stop("Error: 'coding' only can have numeric input!")
+  if (!(is.null(coding))) {
+    for (i in seq_along(coding)) {
+      if (!(is.numeric(coding[i]))) {
+        stop("Error: 'coding' only can have numeric input!")
       }
     }
   }
 
   # test whether coding only includes 0, 1, 2
-  if (base::any(coding != 0 & coding != 1 & coding != 2)) {
-    base::stop(
+  if (any(coding != 0 & coding != 1 & coding != 2)) {
+    stop(
       "Error: Please only use '0' (for part-worth), '1' (for linear), or '2' (for piecewise)!"
     )
   }
 
 
   # test input of interpolate levels
-  if (!(base::is.list(interpolate.levels)) &&
-      !(base::is.null(interpolate.levels))) {
-    base::stop("Error: Input of 'interpolate.levels' has to be a list!")
+  if (!(is.list(interpolate.levels)) &&
+    !(is.null(interpolate.levels))) {
+    stop("Error: Input of 'interpolate.levels' has to be a list!")
   }
 
   # test variables of interpolate.levels
-  if (!(base::is.null(interpolate.levels))) {
-    for (tt in base::seq_along(interpolate.levels)) {
-      lng <- base::length(interpolate.levels[[tt]])
+  if (!(is.null(interpolate.levels))) {
+    for (tt in seq_along(interpolate.levels)) {
+      lng <- length(interpolate.levels[[tt]])
 
       for (lng_lev in 1:lng) {
-        if (!(base::is.numeric(interpolate.levels[[tt]][lng_lev]))) {
-          base::stop(
+        if (!(is.numeric(interpolate.levels[[tt]][lng_lev]))) {
+          stop(
             "Error: Input of 'interpolate.levels' has to be a list ",
             "with only numeric values!"
           )
@@ -192,31 +191,31 @@ zc_diffs <- function(data, group = NULL, attrib, coding, interpolate.levels = NU
   }
 
   # interpolate.levels can not be larger than number of attributes
-  if (!base::is.null(interpolate.levels) &&
-      (base::length(interpolate.levels) > base::length(attrib))) {
-    base::stop(
+  if (!is.null(interpolate.levels) &&
+    (length(interpolate.levels) > length(attrib))) {
+    stop(
       "Error: List of 'interpolate.levels' can not be larger than list of 'attrib'!"
     )
   }
 
   # check length of 'attrib' and coding
   # test input of list in prod.levels
-  if (!(base::is.null(attrib))) {
-    for (tt in base::seq_along(attrib)) {
-      if (base::length(attrib[[tt]]) == 1 && coding[tt] == 0) {
-        base::stop(
+  if (!(is.null(attrib))) {
+    for (tt in seq_along(attrib)) {
+      if (length(attrib[[tt]]) == 1 && coding[tt] == 0) {
+        stop(
           "Error: If attribute is part-worth coded at least 2 attribute levels need to be specified!"
         )
       }
 
-      if (base::length(attrib[[tt]]) > 1 && coding[tt] == 1) {
-        base::stop(
+      if (length(attrib[[tt]]) > 1 && coding[tt] == 1) {
+        stop(
           "Error: If attribute is linear coded only one attribute level needs to be specified!"
         )
       }
 
-      if (base::length(attrib[[tt]]) == 1 && coding[tt] == 2) {
-        base::stop(
+      if (length(attrib[[tt]]) == 1 && coding[tt] == 2) {
+        stop(
           "Error: If attribute is piecewise coded at least 2 attribute levels need to be specified!"
         )
       }
@@ -224,82 +223,86 @@ zc_diffs <- function(data, group = NULL, attrib, coding, interpolate.levels = NU
   }
 
   # if 1 is coded, interpolate.levels needs to be specified
-  if (base::any(coding == 1) && base::is.null(interpolate.levels)) {
-    base::stop(
+  if (any(coding == 1) && is.null(interpolate.levels)) {
+    stop(
       "Error: 'interpolate.levels' is missing!"
     )
   }
 
   # if no 1 coded interpolate.levels is not needed
-  if (!base::any(coding == 1) && !base::is.null(interpolate.levels)) {
-    base::stop(
+  if (!any(coding == 1) && !is.null(interpolate.levels)) {
+    stop(
       "Error: 'interpolate.levels' only needs to be specified for linear coded variables!"
     )
   }
 
   # number of coding larger than length of interpolate levels
 
-  if (!base::is.null(interpolate.levels) &&
-      (base::sum(coding == 1) != base::length(interpolate.levels))) {
-    base::stop(
+  if (!is.null(interpolate.levels) &&
+    (sum(coding == 1) != length(interpolate.levels))) {
+    stop(
       "Error: Number of linear coded variables is not equal to length of 'interpolate.levels'!"
     )
   }
 
   # number of coding larger than length of interpolate levels
 
-  if (base::any(coding == 2)) {
-    if (base::sum(coding == 2) > 1) {
-      base::stop("Error: Only one attribute can be piecewise-coded!")
+  if (any(coding == 2)) {
+    if (sum(coding == 2) > 1) {
+      stop("Error: Only one attribute can be piecewise-coded!")
     }
   }
 
   # test whether res is specified
-  if (base::missing(res)) {
-    base::stop("Error: 'res' is not defined!")
+  if (missing(res)) {
+    stop("Error: 'res' is not defined!")
   }
 
   # test whether res is correctly specified
   if ((res != "agg") && (res != "ind")) {
-    base::stop(
+    stop(
       "Error: 'res' can only be set to 'agg' or 'ind'!"
     )
   }
 
   # can not specify res to 'ind' and specify group
-  if ((res == "ind") && !base::missing(group)) {
+  if ((res == "ind") && !missing(group)) {
     stop("Error: Can not speficy 'group' if 'res' is set to 'ind'!")
   }
 
   ############################################################################
 
   # if piecewise coded variables used, first zero center
-  if (base::any(coding == 2)) {
+  if (any(coding == 2)) {
     piece_coded <- data %>%
       dplyr::select(unlist(attrib[which(coding == 2)])) %>%
-      base::colnames(.)
+      colnames(.)
 
-    if (!base::is.null(none)) {
+    if (!is.null(none)) {
       none_var <- data %>%
         dplyr::select(none) %>%
-        base::colnames(.)
+        colnames(.)
 
 
       data <- data %>%
-        dplyr::mutate_at(dplyr::vars(tidyselect::all_of(none_var)),
-                         ~ .x - rowMeans(data[, piece_coded]))
+        dplyr::mutate_at(
+          dplyr::vars(tidyselect::all_of(none_var)),
+          ~ .x - rowMeans(data[, piece_coded])
+        )
     }
 
     data <- data %>%
-      dplyr::mutate(dplyr::across(tidyselect::all_of(piece_coded),
-                                  ~ .x - rowMeans(data[, piece_coded])))
+      dplyr::mutate(dplyr::across(
+        tidyselect::all_of(piece_coded),
+        ~ .x - rowMeans(data[, piece_coded])
+      ))
   }
 
-  att <- base::length(attrib)
+  att <- length(attrib)
 
   attrib_all <- c()
-  for (i in base::seq_along(attrib)) {
-    attrib_all <- c(attrib_all, base::colnames(data[attrib[[i]]]))
+  for (i in seq_along(attrib)) {
+    attrib_all <- c(attrib_all, colnames(data[attrib[[i]]]))
   }
 
   new <- c()
@@ -307,22 +310,25 @@ zc_diffs <- function(data, group = NULL, attrib, coding, interpolate.levels = NU
   helper <- 1
 
   for (i in 1:att) {
-    data[[base::paste0("range_att_", i)]] <- 0
+    data[[paste0("range_att_", i)]] <- 0
 
     vars <- attrib[[i]]
 
-    new <- c(new, base::paste0("range_att_", i))
+    new <- c(new, paste0("range_att_", i))
 
-    for (j in base::seq_len(base::nrow(data))) {
+    for (j in seq_len(nrow(data))) {
       if (coding[i] == 0 || coding[i] == 2) {
-        data[j, base::paste0("range_att_", i)] <- base::abs(
-          base::diff(base::range(data[j, vars])))
+        data[j, paste0("range_att_", i)] <- abs(
+          diff(range(data[j, vars]))
+        )
       }
 
       if (coding[i] == 1) {
-        data[j, base::paste0("range_att_", i)] <- base::abs(
-          data[j, vars] * base::abs(
-            base::diff(base::range(interpolate.levels[[helper]]))))
+        data[j, paste0("range_att_", i)] <- abs(
+          data[j, vars] * abs(
+            diff(range(interpolate.levels[[helper]]))
+          )
+        )
       }
     }
 
@@ -331,35 +337,44 @@ zc_diffs <- function(data, group = NULL, attrib, coding, interpolate.levels = NU
     }
   }
 
-  if (!base::is.null(none)) {
+  if (!is.null(none)) {
     attrib_all <- c(attrib_all, (data %>%
-                                   dplyr::select(none) %>% base::colnames(.)))
+      dplyr::select(none) %>% colnames(.)))
   }
 
   if (res == "agg") {
-    return(data %>%
-             dplyr::mutate(factor = (att * 100) / base::rowSums(data[new])) %>%
-             dplyr::mutate(dplyr::across(tidyselect::all_of(attrib_all),
-                                         ~ .x * factor)) %>%
-             dplyr::group_by(dplyr::pick({{ group }})) %>%
-             dplyr::reframe(dplyr::across(tidyselect::all_of(attrib_all),
-                                          c(mw = base::mean, std = stats::sd),
-                                          .names = "{.col}....{.fn}"
-             )) %>%
-             tidyr::pivot_longer(.,
-                                 cols = tidyselect::ends_with(
-                                   c("....mw", "....std")),
-                                 names_to = c("Option", ".value"),
-                                 names_sep = "\\.\\.\\.\\."
-             ))
+    zc_diffs_data <- data %>%
+      dplyr::mutate(factor = (att * 100) / rowSums(data[new])) %>%
+      dplyr::mutate(dplyr::across(
+        tidyselect::all_of(attrib_all),
+        ~ .x * factor
+      )) %>%
+      dplyr::group_by(dplyr::pick({{ group }})) %>%
+      dplyr::reframe(dplyr::across(tidyselect::all_of(attrib_all),
+        c(mw = mean, std = stats::sd),
+        .names = "{.col}....{.fn}"
+      )) %>%
+      tidyr::pivot_longer(.,
+        cols = tidyselect::ends_with(
+          c("....mw", "....std")
+        ),
+        names_to = c("Option", ".value"),
+        names_sep = "\\.\\.\\.\\."
+      )
+
+    return(zc_diffs_data)
   }
 
   if (res == "ind") {
-    return(data %>%
-             dplyr::mutate(factor = (att * 100) /
-                             base::rowSums(data[new])) %>%
-             dplyr::mutate(dplyr::across(tidyselect::all_of(attrib_all),
-                                         ~ .x * factor)) %>%
-             dplyr::select(tidyselect::all_of(attrib_all)))
+    zc_diffs_data <- data %>%
+      dplyr::mutate(factor = (att * 100) /
+        rowSums(data[new])) %>%
+      dplyr::mutate(dplyr::across(
+        tidyselect::all_of(attrib_all),
+        ~ .x * factor
+      )) %>%
+      dplyr::select(tidyselect::all_of(attrib_all))
+
+    return(zc_diffs_data)
   }
 }

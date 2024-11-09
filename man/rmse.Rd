@@ -10,7 +10,7 @@ rmse(data, group, opts, choice)
 \item{data}{A data frame with all relevant variables.}
 
 \item{group}{Optional column name(s) to specify grouping variable(s)
-to get \code{rmse} by group(s).}
+to get `rmse()` by group(s).}
 
 \item{opts}{Column names of the alternatives included in the
 validation/holdout task.}
@@ -22,7 +22,7 @@ task.}
 a tibble
 }
 \description{
-\code{rmse} measures the root mean square error
+`rmse()` measures the root mean square error
 of a validation/holdout task. Calculates the averaged
 root mean square error of the stated and predicted share of alternatives
 in the validation/holdout task.
@@ -33,19 +33,19 @@ comparing the share of the actual choice in the holdout task and the
 predicted share.
 
 
-\code{data} has to be a data frame including the alternatives shown in
-the validation/holdout task. Can be created using the \code{createHOT()}
+`data` has to be a data frame including the alternatives shown in
+the validation/holdout task. Can be created using the `createHOT()`
 function.
 
-\code{group} optional grouping variable, if results should be displayed by
-different groups. Has to be column name of variables in \code{data}.
+`group` optional grouping variable, if results should be displayed by
+different groups. Has to be column name of variables in `data`.
 
-\code{opts} is required to specify the different alternatives in the
-validation/holdout task. Input of \code{opts} has to be column names
-of variables in \code{data}.
+`opts` is required to specify the different alternatives in the
+validation/holdout task. Input of `opts` has to be column names
+of variables in `data`.
 
-\code{choice} to specify column of actual choice in the validation/holdout
-task. Input of opts \code{choice} has to be column name of actual choice.
+`choice` to specify column of actual choice in the validation/holdout
+task. Input of opts `choice` has to be column name of actual choice.
 }
 \examples{
 

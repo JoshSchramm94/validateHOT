@@ -126,7 +126,7 @@ test_that("group output equals group input - labelled input ", {
 
 
 test_that("Structure of Output data.frame ", {
-  expect_true(base::is.data.frame(
+  expect_true(is.data.frame(
     prob_scores(
       data = MaxDiff,
       items = c(Option_01:Option_16),
@@ -149,7 +149,7 @@ test_that("Structure of Output tibble ", {
 
 
 test_that("check whether examples are correct ", {
-  expect_equal(base::round(base::as.numeric(prob_scores(
+  expect_equal(round(as.numeric(prob_scores(
     data = MaxDiff,
     items = c(Option_01:Option_16),
     set.size = 4,
@@ -163,11 +163,11 @@ test_that("check whether examples are correct ", {
     items = c(Option_01:Option_16),
     set.size = 4,
     res = "agg"
-  )[[1]], c(base::paste0("Option_0", c(1:9)), base::paste0("Option_", c(10:16))))
+  )[[1]], c(paste0("Option_0", c(1:9)), paste0("Option_", c(10:16))))
 })
 
 test_that("check whether examples are correct ", {
-  expect_equal(base::round(base::as.numeric(prob_scores(
+  expect_equal(round(as.numeric(prob_scores(
     data = MaxDiff,
     items = c(Option_01:Option_16),
     set.size = 4,

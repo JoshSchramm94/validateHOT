@@ -1,13 +1,14 @@
 #' Function to calculate precision of confusion matrix for general product
 #' demand
 #'
-#' @description \code{precision} is one of the 5 metrics of the confusion matrix
+#' @description
+#' `precision` is one of the 5 metrics of the confusion matrix
 #' and is defined as \eqn{\frac{TP}{TP + FP}}, where TP =
 #' True Positives, FP = False Positives (see, e.g., Burger, 2018).
 #'
 #' @param data A data frame with all relevant variables.
 #' @param group Optional column name(s) to specify grouping variable(s)
-#' to get \code{precision} by group(s).
+#' to get `precision()` by group(s).
 #' @param opts Column names of the alternatives included in the
 #' validation/holdout task.
 #' @param choice Column name of the actual choice in the validation/holdout
@@ -15,31 +16,31 @@
 #' @param none Column name of none alternative.
 #'
 #' @details
-#' The current logic of \code{precision} is to determine whether a binary coded
+#' The current logic of `precision()` is to determine whether a binary coded
 #' choice is correctly predicted by the model. To use the function, the
-#' validation/holdout task must include a \code{none} alternative.
+#' validation/holdout task must include a `none` alternative.
 #' One possible application is, for example, whether a buy or a no-buy choice
 #' has been correctly predicted. For example, suppose you have three
-#' alternatives plus a \code{none} alternative and want to check whether a buy
+#' alternatives plus a `none` alternative and want to check whether a buy
 #' or no-buy was correctly predicted. This function can be useful if you, for
 #' example, test whether your model significantly overestimates or
 #' underestimates a purchase likelihood.
 #'
-#' \code{data} has to be a data frame including the alternatives shown in
-#' the validation/holdout task. Can be created using the \code{createHOT()}
+#' `data` has to be a data frame including the alternatives shown in
+#' the validation/holdout task. Can be created using the `createHOT()`
 #' function.
 #'
-#' \code{group} optional grouping variable, if results should be display by
-#' different conditions. Has to be column name of variables in \code{data}.
+#' `group` optional grouping variable, if results should be display by
+#' different conditions. Has to be column name of variables in `data`.
 #'
-#' \code{opts} is required to specify the different alternatives in the
-#' validation/holdout task (also includes the \code{none} alternative).
-#' Input of \code{opts} has to be column names of variables in \code{data}.
+#' `opts` is required to specify the different alternatives in the
+#' validation/holdout task (also includes the `none` alternative).
+#' Input of `opts` has to be column names of variables in `data`.
 #'
-#' \code{choice} to specify column of actual choice in the validation/holdout
-#' task. Input of \code{choice} has to be column name of actual choice.
+#' `choice` to specify column of actual choice in the validation/holdout
+#' task. Input of `choice` has to be column name of actual choice.
 #'
-#' \code{none} is required to specify column name of the \code{none}
+#' `none` is required to specify column name of the `none`
 #' alternative in the validation/holdout task.
 #'
 #' Please be aware about the following 2x2 table regarding coding of buy and
@@ -107,79 +108,81 @@
 
 precision <- function(data, group, opts, choice, none) {
   # check for wrong / missing input
-  if (base::length(data %>% dplyr::select(., {{ none }})) == 0) {
+  if (length(data %>% dplyr::select({{ none }})) == 0) {
     stop("Error: argument 'none' is missing!")
   }
 
-  if (base::length(data %>% dplyr::select(., {{ opts }})) == 0) {
+  if (length(data %>% dplyr::select({{ opts }})) == 0) {
     stop("Error: argument 'opts' is missing!")
   }
 
-  if (base::length(data %>% dplyr::select(., {{ opts }})) == 1) {
+  if (length(data %>% dplyr::select({{ opts }})) == 1) {
     stop("Error: specify at least 2 alternatives in 'opts'!")
   }
 
-  if (!(data %>% dplyr::select(., {{ none }}) %>% base::colnames()) %in%
-    (data %>% dplyr::select(., {{ opts }}) %>% base::colnames())) {
+  if (!(data %>% dplyr::select({{ none }}) %>% colnames()) %in%
+    (data %>% dplyr::select({{ opts }}) %>% colnames())) {
     stop("Error: 'none' has to be part of 'opts'!")
   }
 
   # grouping variable
   ## check for missings
-  if (base::anyNA(data %>% dplyr::select(., {{ group }}))) {
+  if (anyNA(data %>% dplyr::select({{ group }}))) {
     warning("Warning: 'group' contains NAs!")
   }
 
   # alternatives
   ## store names of alternatives
   alternatives <- data %>%
-    dplyr::select(., {{ opts }}) %>%
-    base::colnames()
+    dplyr::select({{ opts }}) %>%
+    colnames()
 
   ## check whether variable is numeric
-  for (i in base::seq_along(alternatives)) {
-    if (!base::is.numeric(data[[alternatives[i]]])) {
+  for (i in seq_along(alternatives)) {
+    if (!is.numeric(data[[alternatives[i]]])) {
       stop("Error: 'opts' has to be numeric!")
     }
   }
 
   ## check for missings
-  if (anyNA(data %>% dplyr::select(., {{ opts }}))) {
+  if (anyNA(data %>% dplyr::select({{ opts }}))) {
     stop("Error: 'opts' contains NAs!")
   }
 
   # choice
   ## check for missing
-  if (base::anyNA(data %>% dplyr::select(., {{ choice }}))) {
+  if (anyNA(data %>% dplyr::select({{ choice }}))) {
     stop("Error: 'choice' contains NAs!")
   }
 
   ## check for str
   choi <- data %>%
-    dplyr::select(., {{ choice }}) %>%
-    base::colnames()
+    dplyr::select({{ choice }}) %>%
+    colnames()
 
-  if (!base::is.numeric(data[[choi]])) {
+  if (!is.numeric(data[[choi]])) {
     stop("Error: 'choice' has to be numeric!")
   }
 
-  return(data %>%
+  precision_data <- data %>%
     dplyr::mutate(
       # store column index with highest utility
-      pred = base::max.col(dplyr::pick({{ opts }})),
-      buy = base::ifelse({{ choice }} != base::match(
-        data %>% dplyr::select(., {{ none }}) %>% colnames(),
-        data %>% dplyr::select(., {{ opts }}) %>% colnames()
+      pred = max.col(dplyr::pick({{ opts }})),
+      buy = ifelse({{ choice }} != match(
+        data %>% dplyr::select({{ none }}) %>% colnames(),
+        data %>% dplyr::select({{ opts }}) %>% colnames()
       ), 1, 2), # dichotomies actual choice (1 = prod, 2 = none)
-      pred = base::ifelse(pred != base::match(
-        data %>% dplyr::select(., {{ none }}) %>% colnames(),
-        data %>% dplyr::select(., {{ opts }}) %>% colnames()
+      pred = ifelse(pred != match(
+        data %>% dplyr::select({{ none }}) %>% colnames(),
+        data %>% dplyr::select({{ opts }}) %>% colnames()
       ), 1, 2) # dichotomies pred choice (1 = prod, 2 = none)
     ) %>%
     dplyr::group_by(pick({{ group }})) %>%
     dplyr::reframe(
-      precision = 100 * (base::sum(buy == 1 & pred == 1) /
-        (base::sum(buy == 1 & pred == 1) +
-          base::sum(buy == 2 & pred == 1)))
-    ))
+      precision = 100 * (sum(buy == 1 & pred == 1) /
+        (sum(buy == 1 & pred == 1) +
+          sum(buy == 2 & pred == 1)))
+    )
+
+  return(precision_data)
 }

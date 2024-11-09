@@ -74,7 +74,7 @@ You can install `validateHOT` by using the `remotes` package [@remotes].
 
 ```{r}
 # install.packages("remotes")
-# remotes::install_github("JoshSchramm94/validateHOT", dependencies = T, 
+# remotes::install_github("JoshSchramm94/validateHOT", dependencies = T,
 # build_vignettes = T)
 ```
 
@@ -163,9 +163,11 @@ createHOT(
   id = "ID",
   none = "none",
   coding = c(0, 0, 0),
-  prod.levels = list(c("Att1_Lev1", "Att2_Lev1", "Att3_Lev6"), 
-                     c("Att1_Lev5", "Att2_Lev4", "Att3_Lev4"), 
-                     c("Att1_Lev2", "Att2_Lev2", "Att3_Lev4")),
+  prod.levels = list(
+    c("Att1_Lev1", "Att2_Lev1", "Att3_Lev6"),
+    c("Att1_Lev5", "Att2_Lev4", "Att3_Lev4"),
+    c("Att1_Lev2", "Att2_Lev2", "Att3_Lev4")
+  ),
   method = "CBC",
   choice = "HOT"
 )
@@ -215,22 +217,22 @@ HOT <- createHOT(
   # data frame
   data = CBC_lin,
   # column index of unique identifier
-  id = 1, 
+  id = 1,
   # column index of none alternative
-  none = 15, 
+  none = 15,
   # coding of the 3 attributes; 0 = part-worth, 1 = linear, 2 = piecewise
-  coding = c(0, 0, 1), 
-  # column index of the attribute levels for each alternative 
+  coding = c(0, 0, 1),
+  # column index of the attribute levels for each alternative
   # (for linear coded we specify the value to be interpolated)
-  prod.levels = list(c(4, 9, 60), c(8, 12, 40), c(5, 10, 45)), 
+  prod.levels = list(c(4, 9, 60), c(8, 12, 40), c(5, 10, 45)),
   # actual values for the levels that should be interpolated
-  interpolate.levels = list(c(10, 20, 30, 40, 50, 60, 70)), 
+  interpolate.levels = list(c(10, 20, 30, 40, 50, 60, 70)),
   # column index of the linear coded variable
-  lin.p = 14, 
+  lin.p = 14,
   # method
-  method = "CBC", 
+  method = "CBC",
   # column index of variables that should be kept in the data frame
-  varskeep = 17, 
+  varskeep = 17,
   # column index of choice
   choice = 16
 )
@@ -284,7 +286,7 @@ position for each alternative in the validation/holdout task, which is why you
 have to specify the position `c(35, 36)` for each of the six alternatives.
 
 ```{r, eval = F}
-# define alternatives, for each attribute we specify the column index except 
+# define alternatives, for each attribute we specify the column index except
 # for the last one we specify the price to be interpolated.
 prod1 <- c(5, 11, 15, 17, 21, 25, 32, 34, 15.99)
 prod2 <- c(6, 9, 15, 17, 23, 27, 31, 34, 12.99)
@@ -296,26 +298,28 @@ prod6 <- c(5, 9, 14, 17, 23, 27, 29, 33, 9.99)
 # calculate total utilities for validation/ holdout task
 HOT <- createHOT(
   # data frame
-  data = ACBC, 
+  data = ACBC,
   # column index of the id
-  id = 1, 
+  id = 1,
   # column index of none alternative
-  none = 37, 
+  none = 37,
   # products specified above
-  prod.levels = list(prod1, prod2, prod3, prod4, prod5, prod6), 
+  prod.levels = list(prod1, prod2, prod3, prod4, prod5, prod6),
   # coding of the 9 attributes; 0 = part-worth, 1 = linear, 2 = piecewise
-  coding = c(0, 0, 0, 0, 0, 0, 0, 0, 2), 
-  # actual values for the levels that should be interpolated, for linear 
+  coding = c(0, 0, 0, 0, 0, 0, 0, 0, 2),
+  # actual values for the levels that should be interpolated, for linear
   # coded price in ACBC this is just the lower bound and the upper bound
-  interpolate.levels = list(c(2.093, 27.287)), 
+  interpolate.levels = list(c(2.093, 27.287)),
   # position of the piecewise coded variable
-  piece.p = list(c(35, 36), c(35, 36), 
-                 c(35, 36), c(35, 36), 
-                 c(35, 36), c(35, 36)), 
-   # method
+  piece.p = list(
+    c(35, 36), c(35, 36),
+    c(35, 36), c(35, 36),
+    c(35, 36), c(35, 36)
+  ),
+  # method
   method = "ACBC",
   # column index of choice
-  choice = 38 
+  choice = 38
 )
 ```
 
@@ -357,36 +361,40 @@ position, the results will be identical.
 ```{r, eval = F}
 HOT <- createHOT(
   # data frame
-  data = ACBC_interpolate, 
+  data = ACBC_interpolate,
   # column index of the id
-  id = 1, 
+  id = 1,
   none = 39, # column index of none alternative
   prod.levels = list(
-    # column index of the attribute levels for each alternative 
+    # column index of the attribute levels for each alternative
     # (for linear coded and piecewise coded we specify value to be interpolated)
-    c(5, 5, 12, 14, 18, 22, 29, 31, 15.99), 
+    c(5, 5, 12, 14, 18, 22, 29, 31, 15.99),
     c(6, 4, 12, 14, 20, 24, 28, 31, 12.99),
-    c(8, 6, 13, 16, 20, 21, 25, 31, 12.99), 
-    c(7, 5, 11, 15, 19, 21, 25, 30, 9.99), 
-    c(4, 9, 10, 14, 20, 24, 25, 31, 7.99), 
-    c(5, 8, 11, 14, 20, 24, 26, 30, 9.99) 
+    c(8, 6, 13, 16, 20, 21, 25, 31, 12.99),
+    c(7, 5, 11, 15, 19, 21, 25, 30, 9.99),
+    c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
+    c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
   ),
   # coding of the 9 attributes; 0 = part-worth, 1 = linear, 2 = piecewise
-  coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2), 
-  # actual values for the levels that should be interpolated 
-  # (first entry refers to the linear coded variable, second entry refers 
+  coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
+  # actual values for the levels that should be interpolated
+  # (first entry refers to the linear coded variable, second entry refers
   # to the piecewise coded variable)
-  interpolate.levels = list(c(3, 5, 8, 10), 
-                            c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)), 
+  interpolate.levels = list(
+    c(3, 5, 8, 10),
+    c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+  ),
   # position of the piecewise coded variable
-  piece.p = list(c(36, 37), c(35, 36), c(35, 36), 
-                 c(33, 34), c(33, 34), c(33, 34)), 
+  piece.p = list(
+    c(36, 37), c(35, 36), c(35, 36),
+    c(33, 34), c(33, 34), c(33, 34)
+  ),
   # position of the linear coded variable
-  lin.p = 9, 
+  lin.p = 9,
   # method
-  method = "ACBC", 
+  method = "ACBC",
   # column index of choice
-  choice = 40 
+  choice = 40
 )
 ```
 
@@ -664,11 +672,11 @@ at least one alternative exceeds this threshold.
 ```{r}
 reach(
   # data frame
-  data = HOT, 
+  data = HOT,
   # alternatives considered in the assortment
-  opts = c(Option_1, Option_4, Option_6), 
+  opts = c(Option_1, Option_4, Option_6),
   # threshold that has to be exceeded
-  none = None 
+  none = None
 )
 ```
 
@@ -681,11 +689,11 @@ We will use the same example as we did when introducing the `reach()` function.
 ```{r}
 freqassort(
   # data frame
-  data = HOT, 
+  data = HOT,
   # alternatives considered in the assortment
-  opts = c(Option_1, Option_4, Option_6), 
+  opts = c(Option_1, Option_4, Option_6),
   # threshold that has to be exceeded
-  none = None 
+  none = None
 )
 ```
 
@@ -912,8 +920,10 @@ att_imp(
   attrib = list(
     c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
     c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-    c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", 
-      "Att3_Lev5", "Att3_Lev6", "Att3_Lev7")
+    c(
+      "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4",
+      "Att3_Lev5", "Att3_Lev6", "Att3_Lev7"
+    )
   ),
   coding = c(0, 0, 0),
   res = "agg"
@@ -1040,8 +1050,10 @@ zc_diffs(
   attrib = list(
     c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
     c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-    c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", 
-      "Att3_Lev5", "Att3_Lev6", "Att3_Lev7")
+    c(
+      "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4",
+      "Att3_Lev5", "Att3_Lev6", "Att3_Lev7"
+    )
   ),
   coding = c(0, 0, 0),
   res = "agg",

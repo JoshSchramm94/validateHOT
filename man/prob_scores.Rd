@@ -22,8 +22,8 @@ prob_scores(
 
 \item{set.size}{A vector that specifies size of the choice set.}
 
-\item{res}{A vector indicating whether individual shares (\code{ind}) or
-aggregated (\code{agg}) shares should be returned.}
+\item{res}{A vector indicating whether individual shares (`ind`) or
+aggregated (`agg`) shares should be returned.}
 
 \item{anchor}{An optional variable to specify anchor variable.}
 }
@@ -34,7 +34,7 @@ a tibble
 Function to calculate probability scores for (anchored) MaxDiff
 }
 \details{
-\code{prob_scores} converts raw utilities of a MaxDiff to probability scores.
+`prob_scores()` converts raw utilities of a MaxDiff to probability scores.
 Probability scores for the unanchored MaxDiff are calculated according to the
 formula provided by Chrzan & Orme (2019, p. 56):
 \eqn{\frac{e^U}{(e^U + (a - 1)}}, where \emph{U} is the raw utility of the
@@ -44,24 +44,24 @@ For anchored MaxDiff the following formula is applied
 \eqn{\frac{e^U}{(e^U + (a - 1)} * 100 / (1 / a)} (Chrzan & Orme, 2019,
 pp. 59-60).
 
-\code{data} has to be a data frame with the attributes. Items have
+`data` has to be a data frame with the attributes. Items have
 to be the raw utilities.
 
-\code{group} optional grouping variable, if results should be displayed by
-different groups. Has to be column name of variables in \code{data}.
+`group` optional grouping variable, if results should be displayed by
+different groups. Has to be column name of variables in `data`.
 
-\code{items} specifies the items of the MaxDiff.
-Input for \code{items} has to be variable names.
+`items` specifies the items of the MaxDiff.
+Input for `items` has to be variable names.
 
-\code{set.size} specifies the size of the choice sets (how many items were
+`set.size` specifies the size of the choice sets (how many items were
 shown in one task). Input needs to be a whole number.
 
-\code{res} specifies whether results should be aggregated across all
-participants or across \code{group} (\code{res} needs to be set to
-\code{agg}) or if scores should be converted for individuals only.
+`res` specifies whether results should be aggregated across all
+participants or across `group` (`res` needs to be set to
+`agg`) or if scores should be converted for individuals only.
 
-\code{anchor} only needs to be specified if anchored MaxDiff is applied.
-Input for \code{anchor} has to be variable names.
+`anchor` only needs to be specified if anchored MaxDiff is applied.
+Input for `anchor` has to be variable names.
 }
 \examples{
 

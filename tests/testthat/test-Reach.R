@@ -36,7 +36,7 @@ test_that("Error if alternatives contains NA ", {
 test_that("Error if alternatives is not numeric ", {
   HOT2 <- HOT
 
-  HOT2$Option_2 <- base::as.character(HOT2$Option_2)
+  HOT2$Option_2 <- as.character(HOT2$Option_2)
 
   expect_error(reach(data = HOT2, opts = c(Option_1, Option_2, Option_6), none = None, group = Group))
 })
@@ -53,14 +53,14 @@ test_that("Error if none contains NA ", {
 test_that("Error if none is not numeric ", {
   HOT2 <- HOT
 
-  HOT2$None <- base::as.character(HOT2$None)
+  HOT2$None <- as.character(HOT2$None)
 
   expect_error(reach(data = HOT2, opts = c(Option_1, Option_2, Option_6), none = None, group = Group))
 })
 
 
 test_that("Structure of Output data.frame ", {
-  expect_true(base::is.data.frame(reach(data = HOT, opts = c(Option_1, Option_2, Option_6), none = None)))
+  expect_true(is.data.frame(reach(data = HOT, opts = c(Option_1, Option_2, Option_6), none = None)))
 })
 
 test_that("Structure of Output tibble ", {
@@ -68,24 +68,24 @@ test_that("Structure of Output tibble ", {
 })
 
 test_that("Length of output equals number of groups - no group ", {
-  expect_equal(base::nrow(reach(data = HOT, opts = c(Option_1, Option_2, Option_6), none = None)), 1)
+  expect_equal(nrow(reach(data = HOT, opts = c(Option_1, Option_2, Option_6), none = None)), 1)
 })
 
 test_that("Length of output equals number of groups - 1 group ", {
-  expect_equal(base::nrow(reach(data = HOT, opts = c(Option_1, Option_2, Option_6), none = None, group = Group)), base::length(base::unique(HOT$Group)))
+  expect_equal(nrow(reach(data = HOT, opts = c(Option_1, Option_2, Option_6), none = None, group = Group)), length(unique(HOT$Group)))
 })
 
 test_that("Length of output equals number of groups - 2 group ", {
   HOT$Group2 <- c("Group 1", "Group 2")
-  expect_equal(base::nrow(reach(data = HOT, opts = c(Option_1, Option_2, Option_6), none = None, group = c(Group, Group2))), (base::length(base::unique(HOT$Group)) * base::length(base::unique(HOT$Group2))))
+  expect_equal(nrow(reach(data = HOT, opts = c(Option_1, Option_2, Option_6), none = None, group = c(Group, Group2))), (length(unique(HOT$Group)) * length(unique(HOT$Group2))))
 })
 
 test_that("Numeric output - no group ", {
-  expect_true(base::is.numeric(reach(data = HOT, opts = c(Option_1, Option_2, Option_6), none = None)[[1]]))
+  expect_true(is.numeric(reach(data = HOT, opts = c(Option_1, Option_2, Option_6), none = None)[[1]]))
 })
 
 test_that("Numeric output - 1 group ", {
-  expect_true(base::is.numeric(reach(data = HOT, opts = c(Option_1, Option_2, Option_6), none = None, group = Group)[[2]]))
+  expect_true(is.numeric(reach(data = HOT, opts = c(Option_1, Option_2, Option_6), none = None, group = Group)[[2]]))
 })
 
 test_that("group output equals group input ", {
@@ -112,26 +112,26 @@ test_that("group output equals group input - multiple grouping variables ", {
   )
   expect_equal(utils::str(reach(data = HOT, opts = c(Option_1, Option_2, Option_6), none = None, group = c(Group, Group2))[[1]]), utils::str(HOT$Group))
   expect_true(labelled::is.labelled(reach(data = HOT, opts = c(Option_1, Option_2, Option_6), none = None, group = c(Group, Group2))[[2]]))
-  expect_true(base::is.numeric(reach(data = HOT, opts = c(Option_1, Option_2, Option_6), none = None, group = c(Group, Group2))[[3]]))
+  expect_true(is.numeric(reach(data = HOT, opts = c(Option_1, Option_2, Option_6), none = None, group = c(Group, Group2))[[3]]))
 })
 
 test_that("reach() also working with data.frame not created with createHOT()", {
-  base::set.seed(2023)
+  set.seed(2023)
 
-  newHOT <- base::data.frame(
+  newHOT <- data.frame(
     Option_1 = stats::runif(10, min = -5, max = 5),
     Option_2 = stats::runif(10, min = -5, max = 5),
     Option_3 = stats::runif(10, min = -5, max = 5),
     Option_4 = stats::runif(10, min = -5, max = 5),
     Option_5 = stats::runif(10, min = -5, max = 5),
-    Choice = base::sample(c(1:5), 10, replace = T)
+    Choice = sample(c(1:5), 10, replace = T)
   )
-  expect_true(base::is.numeric(reach(data = newHOT, opts = c(Option_1:Option_4), none = Option_5)[[1]]))
+  expect_true(is.numeric(reach(data = newHOT, opts = c(Option_1:Option_4), none = Option_5)[[1]]))
   expect_true(tibble::is_tibble(reach(data = newHOT, opts = c(Option_1:Option_4), none = Option_5)))
-  expect_false(base::anyNA(reach(data = newHOT, opts = c(Option_1:Option_4), none = Option_5)))
+  expect_false(anyNA(reach(data = newHOT, opts = c(Option_1:Option_4), none = Option_5)))
 })
 
 test_that("check whether examples are correct ", {
-  expect_equal(base::round(base::as.numeric(reach(data = HOT, opts = c(Option_1, Option_2, Option_6), none = None)), 2), 70)
-  expect_equal(base::round(base::as.numeric(reach(data = HOT, opts = c(Option_1, Option_2, Option_6), none = None, group = Group)[[2]]), 2), c(78.26, 64.00, 68.18))
+  expect_equal(round(as.numeric(reach(data = HOT, opts = c(Option_1, Option_2, Option_6), none = None)), 2), 70)
+  expect_equal(round(as.numeric(reach(data = HOT, opts = c(Option_1, Option_2, Option_6), none = None, group = Group)[[2]]), 2), c(78.26, 64.00, 68.18))
 })

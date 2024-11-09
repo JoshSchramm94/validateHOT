@@ -4,15 +4,15 @@
 #' @param group Optional column name(s) to specify grouping variable(s).
 #' @param items Vector that specifies the items.
 #' @param set.size A vector that specifies size of the choice set.
-#' @param res A vector indicating whether individual shares (\code{ind}) or
-#' aggregated (\code{agg}) shares should be returned.
+#' @param res A vector indicating whether individual shares (`ind`) or
+#' aggregated (`agg`) shares should be returned.
 #' @param anchor An optional variable to specify anchor variable.
 #'
 #'
 #' @return a tibble
 #'
 #' @details
-#' \code{prob_scores} converts raw utilities of a MaxDiff to probability scores.
+#' `prob_scores()` converts raw utilities of a MaxDiff to probability scores.
 #' Probability scores for the unanchored MaxDiff are calculated according to the
 #' formula provided by Chrzan & Orme (2019, p. 56):
 #' \eqn{\frac{e^U}{(e^U + (a - 1)}}, where \emph{U} is the raw utility of the
@@ -22,24 +22,24 @@
 #' \eqn{\frac{e^U}{(e^U + (a - 1)} * 100 / (1 / a)} (Chrzan & Orme, 2019,
 #' pp. 59-60).
 #'
-#' \code{data} has to be a data frame with the attributes. Items have
+#' `data` has to be a data frame with the attributes. Items have
 #' to be the raw utilities.
 #'
-#' \code{group} optional grouping variable, if results should be displayed by
-#' different groups. Has to be column name of variables in \code{data}.
+#' `group` optional grouping variable, if results should be displayed by
+#' different groups. Has to be column name of variables in `data`.
 #'
-#' \code{items} specifies the items of the MaxDiff.
-#' Input for \code{items} has to be variable names.
+#' `items` specifies the items of the MaxDiff.
+#' Input for `items` has to be variable names.
 #'
-#' \code{set.size} specifies the size of the choice sets (how many items were
+#' `set.size` specifies the size of the choice sets (how many items were
 #' shown in one task). Input needs to be a whole number.
 #'
-#' \code{res} specifies whether results should be aggregated across all
-#' participants or across \code{group} (\code{res} needs to be set to
-#' \code{agg}) or if scores should be converted for individuals only.
+#' `res` specifies whether results should be aggregated across all
+#' participants or across `group` (`res` needs to be set to
+#' `agg`) or if scores should be converted for individuals only.
 #'
-#' \code{anchor} only needs to be specified if anchored MaxDiff is applied.
-#' Input for \code{anchor} has to be variable names.
+#' `anchor` only needs to be specified if anchored MaxDiff is applied.
+#' Input for `anchor` has to be variable names.
 #'
 #' @importFrom dplyr select across pick group_by ungroup rowwise reframe
 #' @importFrom magrittr "%>%"
@@ -106,143 +106,150 @@
 #' @export
 prob_scores <- function(data, group = NULL, items, set.size,
                         res = c("agg", "ind"), anchor = NULL) {
-  if (base::length(data %>% dplyr::select(., {{ items }})) < 2) {
-    base::stop("Error: specify at least 2 items in 'items'!")
+  if (length(data %>% dplyr::select({{ items }})) < 2) {
+    stop("Error: specify at least 2 items in 'items'!")
   }
 
-  if (base::anyNA(data %>% dplyr::select(., {{ group }}))) {
-    base::warning("Warning: 'group' contains NAs!")
+  if (anyNA(data %>% dplyr::select({{ group }}))) {
+    warning("Warning: 'group' contains NAs!")
   }
 
   # alternatives
   ## store names of alternatives
   alternatives <- data %>%
-    dplyr::select(., {{ items }}) %>%
-    base::colnames()
+    dplyr::select({{ items }}) %>%
+    colnames()
 
   ## check whether variable is numeric
-  for (i in base::seq_along(alternatives)) {
-    if (!base::is.numeric(data[[alternatives[i]]])) {
-      base::stop("Error: 'items' has to be numeric!")
+  for (i in seq_along(alternatives)) {
+    if (!is.numeric(data[[alternatives[i]]])) {
+      stop("Error: 'items' has to be numeric!")
     }
   }
 
   ## check for missings
-  if (base::anyNA(data %>% dplyr::select(., {{ items }}))) {
-    base::stop("Error: 'items' contains NAs!")
+  if (anyNA(data %>% dplyr::select({{ items }}))) {
+    stop("Error: 'items' contains NAs!")
   }
 
-  if (!base::is.numeric(set.size)) {
-    base::stop("Error: 'set.size' has to be numeric!")
+  if (!is.numeric(set.size)) {
+    stop("Error: 'set.size' has to be numeric!")
   }
 
-  if (set.size > length(data %>% dplyr::select(., {{ items }}))) {
-    base::stop("Error: 'set.size' cannot be larger than number of items!")
+  if (set.size > length(data %>% dplyr::select({{ items }}))) {
+    stop("Error: 'set.size' cannot be larger than number of items!")
   }
 
 
   # test whether res is specified
-  if (base::missing(res)) {
-    base::stop("Error: 'res' is not defined!")
+  if (missing(res)) {
+    stop("Error: 'res' is not defined!")
   }
 
   # test whether res is correctly specified
   if ((res != "agg") && (res != "ind")) {
-    base::stop(
+    stop(
       "Error: 'res' can only be set to 'agg' or 'ind'!"
     )
   }
 
   # can not specify res to 'ind' and specify group
-  if ((res == "ind") && !base::missing(group)) {
+  if ((res == "ind") && !missing(group)) {
     stop("Error: Can not speficy 'group' if 'res' is set to 'ind'!")
   }
 
   # test length of anchor
-  if (!base::missing(anchor)) {
+  if (!missing(anchor)) {
     anc <- data %>%
-      dplyr::select(., {{ anchor }}) %>%
-      base::colnames(.)
+      dplyr::select({{ anchor }}) %>%
+      colnames(.)
 
     if (length(anc) > 1) {
-      base::stop("Error: 'anchor' can only be one variable!")
+      stop("Error: 'anchor' can only be one variable!")
     }
   }
 
-  if (!base::missing(anchor)) {
-    if (!(data %>% dplyr::select(., {{ anchor }}) %>% base::colnames()) %in%
-      (data %>% dplyr::select(., {{ items }}) %>% base::colnames())) {
+  if (!missing(anchor)) {
+    if (!(data %>% dplyr::select({{ anchor }}) %>% colnames()) %in%
+      (data %>% dplyr::select({{ items }}) %>% colnames())) {
       stop("Error: 'anchor' has to be part of 'items'!")
     }
   }
 
   #######################################################
-  if (base::missing(anchor)) {
+  if (missing(anchor)) {
     if (res == "agg") {
-      return(data %>%
-        dplyr::mutate(dplyr::across({{ items }},
-                                    ~ (base::exp(.x) /
-                                         (base::exp(.x) + (set.size - 1))))) %>%
+      prob_scores_data <- data %>%
+        dplyr::mutate(dplyr::across(
+          {{ items }},
+          ~ (exp(.x) /
+            (exp(.x) + (set.size - 1)))
+        )) %>%
         dplyr::rowwise() %>%
-        dplyr::mutate(Summe = base::sum(dplyr::pick({{ items }}))) %>% # sum up
+        dplyr::mutate(Summe = sum(dplyr::pick({{ items }}))) %>% # sum up
         dplyr::ungroup() %>%
         dplyr::mutate(dplyr::across({{ items }}, ~ .x / Summe * 100)) %>%
         dplyr::select(-Summe) %>%
         dplyr::group_by(dplyr::pick({{ group }})) %>%
         dplyr::reframe(dplyr::across({{ items }},
-          c(mw = base::mean, std = stats::sd),
+          c(mw = mean, std = stats::sd),
           .names = "{.col}....{.fn}"
         )) %>%
         tidyr::pivot_longer(.,
           cols = tidyselect::ends_with(c("....mw", "....std")),
           names_to = c("Option", ".value"), names_sep = "\\.\\.\\.\\."
-        ))
+        )
+
+      return(prob_scores_data)
     }
 
 
     if (res == "ind") {
-      return(data %>%
+      prob_scores_data <- data %>%
         dplyr::mutate(dplyr::across({{ items }}, ~
-                                      (base::exp(.x) /
-                                         (base::exp(.x) + (set.size - 1))))) %>%
+          (exp(.x) /
+            (exp(.x) + (set.size - 1))))) %>%
         dplyr::rowwise() %>%
-        dplyr::mutate(Summe = base::sum(dplyr::pick({{ items }}))) %>% # sum up
+        dplyr::mutate(Summe = sum(dplyr::pick({{ items }}))) %>% # sum up
         dplyr::ungroup() %>%
         dplyr::mutate(dplyr::across({{ items }}, ~ .x / Summe * 100)) %>%
-        dplyr::select(-Summe))
+        dplyr::select(-Summe)
+
+        return(prob_scores_data)
     }
   }
 
-  if (!base::missing(anchor)) {
+  if (!missing(anchor)) {
     if (res == "agg") {
-      return(
-        data %>%
+      prob_scores_data <- data %>%
           dplyr::mutate(dplyr::across({{ items }}, ~
-                                        (base::exp(.x) /
-                                           (base::exp(.x) +
-                                              (set.size - 1))) * 100 /
-                                        (1 / set.size))) %>%
+            (exp(.x) /
+              (exp(.x) +
+                (set.size - 1))) * 100 /
+              (1 / set.size))) %>%
           dplyr::group_by(dplyr::pick({{ group }})) %>%
           dplyr::reframe(dplyr::across({{ items }},
-            c(mw = base::mean, std = stats::sd),
+            c(mw = mean, std = stats::sd),
             .names = "{.col}....{.fn}"
           )) %>%
           tidyr::pivot_longer(.,
             cols = tidyselect::ends_with(c("....mw", "....std")),
             names_to = c("Option", ".value"), names_sep = "\\.\\.\\.\\."
           )
-      )
+
+        return(prob_scores_data)
     }
 
     if (res == "ind") {
-      return(
-        data %>%
-          dplyr::mutate(dplyr::across({{ items }},
-                                      ~ (base::exp(.x) /
-                                           (base::exp(.x) +
-                                              (set.size - 1))) * 100 /
-                                        (1 / set.size)))
-      )
+      prob_scores_data <- data %>%
+          dplyr::mutate(dplyr::across(
+            {{ items }},
+            ~ (exp(.x) /
+              (exp(.x) +
+                (set.size - 1))) * 100 /
+              (1 / set.size)
+          ))
+      return(prob_scores_data)
     }
   }
 }

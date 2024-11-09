@@ -10,7 +10,7 @@ medae(data, group, opts, choice)
 \item{data}{A data frame with all relevant variables.}
 
 \item{group}{Optional column name(s) to specify grouping variable(s)
-to get \code{medae} by group(s).}
+to get `medae()` by group(s).}
 
 \item{opts}{Column names of the alternatives included in the
 validation/holdout task.}
@@ -22,27 +22,27 @@ task.}
 a tibble
 }
 \description{
-\code{medae} measures the median absolute error (MedAE) of a
+`medae` measures the median absolute error (MedAE) of a
 validation/holdout task.
 }
 \details{
-\code{medae} calculates the deviation between predicted and
+`medae` calculates the deviation between predicted and
 stated (actual) choice share and returns the median error in the
 validation/holdout task, which is less likely to be influenced by outliers.
 
-\code{data} has to be a data frame including the alternatives shown in
-the validation/holdout task. Can be created using the \code{createHOT()}
+`data` has to be a data frame including the alternatives shown in
+the validation/holdout task. Can be created using the `createHOT()`
 function.
 
-\code{group} optional grouping variable, if results should be displayed by
-different groups. Has to be column name of variables in \code{data}.
+`group` optional grouping variable, if results should be displayed by
+different groups. Has to be column name of variables in `data`.
 
-\code{opts} is required to specify the different alternatives in the
-validation/holdout task. Input of \code{opts} has to be column names
-of variables in \code{data}.
+`opts` is required to specify the different alternatives in the
+validation/holdout task. Input of `opts` has to be column names
+of variables in `data`.
 
-\code{choice} to specify column of actual choice in the validation/holdout
-task. Input of opts \code{choice} has to be column name of actual choice.
+`choice` to specify column of actual choice in the validation/holdout
+task. Input of opts `choice` has to be column name of actual choice.
 }
 \examples{
 

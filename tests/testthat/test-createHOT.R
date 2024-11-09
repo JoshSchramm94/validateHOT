@@ -1,5 +1,5 @@
 test_that("With none one column more ", {
-  expect_equal((base::length(createHOT(
+  expect_equal((length(createHOT(
     data = MaxDiff,
     id = 1,
     none = 19,
@@ -7,7 +7,7 @@ test_that("With none one column more ", {
     choice = 20,
     method = "MaxDiff"
   )) -
-    base::length(createHOT(
+    length(createHOT(
       data = MaxDiff,
       id = 1,
       prod.levels = list(3, 10, 11, 15, 16, 17, 18),
@@ -139,8 +139,10 @@ test_that("coding missed ACBC ", {
       c(5, 9, 14, 17, 23, 27, 29, 33, 9.99)
     ),
     interpolate.levels = list(c(2.093, 27.287)),
-    piece.p = list(c(35, 36), c(35, 36), c(35, 36), c(35, 36),
-                   c(35, 36), c(35, 36)),
+    piece.p = list(
+      c(35, 36), c(35, 36), c(35, 36), c(35, 36),
+      c(35, 36), c(35, 36)
+    ),
     method = "ACBC",
     choice = 38
   ))
@@ -179,10 +181,14 @@ test_that("lin.p missed ACBC ", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37),
-                   c(35, 36), c(35, 36), c(33, 34), c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37),
+      c(35, 36), c(35, 36), c(33, 34), c(33, 34), c(33, 34)
+    ),
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
     choice = 40
@@ -203,10 +209,14 @@ test_that("lin.p specfied but no 1 in coding ", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36),
-                   c(33, 34), c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36),
+      c(33, 34), c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 0, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
@@ -227,10 +237,14 @@ test_that("piece.p specfied but no 2 in coding ", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36),
-                   c(33, 34), c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36),
+      c(33, 34), c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 0),
     method = "ACBC",
@@ -279,10 +293,14 @@ test_that("Different numbers for coding not working ", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36),
-                   c(35, 36), c(33, 34), c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36),
+      c(35, 36), c(33, 34), c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 3),
     method = "ACBC",
@@ -359,10 +377,14 @@ test_that("Interpolate levels needs to be a list ", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = c(c(3, 5, 8, 10),
-                           c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36), c(33, 34),
-                   c(33, 34), c(33, 34)),
+    interpolate.levels = c(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36), c(33, 34),
+      c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
@@ -384,11 +406,17 @@ test_that("Interpolate levels needs to be a list with numeric input ", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, "10.99",
-                                12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36),
-                   c(33, 34), c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(
+        1.99, 6.99, 9.99, "10.99",
+        12.99, 17.99, 25.99
+      )
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36),
+      c(33, 34), c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
@@ -409,10 +437,14 @@ test_that("Needs to specify correct method ", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36), c(33, 34),
-                   c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36), c(33, 34),
+      c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "abcd",
@@ -433,10 +465,14 @@ test_that("Method needs to be specified ", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36),
-                   c(33, 34), c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36),
+      c(33, 34), c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     choice = 40
@@ -456,10 +492,14 @@ test_that("Coding only can have numeric input ", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36),
-                   c(33, 34), c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36),
+      c(33, 34), c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, "0", 0, 0, 2),
     method = "ACBC",
@@ -484,10 +524,14 @@ test_that("lin. p needs to be a vector with numeric variables ", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36),
-                   c(33, 34), c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36),
+      c(33, 34), c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
@@ -509,10 +553,14 @@ test_that("lin. p needs to be specified ", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36),
-                   c(33, 34), c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36),
+      c(33, 34), c(33, 34), c(33, 34)
+    ),
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
     choice = 40
@@ -534,10 +582,14 @@ test_that("piece.p needs to be a list ", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = c(c(36, 37), c(35, 36), c(35, 36),
-                c(33, 34), c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = c(
+      c(36, 37), c(35, 36), c(35, 36),
+      c(33, 34), c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
@@ -559,10 +611,14 @@ test_that("piece.p needs to be a list with numeric input ", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, "36"), c(35, 36),
-                   c(33, 34), c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, "36"), c(35, 36),
+      c(33, 34), c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
@@ -586,10 +642,14 @@ test_that("piece.p needs to be a list with numeric input ", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36),
-                   c(33, 34), c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36),
+      c(33, 34), c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
@@ -609,9 +669,10 @@ test_that("Number of products equals number of output starting with Option_", {
     method = "MaxDiff"
   )
 
-  expect_true(base::length(
-    base::colnames(HOT %>%
-                     dplyr::select(dplyr::starts_with("Option_")))) == 7)
+  expect_true(length(
+    colnames(HOT %>%
+      dplyr::select(dplyr::starts_with("Option_")))
+  ) == 7)
 })
 
 test_that("ACBC - Number of products equals number of output starting with Option_", {
@@ -627,19 +688,24 @@ test_that("ACBC - Number of products equals number of output starting with Optio
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36),
-                   c(33, 34), c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36),
+      c(33, 34), c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
     choice = 40
   )
 
-  expect_true(base::length(
-    base::colnames(HOT %>%
-                     dplyr::select(dplyr::starts_with("Option_")))) == 6)
+  expect_true(length(
+    colnames(HOT %>%
+      dplyr::select(dplyr::starts_with("Option_")))
+  ) == 6)
 })
 
 test_that("First column id", {
@@ -655,10 +721,14 @@ test_that("First column id", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36), c(33, 34),
-                   c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36), c(33, 34),
+      c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
@@ -682,10 +752,14 @@ test_that("Extrapolation not possible for piecewise ", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 26.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36), c(33, 34),
-                   c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36), c(33, 34),
+      c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
@@ -706,10 +780,14 @@ test_that("Extrapolation not possible for linear ", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36), c(33, 34),
-                   c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36), c(33, 34),
+      c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
@@ -730,17 +808,21 @@ test_that("if none specified also named in the output ", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36),
-                   c(33, 34), c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36),
+      c(33, 34), c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
     choice = 40
   )
 
-  expect_true(base::any(base::colnames(HOT) == "None"))
+  expect_true(any(colnames(HOT) == "None"))
 })
 
 test_that("if none not specified also not named in the output ", {
@@ -755,23 +837,27 @@ test_that("if none not specified also not named in the output ", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36),
-                   c(33, 34), c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36),
+      c(33, 34), c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
     choice = 40
   )
 
-  expect_false(base::any(base::colnames(HOT) == "none"))
+  expect_false(any(colnames(HOT) == "none"))
 })
 
 test_that("varskeep counted corectly ", {
   varskeep <- 41
 
-  expect_true(base::abs(ncol(createHOT(
+  expect_true(abs(ncol(createHOT(
     data = ACBC_interpolate,
     id = 1,
     prod.levels = list(
@@ -782,10 +868,14 @@ test_that("varskeep counted corectly ", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36),
-                   c(33, 34), c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36),
+      c(33, 34), c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
@@ -801,16 +891,20 @@ test_that("varskeep counted corectly ", {
       c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
       c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
     ),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36),
-                   c(33, 34), c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36),
+      c(33, 34), c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
     varskeep = varskeep,
     choice = 40
-  ))) == base::length(varskeep))
+  ))) == length(varskeep))
 })
 
 
@@ -871,8 +965,10 @@ test_that("Make sure varskeep is working ", {
     none = 37,
     prod.levels = list(prod1, prod2, prod3, prod4, prod5, prod6),
     interpolate.levels = list(c(2.093, 27.287)),
-    piece.p = list(c(35, 36), c(35, 36), c(35, 36), c(35, 36),
-                   c(35, 36), c(35, 36)),
+    piece.p = list(
+      c(35, 36), c(35, 36), c(35, 36), c(35, 36),
+      c(35, 36), c(35, 36)
+    ),
     coding = c(0, 0, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
     choice = 38,
@@ -895,10 +991,14 @@ test_that("Make sure varskeep is working ", {
     id = 1,
     none = 39,
     prod.levels = list(prod1, prod2, prod3, prod4, prod5, prod6),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36), c(33, 34),
-                   c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36), c(33, 34),
+      c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
@@ -922,10 +1022,14 @@ test_that("piece.p only takes numeric values ", {
     id = 1,
     none = 39,
     prod.levels = list(prod1, prod2, prod3, prod4, prod5, prod6),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c("36", 37), c(35, 36), c(35, 36), c(33, 34),
-                   c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c("36", 37), c(35, 36), c(35, 36), c(33, 34),
+      c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
@@ -950,10 +1054,14 @@ test_that("Variables in piece.p only have to be numeric ", {
     id = 1,
     none = 39,
     prod.levels = list(prod1, prod2, prod3, prod4, prod5, prod6),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36), c(33, 34),
-                   c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36), c(33, 34),
+      c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
@@ -977,10 +1085,14 @@ test_that("Variables in piece.p only have to be numeric ", {
     id = 1,
     none = 39,
     prod.levels = list(prod1, prod2, prod3, prod4, prod5, prod6),
-    interpolate.levels = list(c(3, 5, 8, 10),
-                              c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)),
-    piece.p = list(c(36, 37), c(35, 36), c(35, 36), c(33, 34),
-                   c(33, 34), c(33, 34)),
+    interpolate.levels = list(
+      c(3, 5, 8, 10),
+      c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    ),
+    piece.p = list(
+      c(36, 37), c(35, 36), c(35, 36), c(33, 34),
+      c(33, 34), c(33, 34)
+    ),
     lin.p = 9,
     coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
@@ -1017,8 +1129,10 @@ test_that("no characters if coding equals 2 ", {
     none = 37,
     prod.levels = list(prod1, prod2, prod3, prod4, prod5, prod6),
     interpolate.levels = list(c(2.093, 27.287)),
-    piece.p = list(c(35, 36), c(35, 36), c(35, 36), c(35, 36),
-                   c(35, 36), c(35, 36)),
+    piece.p = list(
+      c(35, 36), c(35, 36), c(35, 36), c(35, 36),
+      c(35, 36), c(35, 36)
+    ),
     coding = c(0, 0, 0, 0, 0, 0, 0, 0, 2),
     method = "ACBC",
     choice = 38

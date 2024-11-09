@@ -11,7 +11,7 @@ kl(data, group, opts, choice, epsilon = NULL, base = NULL)
 \item{data}{A data frame with all relevant variables.}
 
 \item{group}{Optional column name(s) to specify grouping variable(s)
-to get \code{kl} by group(s).}
+to get `kl()` by group(s).}
 
 \item{opts}{Column names of the alternatives included in the
 validation/holdout task.}
@@ -23,7 +23,7 @@ task.}
 default set to 1e-05 (see Drost, 2018).}
 
 \item{base}{A character string to define the logarithm base, currently two
-are provided, namely \code{log} (default) and \code{log2}.}
+are provided, namely `log` (default) and `log2`.}
 }
 \value{
 a tibble
@@ -39,28 +39,28 @@ Drost, 2018). Currently only provides the deviation measured based on
 \eqn{log} and \eqn{log{_2}} algorithm. \eqn{log} set as default.
 
 Due to Kullback-Leibler divergence's asymmetry, the output provides both
-\code{"KL_O_P"} which is equivalent to (Observed || Predicted) and
-\code{"KL_P_O"} which is equivalent to (Predicted || Observed).
+`KL_O_P` which is equivalent to (Observed || Predicted) and
+`KL_P_O` which is equivalent to (Predicted || Observed).
 
-\code{data} has to be a data frame including the alternatives shown in
-the validation/holdout task. Can be created using the \code{createHOT()}
+`data` has to be a data frame including the alternatives shown in
+the validation/holdout task. Can be created using the `createHOT()`
 function.
 
-\code{group} optional grouping variable, if results should be displayed
-by different groups. Has to be column name of variables in \code{data}.
+`group` optional grouping variable, if results should be displayed
+by different groups. Has to be column name of variables in `data`.
 
-\code{opts} is required to specify the different alternatives in the
-validation/holdout task (also includes the \code{none} alternative).
-Input of \code{opts} has to be column names of variables in \code{data}.
+`opts` is required to specify the different alternatives in the
+validation/holdout task (also includes the `none` alternative).
+Input of `opts` has to be column names of variables in `data`.
 
-\code{choice} to specify column of actual choice in the validation/holdout
-task. Input of opts \code{choice} has to be column name of actual choice.
+`choice` to specify column of actual choice in the validation/holdout
+task. Input of opts `choice` has to be column name of actual choice.
 
-\code{epsilon} has to be a numeric input in case of 0 in the numerator or
-denominator. 0 then will be replaced by \code{epsilon}. Default value
-is \code{epsilon = 1e-5}, however, can be adopted (see also Drost, 2018).
+`epsilon` has to be a numeric input in case of 0 in the numerator or
+denominator. 0 then will be replaced by `epsilon`. Default value
+is `epsilon = 1e-5`, however, can be adopted (see also Drost, 2018).
 
-\code{base} has to be a character string, deciding which logarithm base
+`base` has to be a character string, deciding which logarithm base
 you want to apply to calculate Kullback-Leibler. You can choose
 between \eqn{log} and \eqn{log{_2}}. Default is set to \eqn{log}.
 }

@@ -11,7 +11,7 @@ reach(data, group, none, opts)
 \item{data}{A data frame with all relevant variables.}
 
 \item{group}{Optional column name(s) to specify grouping variable(s)
-to get \code{reach} by group(s).}
+to get `reach()` by group(s).}
 
 \item{none}{Column name of none / threshold alternative.}
 
@@ -21,31 +21,31 @@ to get \code{reach} by group(s).}
 a tibble
 }
 \description{
-Reach function of T(otal) U(nduplicated) R(each) and F(requency)
+`reach()` of T(otal) U(nduplicated) R(each) and F(requency)
 analysis to measure the number of  the averaged percentage of how
 many participants you can reach (at least one of the products resemble
 a purchase option) is reached with a specific product bundle assortment.
 }
 \details{
-\code{reach} calculates the the percentage of consumers that are
+`reach()` calculates the the percentage of consumers that are
 reached with a particular product assortment. The current
-logic of \code{reach} is that the utility of an alternative has to
-exceed a threshold. In the case of \code{reach} this threshold is referred
-to the \code{none} argument in \code{data}, however, could also be, e.g., a
+logic of `reach()` is that the utility of an alternative has to
+exceed a threshold. In the case of `reach()` this threshold is referred
+to the `none` argument in `data`, however, could also be, e.g., a
 current product.
 
 
-\code{data} has to be a data frame including the alternatives that
+`data` has to be a data frame including the alternatives that
 should be tested.
 
-\code{group} optional grouping variable, if results should be displayed
-by different groups. Has to be column name of variables in \code{data}.
+`group` optional grouping variable, if results should be displayed
+by different groups. Has to be column name of variables in `data`.
 
-\code{opts} specifies the different alternatives in the
+`opts` specifies the different alternatives in the
 product assortment that should be considered.
-Input of \code{opts} has to be column names of variables in \code{data}.
+Input of `opts` has to be column names of variables in `data`.
 
-\code{none} to specify column name of the \code{none} alternative (i.e.,
+`none` to specify column name of the `none` alternative (i.e.,
 threshold variable).
 }
 \examples{

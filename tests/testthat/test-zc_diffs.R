@@ -186,7 +186,7 @@ test_that("Interpolate.levels only for linear coded variables ", {
 
 
 test_that("Structure of Output data.frame ", {
-  expect_true(base::is.data.frame(
+  expect_true(is.data.frame(
     zc_diffs(
       data = CBC,
       attrib = list(
@@ -265,7 +265,7 @@ test_that("group output equals group input - labelled input ", {
 })
 
 test_that("check whether examples are correct ", {
-  expect_equal(base::round(base::as.numeric(zc_diffs(
+  expect_equal(round(as.numeric(zc_diffs(
     data = CBC,
     attrib = list(
       c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),

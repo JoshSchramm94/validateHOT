@@ -30,10 +30,10 @@ be interpolated. These have to be the same as specified in model estimation
 Please make sure to provide the whole list. Only has to be specified for the
 variables that are coded as '1' (linear).}
 
-\item{res}{A vector indicating whether individual zero-centered diffs (\code{ind}) or
-aggregated (\code{agg}) zero-centered diffs should be returned.}
+\item{res}{A vector indicating whether individual zero-centered diffs (`ind`) or
+aggregated (`agg`) zero-centered diffs should be returned.}
 
-\item{none}{A vector whether \code{none} option was included.}
+\item{none}{A vector whether `none` option was included.}
 }
 \value{
 a tibble
@@ -42,37 +42,36 @@ a tibble
 Function to calculate zero-centered diffs for (A)CBCs
 }
 \details{
-\code{zc_diffs} converts raw utilities of a CBC or an ACBC to
+`zc_diffs()` converts raw utilities of a CBC or an ACBC to
 zero-centered diffs (Orme, 2020, p. 78). This allows for comparison between
 the attributes.
 
-\code{data} has to be a data frame with the attributes. Attribute levels have
+`data` has to be a data frame with the attributes. Attribute levels have
 to be the raw utilities.
 
-\code{group} optional grouping variable, if results should be displayed by
-different groups. Has to be column name of variables in \code{data}.
+`group` optional grouping variable, if results should be displayed by
+different groups. Has to be column name of variables in `data`.
 
-\code{attrib} specifies the attribute levels for each alternative.
-Input for \code{attrib} has to be a list. Needs to specify the column names or
+`attrib` specifies the attribute levels for each alternative.
+Input for `attrib` has to be a list. Needs to specify the column names or
 column indexes of the attribute levels.
 
-\code{coding} indicates the attribute coding. \code{0}
-to indicated part-worth coding, \code{1} for linear coding, or \code{2} for
-piecewise coding.
+`coding` indicates the attribute coding. `0`to indicated part-worth coding,
+`1` for linear coding, or `2` for piecewise coding.
 
-\code{interpolate.levels} is required for linear-coded variables.
+`interpolate.levels` is required for linear-coded variables.
 If scaled or centered values were used for Hierarchical Bayes
 estimation, these have to be specified in this case.
 All values have to be specified. For example, if one linear-coded attribute
 has 5 levels, all 5 levels have to be inserted.
 
-\code{res} specifies whether results should be aggregated across all participants
-or across \code{group} (\code{res} needs to be set to \code{agg}) or if scores
+`res` specifies whether results should be aggregated across all participants
+or across `group` (`res` needs to be set to `agg`) or if scores
 should be converted for individuals only.
 
-\code{none} specifies whether none option was included or not, if yes,
-column name or column index of \code{none} needs to be specified. If no
-\code{none} option was included, leave it empty.
+`none` specifies whether none option was included or not, if yes,
+column name or column index of `none` needs to be specified. If no
+`none` option was included, leave it empty.
 }
 \examples{
 

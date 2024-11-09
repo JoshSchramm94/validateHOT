@@ -8,30 +8,30 @@
 #'
 #' @param data A data frame with all relevant variables.
 #' @param group Optional column name(s) to specify grouping variable(s)
-#' to get \code{freqassort} by group(s).
+#' to get `freqassort()` by group(s).
 #' @param opts Column names of the alternatives included in the assortment.
 #' @param none Column name of none / threshold alternative.
 #'
 #' @details
 #' Frequency calculates the average times a consumer would be reached with the
-#' tested product assortment. The current logic of \code{freqassort}
+#' tested product assortment. The current logic of `freqassort()`
 #' is that the utility of an alternative has to exceed a threshold. In the case
-#' of \code{freqassort} this threshold is referred to the \code{none} argument
-#' in \code{data}.
+#' of `freqassort()` this threshold is referred to the `none` argument
+#' in `data`.
 #' The frequency is calculated based on the 'threshold' approach, i.e.,
-#' each alternative that exceeds utility of \code{none} alternative is
+#' each alternative that exceeds utility of `none` alternative is
 #' considered as, for example, purchase option.
 #'
-#' \code{data} has to be a data frame including the alternatives that should
+#' `data` has to be a data frame including the alternatives that should
 #' be tested.
 #'
-#' \code{group} optional grouping variable, if results should be displayed
-#' by different groups. Has to be column name of variables in \code{data}.
+#' `group` optional grouping variable, if results should be displayed
+#' by different groups. Has to be column name of variables in `data`.
 #'
-#' \code{opts} defines product assortment that should be considered.
-#' Input of \code{opts} has to be column names of variables in \code{data}.
+#' `opts` defines product assortment that should be considered.
+#' Input of `opts` has to be column names of variables in `data`.
 #'
-#' \code{none} to specify column name of the \code{none} alternative (i.e.,
+#' `none` to specify column name of the `none` alternative (i.e.,
 #' threshold variable).
 #'
 #'
@@ -73,76 +73,78 @@
 #' @export
 freqassort <- function(data, group, none, opts) {
   # check for wrong / missing input
-  if (base::length(data %>% dplyr::select(., {{ none }})) == 0) {
+  if (length(data %>% dplyr::select({{ none }})) == 0) {
     stop("Error: argument 'none' is missing!")
   }
 
-  if (base::length(data %>% dplyr::select(., {{ opts }})) == 0) {
+  if (length(data %>% dplyr::select({{ opts }})) == 0) {
     stop("Error: argument 'opts' is missing!")
   }
 
   # grouping variable
   ## store names of grouping variables
   groups <- data %>%
-    dplyr::select(., {{ group }}) %>%
-    base::colnames()
+    dplyr::select({{ group }}) %>%
+    colnames()
 
   ## check for missings
-  if (base::anyNA(data %>% dplyr::select(., {{ group }}))) {
+  if (anyNA(data %>% dplyr::select({{ group }}))) {
     warning("Warning: 'group' contains NAs!")
   }
 
   # alternatives
   ## store names of alternatives
   alternatives <- data %>%
-    dplyr::select(., {{ opts }}) %>%
-    base::colnames()
+    dplyr::select({{ opts }}) %>%
+    colnames()
 
   ## check whether variable is numeric
-  for (i in base::seq_along(alternatives)) {
-    if (!base::is.numeric(data[[alternatives[i]]])) {
+  for (i in seq_along(alternatives)) {
+    if (!is.numeric(data[[alternatives[i]]])) {
       stop("Error: 'opts' has to be numeric!")
     }
   }
 
   ## check for missings
-  if (anyNA(data %>% dplyr::select(., {{ opts }}))) {
+  if (anyNA(data %>% dplyr::select({{ opts }}))) {
     stop("Error: 'opts' contains NAs!")
   }
 
   # None
   ## check for missing
-  if (base::anyNA(data %>% dplyr::select(., {{ none }}))) {
+  if (anyNA(data %>% dplyr::select({{ none }}))) {
     stop("Error: 'none' contains NAs!")
   }
 
   ## check for str
   Noo <- data %>%
-    dplyr::select(., {{ none }}) %>%
-    base::colnames()
+    dplyr::select({{ none }}) %>%
+    colnames()
 
-  if (!base::is.numeric(data[[Noo]])) {
+  if (!is.numeric(data[[Noo]])) {
     stop("Error: 'none' has to be numeric!")
   }
 
   ## check none can not be part of opts
-  if ((data %>% dplyr::select(., {{ none }}) %>% base::colnames()) %in%
-    (data %>% dplyr::select(., {{ opts }}) %>% base::colnames())) {
+  if ((data %>% dplyr::select({{ none }}) %>% colnames()) %in%
+    (data %>% dplyr::select({{ opts }}) %>% colnames())) {
     stop("Error: 'none' can not be part of 'opts'!")
   }
 
-  return(data %>%
-    dplyr::select(., {{ opts }}, {{ none }}, {{ group }}) %>%
+  freqassort_data <- data %>%
+    dplyr::select({{ opts }}, {{ none }}, {{ group }}) %>%
     dplyr::mutate(
       thres = {{ none }}, # store threshold utility
       # recode opts depending whether it is higher (1) or lower (0)
       # than the threshold
-      dplyr::across({{ opts }}, ~ base::ifelse(.x > thres, 1, 0))
+      dplyr::across({{ opts }}, ~ ifelse(.x > thres, 1, 0))
     ) %>%
     dplyr::rowwise() %>%
     # # sum the number of options rowwise
-    dplyr::mutate(freq = base::sum(dplyr::c_across({{ opts }}))) %>%
+    dplyr::mutate(freq = sum(dplyr::c_across({{ opts }}))) %>%
     dplyr::ungroup() %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
-    dplyr::reframe(freq = base::mean(freq)))
+    dplyr::reframe(freq = mean(freq))
+
+  return(freqassort_data)
 }

@@ -10,46 +10,46 @@ marksim(data, group, opts, method = c("sop", "fc"))
 \item{data}{A data frame with all relevant variables.}
 
 \item{group}{Optional column name(s) to specify grouping variable(s)
-to get \code{marksim} by group(s).}
+to get `marksim()` by group(s).}
 
 \item{opts}{Column names of the alternatives included in the
 validation/holdout task or market scenario.}
 
 \item{method}{Name of the market simulation method that should be conducted.
-Set either to \code{method = "sop"} to run share of preference
-as method or \code{method = "fc"} to run first choice rule. Default
-is \code{"sop"}.}
+Set either to `method = "sop"` to run share of preference
+as method or `method = "fc"` to run first choice rule. Default
+is `"sop"`.}
 }
 \value{
 a tibble
 }
 \description{
-\code{marksim} runs market simulations with options in a validation/holdout
+`marksim` runs market simulations with options in a validation/holdout
 task or a market scenario.
 }
 \details{
-\code{marksim} provides the expected aggregated market shares of each
+`marksim()` provides the expected aggregated market shares of each
 alternative specified as well as its standard error,
 and the lower and upper confidence interval. Latter is calculated according
 to the following formula \eqn{mean +/- 1.96 x \frac{sd}{\sqrt(n)}}
-(Orme, 2020, p. 94). \code{method} can either be set to \code{method = "sop"}
-to run share of preference rule or to \code{method = "fc"} to run
+(Orme, 2020, p. 94). `method` can either be set to `method = "sop"`
+to run share of preference rule or to `method = "fc"` to run
 first choice rule to simulate market shares.
 
-\code{data} has to be a data frame including the alternatives shown in
+`data` has to be a data frame including the alternatives shown in
 the validation/holdout task or market scenario. Scenario can be created
-using the \code{createHOT()} function.
+using the `createHOT()` function.
 
-\code{group} optional grouping variable, if results should be displayed by
-different groups. Has to be column name of variables in \code{data}.
+`group` optional grouping variable, if results should be displayed by
+different groups. Has to be column name of variables in `data`.
 
-\code{opts} is required to specify the different alternatives in the
-simulation task. Input of \code{opts} has to be column names of variables
-in \code{data}.
+`opts` is required to specify the different alternatives in the
+simulation task. Input of `opts` has to be column names of variables
+in `data`.
 
-\code{method} can either be set to \code{method = "sop"} to run share of
-preference as method or \code{method = "fc"} to run first choice rule.
-Default is \code{method = "sop"}.
+`method` can either be set to `method = "sop"` to run share of
+preference as method or `method = "fc"` to run first choice rule.
+Default set to `method = "sop"`.
 }
 \examples{
 
