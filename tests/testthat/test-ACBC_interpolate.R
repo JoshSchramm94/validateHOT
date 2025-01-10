@@ -1,4 +1,4 @@
-data("acbc_interpolate")
+data(acbc_interpolate)
 
 test_that("Structure of df", {
   expect_equal(nrow(acbc_interpolate), 110)

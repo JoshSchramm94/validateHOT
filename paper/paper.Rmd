@@ -6,9 +6,9 @@ tags:
 - Conjoint Analysis
 - Market Simulations
 - Predictive Validity
-date: "08 January"
+date: "10 January"
 output:
-  pdf_document:
+  md_document:
     df_print: paged
 citation_author: Schramm & Lichters
 authors:

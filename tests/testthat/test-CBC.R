@@ -1,6 +1,6 @@
-data(cbc)
+df <- validateHOT::cbc
 
 test_that("Structure of df", {
-  expect_equal(nrow(cbc), 105)
-  expect_equal(ncol(cbc), 41)
+  expect_equal(nrow(df), 105)
+  expect_equal(ncol(df), 41)
 })
