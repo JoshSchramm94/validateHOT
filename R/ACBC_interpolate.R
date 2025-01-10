@@ -62,6 +62,7 @@
 #' @source \url{https://osf.io/m5x3a/}
 #' @format A data frame with 110 rows and 39 variables
 #' @examples
+#'
 #' # create total utility of validation tasks
 #'
 #' prod1 <- c(3, 10, 9, 12, 15, 19, 23, 31, 248.55)
