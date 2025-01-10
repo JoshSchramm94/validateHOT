@@ -62,6 +62,8 @@
 #'
 #' @examples
 #'
+#' data(cbc)
+#'
 #' att_imp(
 #'   data = cbc,
 #'   attrib = list(
@@ -79,6 +81,7 @@
 #'   res = "agg"
 #' )
 #'
+#' data(cbc_linear)
 #' att_imp(
 #'   data = cbc_linear,
 #'   attrib = list(

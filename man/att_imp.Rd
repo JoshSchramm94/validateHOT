@@ -69,6 +69,8 @@ participants or across \code{group} (\code{res} needs to be set to
 }
 \examples{
 
+data(cbc)
+
 att_imp(
   data = cbc,
   attrib = list(
@@ -86,6 +88,7 @@ att_imp(
   res = "agg"
 )
 
+data(cbc_linear)
 att_imp(
   data = cbc_linear,
   attrib = list(
