@@ -25,8 +25,8 @@
 #' \item `n` total number of choices
 #' }
 #'
-#' `data` a data frame including the alternatives shown in the validation
-#'  task. Can be created using the `create_hot()` function.
+#' `data` a data.frame object including the alternatives shown in the
+#' validation task. Can be created using the `create_hot()` function.
 #'
 #' `group` optional grouping variable, if results should be displayed by
 #' different groups. Has to be column name of variables in `data`.

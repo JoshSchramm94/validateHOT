@@ -36,8 +36,8 @@ guessing
 \item \code{n} total number of choices
 }
 
-\code{data} a data frame including the alternatives shown in the validation
-task. Can be created using the \code{create_hot()} function.
+\code{data} a data.frame object including the alternatives shown in the
+validation task. Can be created using the \code{create_hot()} function.
 
 \code{group} optional grouping variable, if results should be displayed by
 different groups. Has to be column name of variables in \code{data}.

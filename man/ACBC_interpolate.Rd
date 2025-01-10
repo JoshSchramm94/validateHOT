@@ -12,7 +12,7 @@ A data frame with 110 rows and 39 variables
 \url{https://osf.io/m5x3a/}
 }
 \usage{
-acbc_interpolate
+data(acbc_interpolate)
 }
 \description{
 A data set with raw scores export for an adaptive choice-based conjoint
@@ -72,6 +72,8 @@ price level 5}
 \examples{
 
 # create total utility of validation tasks
+
+data(acbc_interpolate)
 
 prod1 <- c(3, 10, 9, 12, 15, 19, 23, 31, 248.55)
 prod2 <- c(3, 9, 9, 13, 15, 17, 21, 26, 237.39)

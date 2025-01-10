@@ -11,7 +11,7 @@ A data frame with 118 rows and 20 variables
 \url{https://osf.io/m5x3a/}
 }
 \usage{
-maxdiff
+data(maxdiff)
 }
 \description{
 A data set with raw scores export for a MaxDiff (Best-Worst Scaling case 1).
@@ -42,6 +42,7 @@ A data set with raw scores export for a MaxDiff (Best-Worst Scaling case 1).
 }
 \examples{
 
+data(maxdiff)
 # create total utility of validation tasks
 
 hot_mxd <- create_hot(

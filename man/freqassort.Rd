@@ -34,7 +34,7 @@ The frequency is calculated based on the 'threshold' approach, i.e.,
 each alternative that exceeds utility of \code{none} alternative is
 considered as, for example, purchase option.
 
-\code{data} a data frame including the alternatives that should
+\code{data} a data.frame object including the alternatives that should
 be tested.
 
 \code{group} optional grouping variable, if results should be displayed

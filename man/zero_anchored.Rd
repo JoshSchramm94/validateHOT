@@ -30,7 +30,7 @@ interval scores that have a range of 100.
 
 For anchored MaxDiff the anchor is set to 0.
 
-\code{data} a data frame with the attributes (raw utilities).
+\code{data} a data.frame object with the items (raw utilities).
 
 \code{group} optional grouping variable, if results should be displayed by
 different groups. Has to be column name of variables in \code{data}.

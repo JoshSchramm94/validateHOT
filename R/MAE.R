@@ -14,12 +14,12 @@
 #' task.
 #'
 #' @details
-#' Mean absolute error (MAE) calculates the deviation between predicted and
-#' stated (actual) choice share. It is an aggregated value across all
+#' Mean absolute error calculates the deviation between predicted and
+#' stated (i.e., actual) choice share. It is an aggregated value across all
 #' alternatives in the validation task.
 #'
-#' `data` a data frame including the alternatives shown in the validation task.
-#' Can be created using the `create_hot()` function.
+#' `data` a data.frame object including the alternatives shown in the
+#' validation task. Can be created using the `create_hot()` function.
 #'
 #' `group` optional grouping variable(s), if results should be displayed by
 #' different groups. Has to be column name(s) of variables in `data`.
@@ -61,6 +61,7 @@
 #'
 #' @export
 mae <- function(data, group, opts, choice) {
+
   # check for missing arguments ------------------------------------------------
   if (missing(opts)) {
     stop('Error: argument "opts" must be provided.')

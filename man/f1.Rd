@@ -7,7 +7,7 @@
 f1(data, group, opts, choice, none)
 }
 \arguments{
-\item{data}{A data frame with all relevant variables.}
+\item{data}{A data.frame object.}
 
 \item{group}{Optional column name(s) to specify grouping variable(s)
 to get \code{f1()} by group(s).}

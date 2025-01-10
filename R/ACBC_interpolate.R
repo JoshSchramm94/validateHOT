@@ -58,11 +58,14 @@
 #' @docType data
 #' @keywords datasets
 #' @name acbc_interpolate
+#' @usage data(acbc_interpolate)
 #' @source \url{https://osf.io/m5x3a/}
 #' @format A data frame with 110 rows and 39 variables
 #' @examples
 #'
 #' # create total utility of validation tasks
+#'
+#' data(acbc_interpolate)
 #'
 #' prod1 <- c(3, 10, 9, 12, 15, 19, 23, 31, 248.55)
 #' prod2 <- c(3, 9, 9, 13, 15, 17, 21, 26, 237.39)

@@ -11,7 +11,7 @@ A data frame with 105 rows and 36 variables
 \url{https://osf.io/m5x3a/}
 }
 \usage{
-cbc_linear
+data(cbc_linear)
 }
 \description{
 A data set with raw scores export for an CBC including a linear-coded
@@ -59,6 +59,8 @@ attribute.
 }
 \examples{
 # create total utility of validation tasks
+
+data(cbc_linear)
 
 hot_cbc_linear <- create_hot(
   data = cbc_linear,

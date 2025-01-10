@@ -21,7 +21,7 @@
 #' each alternative that exceeds utility of `none` alternative is
 #' considered as, for example, purchase option.
 #'
-#' `data` a data frame including the alternatives that should
+#' `data` a data.frame object including the alternatives that should
 #' be tested.
 #'
 #' `group` optional grouping variable, if results should be displayed

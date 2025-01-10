@@ -1,13 +1,12 @@
 #' Function to calculate attributes' importance score of (A)CBCs
 #'
-#' @param data A data frame with all relevant variables.
-#' @param group Optional column name(s) to specify grouping variable(s) to get
-#' `att_imp()` by group(s).
+#' @param data A data.frame object.
+#' @param group Optional variable to to get `att_imp()` by group(s).
 #' @param attrib A list that specifies the attribute levels for each attribute.
-#' @param coding A vector of the coding of each attribute, '0' = part-worth
-#' coding, '1' = linear coding, or '2' = piecewise coding.
-#' @param interpolate.levels A list of the attribute levels that should
-#' be interpolated. These have to be the same as specified in model estimation
+#' @param coding A vector of the coding of each attribute, `0` = part-worth
+#' coding, `1` = linear coding, or `2` = piecewise coding.
+#' @param interpolate.levels A list to specify the values of variables that
+#' are linear coded. These have to be the same as specified in model estimation
 #' (e.g., if you center attribute levels before estimation, insert the centered
 #' levels). Please make sure to provide the whole list (i.e., all levels). Only
 #' has to be specified for the variables that are coded as `1` (linear).
@@ -18,12 +17,12 @@
 #' `att_imp()` converts raw utilities of a CBC or an ACBC to relative
 #' importance scores (see, Orme, 2020, p. 80, for more information).
 #'
-#' `data` a data frame with all attributes and the corresponding
+#' `data` A data frame with all attributes and the corresponding
 #' levels. Attribute levels need to be the raw utilities of hierarchical Bayes
 #'  estimation.
 #'
 #' `group` optional grouping variable, if results should be displayed by
-#' different groups. Has to be column name of variables in `data`.
+#' different groups.
 #'
 #' `attrib` specifies the attribute levels for each alternative.
 #' Input for `attrib` has to be a list. Needs to specify the column names
@@ -41,7 +40,7 @@
 #'
 #' `res` specifies whether results should be aggregated across all
 #' participants or across `group` (`res` needs to be set to
-#' `agg`) or if scores should be converted for individuals only.
+#' `agg`) or if scores should be converted for individuals only (`ind`).
 #'
 #'
 #' @seealso {
@@ -101,9 +100,11 @@
 #' @export
 att_imp <- function(data,
                     group = NULL,
-                    attrib, coding,
+                    attrib,
+                    coding,
                     interpolate.levels = NULL,
                     res = c("agg", "ind")) {
+
   # check for missing arguments ------------------------------------------------
   if (missing(attrib)) {
     stop('Error: argument "attrib" must be provided!')
@@ -144,7 +145,7 @@ att_imp <- function(data,
 
     # interpolate.levels must be provided if coding includes 1
     if (missing(interpolate.levels)) {
-      stop('Error: argument "interpolate.levels" must be provided!')
+      stop('Error: argument "interpolate.levels" must be provided.')
     }
 
     # interpolate.levels must be a list
@@ -167,7 +168,7 @@ att_imp <- function(data,
 
   if (all(coding != 1)) {
     if (!missing(interpolate.levels)) {
-      stop('Error: argument "interpolate.levels" must not be defined!')
+      stop('Error: argument "interpolate.levels" must not be defined.')
     }
   }
 

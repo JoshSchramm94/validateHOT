@@ -14,18 +14,17 @@ att_imp(
 )
 }
 \arguments{
-\item{data}{A data frame with all relevant variables.}
+\item{data}{A data.frame object.}
 
-\item{group}{Optional column name(s) to specify grouping variable(s) to get
-\code{att_imp()} by group(s).}
+\item{group}{Optional variable to to get \code{att_imp()} by group(s).}
 
 \item{attrib}{A list that specifies the attribute levels for each attribute.}
 
-\item{coding}{A vector of the coding of each attribute, '0' = part-worth
-coding, '1' = linear coding, or '2' = piecewise coding.}
+\item{coding}{A vector of the coding of each attribute, \code{0} = part-worth
+coding, \code{1} = linear coding, or \code{2} = piecewise coding.}
 
-\item{interpolate.levels}{A list of the attribute levels that should
-be interpolated. These have to be the same as specified in model estimation
+\item{interpolate.levels}{A list to specify the values of variables that
+are linear coded. These have to be the same as specified in model estimation
 (e.g., if you center attribute levels before estimation, insert the centered
 levels). Please make sure to provide the whole list (i.e., all levels). Only
 has to be specified for the variables that are coded as \code{1} (linear).}
@@ -43,12 +42,12 @@ Function to calculate attributes' importance score of (A)CBCs
 \code{att_imp()} converts raw utilities of a CBC or an ACBC to relative
 importance scores (see, Orme, 2020, p. 80, for more information).
 
-\code{data} a data frame with all attributes and the corresponding
+\code{data} A data frame with all attributes and the corresponding
 levels. Attribute levels need to be the raw utilities of hierarchical Bayes
 estimation.
 
 \code{group} optional grouping variable, if results should be displayed by
-different groups. Has to be column name of variables in \code{data}.
+different groups.
 
 \code{attrib} specifies the attribute levels for each alternative.
 Input for \code{attrib} has to be a list. Needs to specify the column names
@@ -66,7 +65,7 @@ has 5 levels, all 5 levels have to be inserted.
 
 \code{res} specifies whether results should be aggregated across all
 participants or across \code{group} (\code{res} needs to be set to
-\code{agg}) or if scores should be converted for individuals only.
+\code{agg}) or if scores should be converted for individuals only (\code{ind}).
 }
 \examples{
 

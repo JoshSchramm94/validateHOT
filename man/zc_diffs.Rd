@@ -47,8 +47,8 @@ Function to calculate zero-centered diffs for (A)CBCs
 zero-centered diffs (Orme, 2020, p. 78). This allows for comparison between
 the attributes.
 
-\code{data} has to be a data frame with the attributes. Attribute levels have
-to be the raw utilities.
+\code{data} has to be a data.frame object with the relevant attribute levels.
+Attribute levels have to be the raw utilities.
 
 \code{group} optional grouping variable, if results should be displayed by
 different groups. Has to be column name of variables in \code{data}.
@@ -68,7 +68,7 @@ has 5 levels, all 5 levels have to be inserted.
 
 \code{res} specifies whether results should be aggregated across all participants
 or across \code{group} (\code{res} needs to be set to \code{agg}) or if scores
-should be converted for individuals only.
+should be converted for individuals only (\code{ind}).
 
 \code{none} specifies whether none option was included or not, if yes,
 column name or column index of \code{none} needs to be specified. If no
@@ -96,28 +96,7 @@ zc_diffs(
   res = "agg"
 )
 
-# zero-centered scores for CBC (only part-worth) - with group argument
-# defined
 \dontrun{
-zc_diffs(
-  data = cbc,
-  attrib = list(
-    paste0("att1_lev", c(1:3)),
-    paste0("att2_lev", c(1:2)),
-    paste0("att3_lev", c(1:4)),
-    paste0("att4_lev", c(1:4)),
-    paste0("att5_lev", c(1:2)),
-    paste0("att6_lev", c(1:4)),
-    paste0("att7_lev", c(1:6)),
-    paste0("att8_lev", c(1:6)),
-    paste0("price_", c(1:6))
-  ),
-  coding = c(rep(0, times = 9)),
-  none = "none",
-  group = group,
-  res = "agg"
-)
-}
 
 # zero-centered scores for CBC (incl. linear coded attribute) - without
 # group argument defined
@@ -139,7 +118,7 @@ zc_diffs(
   none = "none",
   res = "agg"
 )
-
+}
 
 }
 \references{

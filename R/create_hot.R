@@ -1,10 +1,10 @@
 #' @title  Function to create total utilities for validation task alternatives
 #' or market scenario
 #'
-#' @param data A data frame with all relevant variables.
-#' @param id A vector of unique identifier in `data`.
-#' @param none An optional vector to specify `none`
-#' alternative in `data`.
+#' @param data A data.frame object.
+#' @param id Column name of the unique identifier.
+#' @param none An optional vector to specify column name of a `none`
+#' alternative.
 #' @param prod.levels A list to define the attribute levels of the
 #' alternatives (`prod`). If linear-coded or piecewise-coded
 #' attributes are included, column indexes are required for the input.
@@ -15,41 +15,42 @@
 #' Only has to be specified for the attributes that are coded as `1` (linear)
 #' or `2` (piecewise).
 #' @param piece.p A nested list, with a list for each of the piecewise-coded
-#' variables. List for a piecewise-cded attribute must be the columns that
+#' variables. List for a piecewise-coded attribute must be the columns that
 #' shoud be the lower and the upper level that should be used for interpolating.
 #' @param lin.p A vector to specify column index or column names of
 #' linear coded variables.
 #' @param coding A vector to define attributes coding, `0` = part-worth
 #' coding,`1` = linear coding, `2` = piecewise coding; please make sure to code
 #' linear price of ACBC as piecewise. For more details, see the example
-#' provided below.
+#' provided below. If you want to treat a part-worth coded variable
+#' continuously, use the code `2` for this variable and provide the values in
+#' `interpolate.levels` accordingly.
 #' @param method A character to specify the `method` of your study.
 #' `method` has to be one of the following: `"maxdiff"`, `"cbc"`, or `"acbc"`.
-#' @param varskeep A vector specifying variables that should be kept
-#' in the data frame.
+#' @param varskeep A vector specifying column names of the variables that should
+#' be kept in the data frame.
 #' @param choice Actual choice in the validation task. Leave empty for
 #' specifying market scenario (warning will be displayed, however).
 #'
 #' @details
 #' To test the validation metrics of a validation task or to run a
 #' market scenario, the scenario first has to be created by summing up
-#' the alternatives part-worth utilities. This is done with the `create_hot()`
+#' the alternatives raw utilities. This is done with the `create_hot()`
 #' function.  Make sure you upload the raw utilities of your study (either
 #' from Sawtooth Software or ChoiceModelR, Sermas, 2022).
 #' The function then creates the alternatives' utility based on the additive
 #' utility model (Rao, 2014, p. 82). If you are working with alternative
 #' specific-designs, insert `NA` if attribute is not specified.
 #'
-#' `data` has to be a data frame with raw scores of the attribute
+#' `data` must to be a data.frame object with raw scores of the attribute
 #' levels.
 #'
 #' `id` has to be the column index or column name of the id (unique for each
 #' participant) in data frame.
 #'
-#' `none` to specify a `none` alternative if it is included in validation task.
-#' Specify column index or column name of `none` alternative. If there was no
-#' `none` alternative in the validation task, leave it empty.
-#'
+#' `none` to specify variable name of the `none` alternative if it is included
+#' in the validation task. Leave it empty, if there was no `none` alternative
+#' included.
 #'
 #' `prod.levels` specifies the attribute levels for each alternative.
 #' Input for `prod.levels` has to be a list. If values for one attribute are
@@ -59,7 +60,8 @@
 #' specified.
 #'
 #' `interpolate.levels` is required in case interpolating is used (only if
-#' variables are coded as linear or piecewise). If scaled or centered values
+#' variables are coded as linear or piecewise or if you want to treat a part-
+#' worth coded variable as continuously). If scaled or centered values
 #' were used for hierarchical Bayes estimation, the exact same levels are
 #' required (all of them). For example, if one linear coded attribute
 #' had 5 levels, all 5 levels are required. In case for linear coded price for
@@ -76,25 +78,27 @@
 #' `lin.p` is required in case a variable is coded as linear
 #' (see coding). Since for linear coding (except for price
 #' in `method = "acbc"`) only one coefficient is provided in the output,
-#' just this column index or column name is required.
+#' provide this column name accordingly.
 #'
 #' `coding` is required if `method = "cbc"` or `method = "acbc"`. Use `0` for
 #' part-worth coding, `1` for linear coding, and `2` for piecewise coding.
 #' In case `method = "acbc"` and linear price function is used, this variable
 #' has to be coded as piecewise (`2`). In case `method` is set to `"maxdiff"`
-#' `coding` empty. Input for `coding` has to be a vector.
+#' leave `coding` empty. If a part-worth coded variable should be treated
+#' continuously, set it to `2`. Input for `coding` has to be a vector.
 #'
 #' `method` specifies the preference measurement method. Can be set to
 #' `"maxdiff"`, `"cbc"`, or `"acbc"`.
 #'
 #' `varskeep` is required in case other variables should be kept
-#' in the data frame (for example, a grouping variable). Input
-#' for `varskeep` has to be a vector with the column index(es) or names of the
-#' variable(s) that should be kept.
+#' in the data frame (for example, a grouping variable). Provide the column
+#' names of the variable(s) that should be kept.
 #'
-#' `choice` specifies the column index or column name of the actual choice
+#' `choice` specifies the column name of the actual choice
 #' in the validation task. If only a market scenario is specified, leave
 #' `choice` empty, however, a warning will be displayed in this case.
+#'
+#' Instead of the column names, one can also provide column indexes.
 #'
 #'
 #' @references {
@@ -224,6 +228,7 @@ create_hot <- function(data,
                        method = c("acbc", "cbc", "maxdiff"),
                        varskeep = NULL,
                        choice = NULL) {
+
   # check for missing arguments ------------------------------------------------
   if (missing(id)) {
     stop('Error: argument "id" must be provided.')
@@ -247,6 +252,7 @@ create_hot <- function(data,
 
   # if coding contains 1 or 2, column indexes needs to be provided
   if (!missing(coding) && any(coding %in% c(1, 2))) {
+
     attribute_levels <- unlist(prod.levels)[coding %in% 0]
     attribute_levels <- attribute_levels[!is.na(attribute_levels)]
     numeric_vector(attribute_levels)
@@ -329,11 +335,6 @@ create_hot <- function(data,
 
   # check for arguments falsely defined if method set to (A)CBC ----------------
 
-  # usually no piecewise coded attributes in cbc (exception see vignette)
-  #if (method == "cbc" && any(coding == 2)) {
-  #    warning('Warning: "coding" set to `2` for method "cbc".')
-  #}
-
   # check whether lin.p matches coding argument
   if ((any(coding == 1) && missing(lin.p)) || (all(coding != 1) &&
     !missing(lin.p))) {
@@ -351,12 +352,6 @@ create_hot <- function(data,
     stop('Error: "interpolate.levels" must be provided.')
   }
 
-  # lin.p needs to be numeric (uncommented, not necessarily)
-  #if (!missing(lin.p)) {
-  #  numeric_vector(lin.p)
-  #}
-
-
   # end ------------------------------------------------------------------------
 
   # check for list arguments ---------------------------------------------------
@@ -365,9 +360,6 @@ create_hot <- function(data,
   if (!missing(piece.p)) {
     # needs to be a list
     nested_list_input(piece.p)
-
-    # only numeric input (column indexes)
-    # numeric_vector(unlist(piece.p))
 
     # check for max. length of 2
     piecewise_coded(piece.p)

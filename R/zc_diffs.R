@@ -20,8 +20,8 @@
 #' zero-centered diffs (Orme, 2020, p. 78). This allows for comparison between
 #' the attributes.
 #'
-#' `data` has to be a data frame with the attributes. Attribute levels have
-#' to be the raw utilities.
+#' `data` has to be a data.frame object with the relevant attribute levels.
+#' Attribute levels have to be the raw utilities.
 #'
 #' `group` optional grouping variable, if results should be displayed by
 #' different groups. Has to be column name of variables in `data`.
@@ -41,7 +41,7 @@
 #'
 #' `res` specifies whether results should be aggregated across all participants
 #' or across `group` (`res` needs to be set to `agg`) or if scores
-#' should be converted for individuals only.
+#' should be converted for individuals only (`ind`).
 #'
 #' `none` specifies whether none option was included or not, if yes,
 #' column name or column index of `none` needs to be specified. If no
@@ -88,28 +88,7 @@
 #'   res = "agg"
 #' )
 #'
-#' # zero-centered scores for CBC (only part-worth) - with group argument
-#' # defined
 #' \dontrun{
-#' zc_diffs(
-#'   data = cbc,
-#'   attrib = list(
-#'     paste0("att1_lev", c(1:3)),
-#'     paste0("att2_lev", c(1:2)),
-#'     paste0("att3_lev", c(1:4)),
-#'     paste0("att4_lev", c(1:4)),
-#'     paste0("att5_lev", c(1:2)),
-#'     paste0("att6_lev", c(1:4)),
-#'     paste0("att7_lev", c(1:6)),
-#'     paste0("att8_lev", c(1:6)),
-#'     paste0("price_", c(1:6))
-#'   ),
-#'   coding = c(rep(0, times = 9)),
-#'   none = "none",
-#'   group = group,
-#'   res = "agg"
-#' )
-#' }
 #'
 #' # zero-centered scores for CBC (incl. linear coded attribute) - without
 #' # group argument defined
@@ -131,7 +110,7 @@
 #'   none = "none",
 #'   res = "agg"
 #' )
-#'
+#'}
 #'
 #' @export
 zc_diffs <- function(data,

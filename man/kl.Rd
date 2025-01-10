@@ -19,8 +19,8 @@ validation task.}
 \item{choice}{Column name of the actual choice in the validation
 task.}
 
-\item{epsilon}{A vector of noise that should be added to 0 values, per
-default set to 1e-05 (see Drost, 2018).}
+\item{epsilon}{A vector of noise that should be added to \code{0} values, per
+default set to \code{1e-05} (see Drost, 2018).}
 
 \item{log_base}{A character string to define the logarithm base, currently
 two are provided, namely \code{log} (default) and \code{log2}.}
@@ -35,15 +35,15 @@ task
 \details{
 Kullback-Leibler-Divergence measures the divergence between the actual
 choice distribution and the predicted choice distribution (Ding et al., 2011;
-Drost, 2018). Currently only provides the deviation measured based on
-\eqn{log} and \eqn{log{_2}} algorithm. \eqn{log} set as default.
+Drost, 2018). Currently \code{kl()} provides the deviation measured based on
+\eqn{log} and \eqn{log{_2}} algorithm. \eqn{log} is set as default.
 
 Due to Kullback-Leibler divergence's asymmetry, the output provides both
 \code{KL_O_P} which is equivalent to (Observed || Predicted) and
 \code{KL_P_O} which is equivalent to (Predicted || Observed).
 
-\code{data} a data frame including the alternatives shown in the validation task.
-Can be created using the \code{create_hot()} function.
+\code{data} a data.frame object including the alternatives shown in the
+validation task. Can be created using the \code{create_hot()} function.
 
 \code{group} optional grouping variable(s), if results should be displayed by
 different groups. Has to be column name(s) of variables in \code{data}.

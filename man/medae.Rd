@@ -30,8 +30,8 @@ validation task.
 stated (actual) choice share and returns the median error in the
 validation task, which is less likely to be influenced by outliers.
 
-\code{data} a data frame including the alternatives shown in the validation task.
-Can be created using the \code{create_hot()} function.
+\code{data} a data.frame object including the alternatives shown in the
+validation task. Can be created using the \code{create_hot()} function.
 
 \code{group} optional grouping variable(s), if results should be displayed by
 different groups. Has to be column name(s) of variables in \code{data}.

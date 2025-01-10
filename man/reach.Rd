@@ -34,7 +34,7 @@ exceed a threshold. In the case of \code{reach()} this threshold is referred
 to the \code{none} argument in \code{data}, however, could also be, e.g., a
 current product.
 
-\code{data} a data frame including the alternatives that should
+\code{data} a data.frame object including the alternatives that should
 be tested.
 
 \code{group} optional grouping variable, if results should be displayed

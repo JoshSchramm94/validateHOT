@@ -27,8 +27,8 @@
 #' underestimates a purchase likelihood.
 #'
 #'
-#' `data` a data frame including the alternatives shown in the validation task.
-#' Can be created using the `create_hot()` function.
+#' `data` a data.frame object including the alternatives shown in the
+#' validation task. Can be created using the `create_hot()` function.
 #'
 #' `group` optional grouping variable(s), if results should be displayed by
 #' different groups. Has to be column name(s) of variables in `data`.
@@ -40,8 +40,8 @@
 #' `choice` to specify column of actual choice in the validation
 #' task. Input of `choice` has to be column name of actual choice.
 #'
-#' `none` to specify column name of the `none`
-#' alternative in the validation task.
+#' `none` to specify column name of the `none`alternative in the
+#' validation task.
 #'
 #' Please be aware about the following 2x2 table regarding coding of buy and
 #' no-buy choice:

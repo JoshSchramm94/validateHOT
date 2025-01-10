@@ -41,8 +41,8 @@ or no-buy was correctly predicted. This function can be useful if you, for
 example, test whether your model significantly overestimates or
 underestimates a purchase likelihood.
 
-\code{data} a data frame including the alternatives shown in the validation task.
-Can be created using the \code{create_hot()} function.
+\code{data} a data.frame object including the alternatives shown in the
+validation task. Can be created using the \code{create_hot()} function.
 
 \code{group} optional grouping variable(s), if results should be displayed by
 different groups. Has to be column name(s) of variables in \code{data}.
@@ -54,8 +54,8 @@ Input of \code{opts} has to be column names of variables in \code{data}.
 \code{choice} to specify column of actual choice in the validation
 task. Input of \code{choice} has to be column name of actual choice.
 
-\code{none} to specify column name of the \code{none}
-alternative in the validation task.
+\code{none} to specify column name of the \code{none}alternative in the
+validation task.
 
 Please be aware about the following 2x2 table regarding coding of buy and
 no-buy choice:

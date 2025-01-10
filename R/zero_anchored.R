@@ -14,7 +14,7 @@
 #'
 #' For anchored MaxDiff the anchor is set to 0.
 #'
-#' `data` a data frame with the attributes (raw utilities).
+#' `data` a data.frame object with the items (raw utilities).
 #'
 #' `group` optional grouping variable, if results should be displayed by
 #' different groups. Has to be column name of variables in `data`.

@@ -9,10 +9,10 @@
 #' to get `marksim()` by group(s).
 #' @param opts Column names of the alternatives included in the
 #' validation task or market scenario.
-#' @param method Name of the market simulation method that should be conducted.
+#' @param method Name of the market simulation method that should be used.
 #' Set either to `method = "sop"` to run share of preference
 #' as method or `method = "fc"` to run first choice rule. Default
-#' is `"sop"`.
+#' is set to `"sop"`.
 #' @param res A vector indicating whether individual results (`ind`) or
 #' aggregated (`agg`) results should be returned.
 #'
@@ -25,7 +25,7 @@
 #' preference rule or to `method = "fc"` to run first choice rule to simulate
 #' market shares.
 #'
-#' `data` a data frame including the alternatives shown in
+#' `data` a data.frame object including the alternatives shown in
 #' the validation task or market scenario. Scenario can be created
 #' using the `create_hot()` function.
 #'
@@ -38,7 +38,7 @@
 #'
 #' `method` can either be set to `method = "sop"` to run share of
 #' preference as method or `method = "fc"` to run first choice rule.
-#' Default set to `method = "sop"`.
+#' Default is set to `method = "sop"`.
 #'
 #' `res` specifies whether results should be aggregated across all participants
 #' or across `group` (`res` needs to be set to `agg`) or if scores should be

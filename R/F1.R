@@ -5,7 +5,7 @@
 #' stated differently by Burger (2018) \eqn{\frac{2TP}{2TP + FP + FN}},
 #' where TP = True Positives, FP = False Positives, and FN = False Negatives.
 #'
-#' @param data A data frame with all relevant variables.
+#' @param data A data.frame object.
 #' @param group Optional column name(s) to specify grouping variable(s)
 #' to get `f1()` by group(s).
 #' @param opts Column names of the alternatives in the validation task.
@@ -100,6 +100,7 @@
 #'
 #' @export
 f1 <- function(data, group, opts, choice, none) {
+
   # check for missing arguments ------------------------------------------------
   if (missing(none)) {
     stop('Error: argument "none" must be provided.')

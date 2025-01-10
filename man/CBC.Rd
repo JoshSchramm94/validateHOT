@@ -11,7 +11,7 @@ A data frame with 105 rows and 41 variables
 \url{https://osf.io/m5x3a/}
 }
 \usage{
-cbc
+data(cbc)
 }
 \description{
 A data set with raw scores export for an CBC, assuming part-worth coding for
@@ -63,6 +63,8 @@ price (if included).
 }
 }
 \examples{
+
+data(cbc)
 
 # create total utility of validation tasks
 

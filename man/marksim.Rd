@@ -15,10 +15,10 @@ to get \code{marksim()} by group(s).}
 \item{opts}{Column names of the alternatives included in the
 validation task or market scenario.}
 
-\item{method}{Name of the market simulation method that should be conducted.
+\item{method}{Name of the market simulation method that should be used.
 Set either to \code{method = "sop"} to run share of preference
 as method or \code{method = "fc"} to run first choice rule. Default
-is \code{"sop"}.}
+is set to \code{"sop"}.}
 
 \item{res}{A vector indicating whether individual results (\code{ind}) or
 aggregated (\code{agg}) results should be returned.}
@@ -39,7 +39,7 @@ p. 94). \code{method} can either be set to \code{method = "sop"} to run share of
 preference rule or to \code{method = "fc"} to run first choice rule to simulate
 market shares.
 
-\code{data} a data frame including the alternatives shown in
+\code{data} a data.frame object including the alternatives shown in
 the validation task or market scenario. Scenario can be created
 using the \code{create_hot()} function.
 
@@ -52,7 +52,7 @@ market scenario. Input of \code{opts} has to be column names of variables in
 
 \code{method} can either be set to \code{method = "sop"} to run share of
 preference as method or \code{method = "fc"} to run first choice rule.
-Default set to \code{method = "sop"}.
+Default is set to \code{method = "sop"}.
 
 \code{res} specifies whether results should be aggregated across all participants
 or across \code{group} (\code{res} needs to be set to \code{agg}) or if scores should be

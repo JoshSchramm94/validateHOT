@@ -30,7 +30,7 @@ and then subsequently adds the next best alternative to add for increasing
 the reach.
 }
 \details{
-\code{data} a data frame including the alternatives that should be tested.
+\code{data} a data.frame object including the alternatives that should be tested.
 
 \code{opts} to specify the different alternatives in the product assortment that
 should be considered. Input of \code{opts} has to be column name of variables

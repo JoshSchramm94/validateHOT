@@ -2,7 +2,7 @@
 #'
 #' @param data A data frame with all relevant variables.
 #' @param group Optional column name(s) to specify grouping variable(s).
-#' @param items Vector that specifies the items.
+#' @param items A vector with the column names of the items.
 #' @param set.size A vector that specifies size of the choice set.
 #' @param res A vector indicating whether individual results (`ind`) or
 #' aggregated (`agg`) results should be returned.
@@ -15,14 +15,14 @@
 #' `prob_scores()` converts raw utilities of a MaxDiff to probability scores.
 #' Probability scores for the unanchored MaxDiff are calculated according to the
 #' formula provided by Chrzan & Orme (2019, p. 56):
-#' \eqn{\frac{e^U}{(e^U + (a - 1)}}, where *U* is the raw utility of the
-#' item and *a* is the number of items shown per choice task.
+#' \eqn{\frac{e^U}{(e^U + (a - 1)}}, where `U` is the raw utility of the
+#' item and `a` is the number of items shown per choice task.
 #'
 #' For anchored MaxDiff the following formula is applied
 #' \eqn{\frac{e^U}{(e^U + (a - 1)} * 100 / (1 / a)} (Chrzan & Orme, 2019,
 #' pp. 59-60).
 #'
-#' `data` a data frame with the attributes (raw utilities).
+#' `data` a data.frame object with the items (raw utilities).
 #'
 #' `group` optional grouping variable, if results should be displayed by
 #' different groups. Has to be column name of variables in `data`.
@@ -81,6 +81,7 @@ prob_scores <- function(data,
                         set.size,
                         res = c("agg", "ind"),
                         anchor = NULL) {
+
   # check for missing arguments ------------------------------------------------
   if (missing(items)) {
     stop('Error: argument "items" must be provided.')

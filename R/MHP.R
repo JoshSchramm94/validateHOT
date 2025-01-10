@@ -16,8 +16,8 @@
 #' Mean hit probability (MHP) measures the averaged hit probability of
 #' participants actual choices in the validation task.
 #'
-#' `data` a data frame including the alternatives shown in the validation
-#'  task. Can be created using the `create_hot()` function.
+#' `data` a data.frame object including the alternatives shown in the
+#' validation task. Can be created using the `create_hot()` function.
 #'
 #' `group` optional grouping variable, if results should be displayed by
 #' different groups. Has to be column name of variables in `data`.
@@ -62,6 +62,7 @@
 #'
 #' @export
 mhp <- function(data, group, opts, choice) {
+
   # check for missing arguments ------------------------------------------------
   if (missing(opts)) {
     stop('Error: argument "opts" must be provided.')

@@ -22,7 +22,7 @@
 #' current product.
 #'
 #'
-#' `data` a data frame including the alternatives that should
+#' `data` a data.frame object including the alternatives that should
 #' be tested.
 #'
 #' `group` optional grouping variable, if results should be displayed
@@ -66,6 +66,7 @@
 #'
 #' @export
 reach <- function(data, group, none, opts) {
+
   # check for missing arguments ------------------------------------------------
   if (missing(none)) {
     stop('Error: argument "none" must be provided.')

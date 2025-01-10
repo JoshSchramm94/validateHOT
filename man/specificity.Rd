@@ -40,8 +40,8 @@ or no-buy was correctly predicted. This function can be useful if you, for
 example, test whether your model significantly overestimates or
 underestimates a purchase likelihood.
 
-\code{data} a data frame including the alternatives shown in the validation task.
-Can be created using the \code{create_hot()} function.
+\code{data} a data.frame object including the alternatives shown in the
+validation task. Can be created using the \code{create_hot()} function.
 
 \code{group} optional grouping variable(s), if results should be displayed by
 different groups. Has to be column name(s) of variables in \code{data}.

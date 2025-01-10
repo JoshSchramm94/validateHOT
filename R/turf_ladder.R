@@ -17,7 +17,7 @@
 #'
 #' @details
 #'
-#' `data` a data frame including the alternatives that should be tested.
+#' `data` a data.frame object including the alternatives that should be tested.
 #'
 #' `opts` to specify the different alternatives in the product assortment that
 #' should be considered. Input of `opts` has to be column name of variables
@@ -86,6 +86,7 @@ turf_ladder <- function(data,
                         none,
                         approach = c("thres", "fc"),
                         fixed = NULL) {
+
   # check for missing arguments ------------------------------------------------
   if (missing(opts)) {
     stop('Error: argument "opts" must be provided.')

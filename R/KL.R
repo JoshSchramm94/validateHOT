@@ -8,8 +8,8 @@
 #' validation task.
 #' @param choice Column name of the actual choice in the validation
 #' task.
-#' @param epsilon A vector of noise that should be added to 0 values, per
-#' default set to 1e-05 (see Drost, 2018).
+#' @param epsilon A vector of noise that should be added to `0` values, per
+#' default set to `1e-05` (see Drost, 2018).
 #' @param log_base A character string to define the logarithm base, currently
 #' two are provided, namely `log` (default) and `log2`.
 #'
@@ -18,15 +18,15 @@
 #' @details
 #' Kullback-Leibler-Divergence measures the divergence between the actual
 #' choice distribution and the predicted choice distribution (Ding et al., 2011;
-#' Drost, 2018). Currently only provides the deviation measured based on
-#' \eqn{log} and \eqn{log{_2}} algorithm. \eqn{log} set as default.
+#' Drost, 2018). Currently `kl()` provides the deviation measured based on
+#' \eqn{log} and \eqn{log{_2}} algorithm. \eqn{log} is set as default.
 #'
 #' Due to Kullback-Leibler divergence's asymmetry, the output provides both
 #' `KL_O_P` which is equivalent to (Observed || Predicted) and
 #' `KL_P_O` which is equivalent to (Predicted || Observed).
 #'
-#' `data` a data frame including the alternatives shown in the validation task.
-#' Can be created using the `create_hot()` function.
+#' `data` a data.frame object including the alternatives shown in the
+#' validation task. Can be created using the `create_hot()` function.
 #'
 #' `group` optional grouping variable(s), if results should be displayed by
 #' different groups. Has to be column name(s) of variables in `data`.

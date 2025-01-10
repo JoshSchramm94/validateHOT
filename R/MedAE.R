@@ -17,8 +17,8 @@
 #' stated (actual) choice share and returns the median error in the
 #' validation task, which is less likely to be influenced by outliers.
 #'
-#' `data` a data frame including the alternatives shown in the validation task.
-#' Can be created using the `create_hot()` function.
+#' `data` a data.frame object including the alternatives shown in the
+#' validation task. Can be created using the `create_hot()` function.
 #'
 #' `group` optional grouping variable(s), if results should be displayed by
 #' different groups. Has to be column name(s) of variables in `data`.
@@ -60,6 +60,7 @@
 #'
 #' @export
 medae <- function(data, group, opts, choice) {
+
   # check for missing arguments ------------------------------------------------
   if (missing(opts)) {
     stop('Error: argument "opts" must be provided.')

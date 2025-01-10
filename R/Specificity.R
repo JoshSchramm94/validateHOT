@@ -26,8 +26,8 @@
 #' example, test whether your model significantly overestimates or
 #' underestimates a purchase likelihood.
 #'
-#' `data` a data frame including the alternatives shown in the validation task.
-#' Can be created using the `create_hot()` function.
+#' `data` a data.frame object including the alternatives shown in the
+#' validation task. Can be created using the `create_hot()` function.
 #'
 #' `group` optional grouping variable(s), if results should be displayed by
 #' different groups. Has to be column name(s) of variables in `data`.
