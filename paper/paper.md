@@ -1,35 +1,28 @@
 ---
-title: "validateHOT - an R package for validating validation tasks and choice modelling tools"
+title: "validateHOT - an R package for validating validation tasks and choice modelling
+  tools"
 tags:
-  - R
-  - MaxDiff
-  - Conjoint Analysis
-  - Market Simulations
-  - Predictive Validity
+- R
+- MaxDiff
+- Conjoint Analysis
+- Market Simulations
+- Predictive Validity
 authors:
-  - name: Joshua Benjamin Schramm
-    orcid: 0000-0001-5602-4632
-    corresponding: True
-    affiliation: 1
-  - name: Marcel Lichters
-    orcid: 0000-0002-3710-2292
-    corresponding: FALSE
-    affiliation: 1    
+- name: Joshua Benjamin Schramm
+  orcid: 0000-0001-5602-4632
+  corresponding: true
+  affiliation: 1
+- name: Marcel Lichters
+  orcid: 0000-0002-3710-2292
+  corresponding: false
+  affiliation: 1
 affiliations:
- - name: Otto von Guericke University of Magdeburg, Germany
-   index: 1
-citation_author: Schramm & Lichters
-date: 10 Januar
-year: 2025
+- name: Otto von Guericke University of Magdeburg, Germany
+  index: 1
+date: 10 January 2025
 bibliography: paper.bib
-link-citations: true
-output: md_document
+output: pdf_document
 ---
-
-```{r include=FALSE}
-library(validateHOT)
-library(magrittr)
-```
 
 # Summary
 
@@ -80,7 +73,7 @@ We provide the workflow for a MaxDiff study [@schramm2024] and a CBC study with 
 
 After running the HB estimation, the raw utilities must be read into R. For the first example, we assume a validation task with seven alternatives plus the no-buy alternative.
 
-```{r}
+``` r
 hot_mxd <- create_hot(
   data = maxdiff,
   id = "id",
@@ -96,7 +89,7 @@ hot_mxd <- create_hot(
 
 To get, for example, the hit rate (`hitrate()`), we provide the data, the alternatives in the validation task (`opts`), and the actual choice (`choice`).
 
-```{r}
+``` r
 hitrate(
   data = hot_mxd,
   opts = c(option_1:none),
@@ -108,7 +101,7 @@ hitrate(
 
 We also introduce two functions for market simulations, namely `marksim()` and `turf()`. In the following example, we simulated market shares according to the multinomial logit model [@McFadden1974].
 
-```{r}
+``` r
 marksim(
   data = hot_mxd,
   opts = c(option_1:none),
@@ -121,7 +114,7 @@ Next, `turf()`, a "product line extension model" [@miaoulis1990, p. 29], is a to
 
 Assuming the user conducted an anchored MaxDiff analysis with ten items (`opts`) and now wants to find the best assortment with a size of three items (`size`). As a threshold that needs to be exceeded (`none`), the user uses the anchor (no-buy alternative).
 
-```{r}
+``` r
 turf(
   data = maxdiff,
   opts = c(option_01:option_10),
@@ -138,7 +131,7 @@ turf(
 
 For a CBC, the setup of `create_hot()` is almost the same, only the arguments `prod.levels`, `lin.p`, `coding`, and `method` are new.
 
-```{r}
+``` r
 hot_cbc_linear <- create_hot(
   data = cbc_linear,
   id = "id",
@@ -163,7 +156,7 @@ hot_cbc_linear <- create_hot(
 
 We can also display the attributes importance scores (`att_imp()`). Therefore, we need to define the attribute levels (`attrib`) and again the coding of the attributes (`coding`).
 
-```{r}
+``` r
 att_imp(
   data = cbc_linear,
   attrib = list(
