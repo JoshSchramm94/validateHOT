@@ -22,8 +22,8 @@ prob_scores(
 
 \item{set.size}{A vector that specifies size of the choice set.}
 
-\item{res}{A vector indicating whether individual shares (`ind`) or
-aggregated (`agg`) shares should be returned.}
+\item{res}{A vector indicating whether individual results (\code{ind}) or
+aggregated (\code{agg}) results should be returned.}
 
 \item{anchor}{An optional variable to specify anchor variable.}
 }
@@ -34,7 +34,7 @@ a tibble
 Function to calculate probability scores for (anchored) MaxDiff
 }
 \details{
-`prob_scores()` converts raw utilities of a MaxDiff to probability scores.
+\code{prob_scores()} converts raw utilities of a MaxDiff to probability scores.
 Probability scores for the unanchored MaxDiff are calculated according to the
 formula provided by Chrzan & Orme (2019, p. 56):
 \eqn{\frac{e^U}{(e^U + (a - 1)}}, where \emph{U} is the raw utility of the
@@ -44,67 +44,42 @@ For anchored MaxDiff the following formula is applied
 \eqn{\frac{e^U}{(e^U + (a - 1)} * 100 / (1 / a)} (Chrzan & Orme, 2019,
 pp. 59-60).
 
-`data` has to be a data frame with the attributes. Items have
-to be the raw utilities.
+\code{data} a data frame with the attributes (raw utilities).
 
-`group` optional grouping variable, if results should be displayed by
-different groups. Has to be column name of variables in `data`.
+\code{group} optional grouping variable, if results should be displayed by
+different groups. Has to be column name of variables in \code{data}.
 
-`items` specifies the items of the MaxDiff.
-Input for `items` has to be variable names.
+\code{items} specifies the items of the MaxDiff. Has to be column name of
+variables in \code{data}.
 
-`set.size` specifies the size of the choice sets (how many items were
-shown in one task). Input needs to be a whole number.
+\code{set.size} specifies the size of the choice sets (i.e., MaxDiff tasks, how
+many items were shown in one task). Input needs to be an integer.
 
-`res` specifies whether results should be aggregated across all
-participants or across `group` (`res` needs to be set to
-`agg`) or if scores should be converted for individuals only.
+\code{res} specifies whether results should be aggregated across all participants
+or across \code{group} (\code{res} needs to be set to \code{agg}) or if scores should be
+converted for individuals only (\code{res} needs to be set to \code{ind}).
 
-`anchor` only needs to be specified if anchored MaxDiff is applied.
-Input for `anchor` has to be variable names.
+\code{anchor} only needs to be specified if anchored MaxDiff is applied.
+Input for \code{anchor} has to to be column name of variables in \code{data}.
 }
 \examples{
 
-library(validateHOT)
-
-# probability scores for unanchored MaxDiff - without group argument defined
+# probability scores for unanchored maxdiff - without group argument defined
 prob_scores(
-  data = MaxDiff,
-  items = c(Option_01:Option_16),
+  data = maxdiff,
+  items = c(option_01:option_16),
   set.size = 4,
   res = "agg"
 )
 
-# probability scores for unanchored MaxDiff - with group argument defined
-\dontrun{
+# probability scores for anchored maxdiff - without group argument defined
 prob_scores(
-  data = MaxDiff,
-  group = Group,
-  items = c(Option_01:Option_16),
-  set.size = 4,
-  res = "agg"
-)
-}
-
-# probability scores for anchored MaxDiff - without group argument defined
-prob_scores(
-  data = MaxDiff,
-  items = c(Option_01:none),
+  data = maxdiff,
+  items = c(option_01:none),
   set.size = 4,
   anchor = none,
   res = "agg"
 )
-# probability scores for anchored MaxDiff - with group argument defined
-\dontrun{
-prob_scores(
-  data = MaxDiff,
-  group = Group,
-  items = c(Option_01:none),
-  set.size = 4,
-  anchor = none,
-  res = "agg"
-)
-}
 
 }
 \references{
@@ -117,9 +92,9 @@ Guide to Best-Worst Scaling} Provo, UT: Sawtooth Software.
 }
 \seealso{
 {
-\code{\link[=zero_anchored]{zero_anchored}} for zero-anchored interval
+\code{\link[=zero_anchored]{zero_anchored()}} for zero-anchored interval
 scores for MaxDiff
-\code{\link[=att_imp]{att_imp}} for attribute importance scores for (A)CBC
-\code{\link[=zc_diffs]{zc_diffs}} for zero-centered diff scores for (A)CBC
+\code{\link[=att_imp]{att_imp()}} for attribute importance scores for (A)CBC
+\code{\link[=zc_diffs]{zc_diffs()}} for zero-centered diff scores for (A)CBC
 }
 }

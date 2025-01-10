@@ -13,8 +13,8 @@ zero_anchored(data, group = NULL, items, res = c("agg", "ind"), anchor = NULL)
 
 \item{items}{Vector that specifies the items.}
 
-\item{res}{A vector indicating whether individual shares (`ind`) or
-aggregated (`agg`) shares should be returned.}
+\item{res}{A vector indicating whether individual results (\code{ind}) or
+aggregated (\code{agg}) results should be returned.}
 
 \item{anchor}{An optional variable to specify anchor variable.}
 }
@@ -25,62 +25,58 @@ a tibble
 Function to calculate zero-anchored interval scores for (anchored) MaxDiff
 }
 \details{
-`zero_anchored()` converts raw utilities of a MaxDiff to zero-anchored
+\code{zero_anchored()} converts raw utilities of a MaxDiff to zero-anchored
 interval scores that have a range of 100.
 
-For anchored MaxDiff the anchor is set to 0. More information can be
-obtained here: https://sawtoothsoftware.com/help/lighthouse-studio/manual/analysis-manager-maxdiff-export-settings.html
+For anchored MaxDiff the anchor is set to 0.
 
-`data` has to be a data frame with the attributes. Items have
-to be the raw utilities.
+\code{data} a data frame with the attributes (raw utilities).
 
-`group` optional grouping variable, if results should be displayed by
-different groups. Has to be column name of variables in `data`.
+\code{group} optional grouping variable, if results should be displayed by
+different groups. Has to be column name of variables in \code{data}.
 
-`items` specifies the items of the MaxDiff.
-Input for `items` has to be variable names.
+\code{items} specifies the items of the MaxDiff. Has to be column name of
+variables in \code{data}.
 
-`res` specifies whether results should be aggregated across all
-participants or across `group` (`res` needs to be set to
-`agg`) or if scores should be converted for individuals only.
+\code{res} specifies whether results should be aggregated across all participants
+or across \code{group} (\code{res} needs to be set to \code{agg}) or if scores should be
+converted for individuals only (\code{res} needs to be set to \code{ind}).
 
-`anchor` only needs to be specified if anchored MaxDiff is applied.
-Input for `anchor` has to be variable name.
+\code{anchor} only needs to be specified if anchored MaxDiff is applied.
+Input for \code{anchor} has to to be column name of variables in \code{data}.
 }
 \examples{
-
-library(validateHOT)
 
 # zero-anchored interval scores for unanchored MaxDiff - without group
 # argument defined
 zero_anchored(
-  data = MaxDiff,
-  items = c(Option_01:Option_16),
+  data = maxdiff,
+  items = c(option_01:option_16),
   res = "agg"
 )
 \dontrun{
 # zero-anchored interval scores for unanchored MaxDiff - with group defined
 zero_anchored(
-  data = MaxDiff,
-  group = Group,
-  items = c(Option_01:Option_16),
+  data = maxdiff,
+  group = group,
+  items = c(option_01:option_16),
   res = "agg"
 )
 }
 
 # zero-anchored interval scores for anchored MaxDiff - without group defined
 zero_anchored(
-  data = MaxDiff,
-  items = c(Option_01:none),
+  data = maxdiff,
+  items = c(option_01:none),
   anchor = none,
   res = "agg"
 )
 \dontrun{
 # zero-anchored interval scores for anchored MaxDiff - with group defined
 zero_anchored(
-  data = MaxDiff,
-  group = Group,
-  items = c(Option_01:none),
+  data = maxdiff,
+  group = group,
+  items = c(option_01:none),
   anchor = none,
   res = "agg"
 )
@@ -97,8 +93,8 @@ Guide to Best-Worst Scaling} Provo, UT: Sawtooth Software.
 }
 \seealso{
 {
-\code{\link[=att_imp]{att_imp}} for attribute importance scores for (A)CBC
-\code{\link[=prob_scores]{prob_scores}} for probability scores for MaxDiff
-\code{\link[=zc_diffs]{zc_diffs}} for zero-centered diff scores for (A)CBC
+\code{\link[=att_imp]{att_imp()}} for attribute importance scores for (A)CBC
+\code{\link[=prob_scores]{prob_scores()}} for probability scores for MaxDiff
+\code{\link[=zc_diffs]{zc_diffs()}} for zero-centered diff scores for (A)CBC
 }
 }

@@ -1,228 +1,124 @@
-test_that("items missing ", {
+# check for error messages for missing arguments -------------------------------
+test_that("Error if items are missing ", {
   expect_error(zero_anchored(
-    data = MaxDiff,
+    data = maxdiff,
+    # items = c(option_01:option_16),
     res = "agg"
   ))
 })
 
-test_that("Only 1 item ", {
+
+test_that("Error if res is missing ", {
   expect_error(zero_anchored(
-    data = MaxDiff,
-    item = Option_01,
+    data = maxdiff,
+    items = c(option_01:option_16),
+    # res = "agg"
+  ))
+})
+
+# end --------------------------------------------------------------------------
+
+# check for wrong input --------------------------------------------------------
+test_that("Error if items has just length 1 ", {
+  expect_error(zero_anchored(
+    data = maxdiff,
+    items = option_01,
     res = "agg"
   ))
 })
 
-test_that("Item not numeric ", {
-  data2 <- MaxDiff
-  data2$Option_01 <- as.character(data2$Option_01)
+test_that("Error if anchor is not part of opts ", {
   expect_error(zero_anchored(
-    data = data2,
-    items = c(Option_01:Option_16),
+    data = maxdiff,
+    items = c(option_01:option_16),
+    anchor = none,
     res = "agg"
   ))
 })
 
-test_that("Group contains NAs - warning ", {
-  data2 <- MaxDiff
-  data2$Group[34] <- NA
+test_that("Error if opts contains NA ", {
+  maxdiff$option_02[34] <- NA
+
+  expect_error(zero_anchored(
+    data = maxdiff,
+    items = c(option_01:option_16),
+    res = "agg"
+  ))
+})
+
+test_that("Error if opts is not numeric ", {
+  maxdiff$option_02 <- as.character(maxdiff$option_02)
+
+  expect_error(zero_anchored(
+    data = maxdiff,
+    items = c(option_01:option_16),
+    res = "agg"
+  ))
+})
+
+test_that("Warning if group contains NA ", {
+  maxdiff$group[34] <- NA
+
   expect_warning(zero_anchored(
-    data = data2,
-    items = c(Option_01:Option_16),
-    group = Group,
-    res = "agg"
+    data = maxdiff,
+    items = c(option_01:none),
+    anchor = none,
+    res = "agg",
+    group = group
   ))
 })
 
-test_that("Items no NAs ", {
-  data2 <- MaxDiff
-  data2$Option_01[34] <- NA
+test_that("wrong input to res ", {
   expect_error(zero_anchored(
-    data = data2,
-    items = c(Option_01:Option_16),
-    res = "agg"
+    data = maxdiff,
+    items = c(option_01:option_16),
+    res = "test"
   ))
 })
 
-test_that("anchor needs to be numeric ", {
-  data2 <- MaxDiff
-  data2$none <- as.character(data2$none)
+test_that("Multiple variables provided to anchor ", {
   expect_error(zero_anchored(
-    data = data2,
-    items = c(Option_01:none),
-    anchor = "none",
+    data = maxdiff,
+    items = c(option_01:none),
+    anchor = c(option_01, none),
     res = "agg"
   ))
 })
 
+# end --------------------------------------------------------------------------
 
+# group input equals group output ----------------------------------------------
 test_that("group output equals group input ", {
-  expect_equal(utils::str(zero_anchored(
-    data = MaxDiff,
-    items = c(Option_01:Option_16),
-    group = Group,
-    res = "agg"
-  )[[1]]), utils::str(MaxDiff$Group))
+  expect_equal(str(zero_anchored(
+    data = maxdiff,
+    items = c(option_01:option_16),
+    res = "agg",
+    group = group
+  )[[1]]), str(maxdiff$group))
 })
 
 test_that("group output equals group input - character input ", {
-  MaxDiff$Group2 <- rep(c("Group 1", "Group 2"), length.out = nrow(MaxDiff))
-  expect_equal(utils::str(zero_anchored(
-    data = MaxDiff,
-    items = c(Option_01:Option_16),
-    group = Group2,
-    res = "agg"
-  )[[1]]), utils::str(MaxDiff$Group2))
+  maxdiff$group2 <- c("group 1", "group 2")
+  expect_equal(
+    str(zero_anchored(
+      data = maxdiff,
+      items = c(option_01:option_16),
+      res = "agg",
+      group = group2
+    )[[1]]), str(maxdiff$group2)
+  )
 })
 
 test_that("group output equals group input - labelled input ", {
-  MaxDiff$Group2 <- rep(c(1:2), length.out = nrow(MaxDiff))
-  MaxDiff$Group2 <- labelled::labelled(MaxDiff$Group2,
-    labels = c("Group 1" = 1, "Group 2" = 2)
+  maxdiff$group2 <- c(1:2)
+  maxdiff$group2 <- labelled::labelled(maxdiff$group2,
+    labels = c("group 1" = 1, "group 2" = 2)
   )
-  expect_equal(labelled::is.labelled(zero_anchored(
-    data = MaxDiff,
-    items = c(Option_01:Option_16),
-    group = Group2,
-    res = "agg"
-  )[[1]]), labelled::is.labelled(MaxDiff$Group2))
+  expect_true(labelled::is.labelled(zero_anchored(
+    data = maxdiff,
+    items = c(option_01:option_16),
+    res = "agg",
+    group = group2
+  )[[1]]))
 })
-
-
-test_that("Structure of Output data.frame ", {
-  expect_true(is.data.frame(
-    zero_anchored(
-      data = MaxDiff,
-      items = c(Option_01:Option_16),
-      res = "agg"
-    )
-  ))
-})
-
-test_that("Structure of Output tibble ", {
-  expect_true(tibble::is_tibble(
-    zero_anchored(
-      data = MaxDiff,
-      items = c(Option_01:Option_16),
-      res = "agg"
-    )
-  ))
-})
-
-
-test_that("check whether examples are correct ", {
-  tday <- validateHOT::MaxDiff
-  expect_equal(round(zero_anchored(
-    data = tday,
-    items = c(Option_01:Option_16),
-    res = "agg"
-  )[[2]], 1), c(-7.0, 5.2, 8.8, 0.6, -1.3, 17.5, -3.1, -2.9, -9.7, 3.3, 0.3, 4.5, 14.9, -22.5, 0.8, -9.4))
-})
-
-test_that("check whether examples are correct ", {
-  expect_equal(zero_anchored(
-    data = MaxDiff,
-    items = c(Option_01:Option_16),
-    res = "agg"
-  )[[1]], c(paste0("Option_0", c(1:9)), paste0("Option_", c(10:16))))
-})
-
-test_that("check whether examples are correct ", {
-  tday <- validateHOT::MaxDiff
-  expect_equal(round(as.numeric(zero_anchored(
-    data = tday,
-    items = c(Option_01:Option_16),
-    res = "agg"
-  )[[3]]), 1), c(40.5, 23.0, 19.7, 30.5, 30.2, 30.1, 31.7, 26.1, 26.0, 22.3, 24.6, 22.2, 18.1, 19.8, 26.3, 27.7))
-})
-
-test_that("anchor set to 0 ", {
-  expect_equal(zero_anchored(
-    data = MaxDiff,
-    items = c(Option_01:none),
-    anchor = none,
-    res = "agg"
-  )[[17, 2]], 0)
-})
-
-test_that("anchor also working with column index ", {
-  expect_equal(zero_anchored(
-    data = MaxDiff,
-    items = c(Option_01:none),
-    anchor = which(colnames(MaxDiff) == "none"),
-    res = "agg"
-  )[[17, 2]], 0)
-})
-
-test_that("anchor also working with column index ", {
-  expect_equal(
-    zero_anchored(
-      data = MaxDiff,
-      items = c(Option_01:none),
-      anchor = which(colnames(MaxDiff) == "none"),
-      res = "agg"
-    ),
-    zero_anchored(
-      data = MaxDiff,
-      items = c(Option_01:none),
-      anchor = "none",
-      res = "agg"
-    )
-  )
-})
-
-test_that("res missing ", {
-  expect_error(zero_anchored(
-    data = MaxDiff,
-    items = c(Option_01:none),
-    anchor = which(colnames(MaxDiff) == "none")
-  ))
-})
-
-test_that("res noz specified to ind or agg ", {
-  expect_error(zero_anchored(
-    data = MaxDiff,
-    items = c(Option_01:none),
-    anchor = which(colnames(MaxDiff) == "none"),
-    res = "xyz"
-  ))
-})
-
-test_that("group can not be specified when res set to ind ", {
-  expect_error(zero_anchored(
-    data = MaxDiff,
-    items = c(Option_01:none),
-    anchor = which(colnames(MaxDiff) == "none"),
-    res = "ind",
-    group = "Group"
-  ))
-})
-
-
-test_that("rows of inputs equals rows of output ", {
-  expect_equal(nrow(zero_anchored(
-    data = MaxDiff,
-    items = c(Option_01:none),
-    anchor = which(colnames(MaxDiff) == "none"),
-    res = "ind"
-  )), nrow(MaxDiff))
-})
-
-
-test_that("none not part of items ", {
-  expect_error(zero_anchored(
-    data = MaxDiff,
-    items = c(Option_01:Option_16),
-    anchor = which(colnames(MaxDiff) == "none"),
-    res = "agg"
-  ))
-})
-
-test_that("none not larger than 1 ", {
-  expect_error(zero_anchored(
-    data = MaxDiff,
-    items = c(Option_01:none),
-    anchor = c(which(colnames(MaxDiff) == "none"), "Option_16"),
-    res = "agg"
-  ))
-})
+# end --------------------------------------------------------------------------

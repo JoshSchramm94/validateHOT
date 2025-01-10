@@ -2,23 +2,23 @@
 #'
 #' @param data A data frame with all relevant variables.
 #' @param group Optional column name(s) to specify grouping variable(s) to get
-#' `att_imp` by group(s).
+#' `att_imp()` by group(s).
 #' @param attrib A list that specifies the attribute levels for each attribute.
 #' @param coding A vector of the coding of each attribute, '0' = part-worth
 #' coding, '1' = linear coding, or '2' = piecewise coding.
 #' @param interpolate.levels A list of the attribute levels that should
 #' be interpolated. These have to be the same as specified in model estimation
 #' (e.g., if you center attribute levels before estimation, insert the centered
-#' levels). Please make sure to provide the whole list. Only has to be
-#' specified for the variables that are coded as `1` (linear).
-#' @param res A vector indicating whether individual shares (`ind`) or
-#' aggregated (`agg`) shares should be returned.
+#' levels). Please make sure to provide the whole list (i.e., all levels). Only
+#' has to be specified for the variables that are coded as `1` (linear).
+#' @param res A vector indicating whether individual results (`ind`) or
+#' aggregated (`agg`) results should be returned.
 #'
 #' @details
-#' `att_imp` converts raw utilities of a CBC or an ACBC to relative
+#' `att_imp()` converts raw utilities of a CBC or an ACBC to relative
 #' importance scores (see, Orme, 2020, p. 80, for more information).
 #'
-#' `data` has to be a data frame with all attributes and the corresponding
+#' `data` a data frame with all attributes and the corresponding
 #' levels. Attribute levels need to be the raw utilities of hierarchical Bayes
 #'  estimation.
 #'
@@ -29,13 +29,13 @@
 #' Input for `attrib` has to be a list. Needs to specify the column names
 #' or column indexes of the attribute levels.
 #'
-#' `coding` is required to indicate the attribute coding. `0`
-#' to indicated part-worth coding, `1` for linear coding, or `2` for
+#' `coding` is required to indicate the attributes' coding. `0`
+#' to indicate part-worth coding, `1` for linear coding, or `2` for
 #' piecewise coding.
 #'
 #' `interpolate.levels` is required for linear coded variables.
 #' If scaled or centered values were used for hierarchical Bayes
-#' estimation, these need to be defined in `att_imp`.
+#' estimation, these need to be defined in `att_imp()`.
 #' All values have to be specified. For example, if one linear coded attribute
 #' has 5 levels, all 5 levels have to be inserted.
 #'
@@ -45,265 +45,217 @@
 #'
 #'
 #' @seealso {
-#' \code{\link[=prob_scores]{prob_scores}} for probability scores for MaxDiff
-#' \code{\link[=zero_anchored]{zero_anchored}} for zero-anchored interval
+#' [`prob_scores()`][prob_scores] for probability scores for MaxDiff
+#' [`zero_anchored()`][zero_anchored] for zero-anchored interval
 #' scores for MaxDiff
-#' \code{\link[=zc_diffs]{zc_diffs}} for zero-centered diff scores for (A)CBC
+#' [`zc_diffs()`][zc_diffs] for zero-centered diff scores for (A)CBC
 #' }
 #'
 #' @return a tibble
-#' @importFrom dplyr across group_by mutate pick reframe select vars
-#' @importFrom magrittr "%>%"
-#' @importFrom stats sd
-#' @importFrom tidyselect all_of ends_with
-#' @importFrom tidyr pivot_longer
 #'
 #' @references {
 #'
-#' Orme, B. K. (2020). \emph{Getting Started with Conjoint Analysis: Strategies
-#' for Product Design and Pricing Research}. 4th edition. Manhattan Beach,
+#' Orme, B. K. (2020). *Getting Started with Conjoint Analysis: Strategies
+#' for Product Design and Pricing Research*. 4th edition. Manhattan Beach,
 #' CA: Research Publishers LLC.
 #'
 #' }
 #'
 #' @examples
 #'
-#' library(validateHOT)
-#'
 #' att_imp(
-#'   data = CBC,
+#'   data = cbc,
 #'   attrib = list(
-#'     c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-#'     c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-#'     c(
-#'       "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4",
-#'       "Att3_Lev5", "Att3_Lev6", "Att3_Lev7"
-#'     )
+#'     paste0("att1_lev", c(1:3)),
+#'     paste0("att2_lev", c(1:2)),
+#'     paste0("att3_lev", c(1:4)),
+#'     paste0("att4_lev", c(1:4)),
+#'     paste0("att5_lev", c(1:2)),
+#'     paste0("att6_lev", c(1:4)),
+#'     paste0("att7_lev", c(1:6)),
+#'     paste0("att8_lev", c(1:6)),
+#'     paste0("price_", c(1:6))
 #'   ),
-#'   coding = c(0, 0, 0),
+#'   coding = c(rep(0, times = 9)),
 #'   res = "agg"
 #' )
 #'
 #' att_imp(
-#'   data = CBC_lin,
+#'   data = cbc_linear,
 #'   attrib = list(
-#'     c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-#'     c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-#'     c("Att3_Lin")
+#'     paste0("att1_lev", c(1:3)),
+#'     paste0("att2_lev", c(1:2)),
+#'     paste0("att3_lev", c(1:4)),
+#'     paste0("att4_lev", c(1:4)),
+#'     paste0("att5_lev", c(1:2)),
+#'     paste0("att6_lev", c(1:4)),
+#'     paste0("att7_lev", c(1:6)),
+#'     paste0("att8_lev", c(1:6)),
+#'     "price"
 #'   ),
-#'   coding = c(0, 0, 1),
-#'   interpolate.levels = list(c(10, 20, 30, 40, 50, 60, 70)),
+#'   coding = c(rep(0, times = 8), 1),
+#'   interpolate.levels = list(c(seq(from = 175.99, to = 350.99, by = 35))),
 #'   res = "agg"
 #' )
 #'
 #' @export
-att_imp <- function(data, group = NULL, attrib, coding,
-                    interpolate.levels = NULL, res = c("agg", "ind")) {
-  # grouping variable
-  ## check for missings
-  if (anyNA(data %>% dplyr::select({{ group }}))) {
-    warning("Warning: 'group' contains NAs!")
+att_imp <- function(data,
+                    group = NULL,
+                    attrib, coding,
+                    interpolate.levels = NULL,
+                    res = c("agg", "ind")) {
+  # check for missing arguments ------------------------------------------------
+  if (missing(attrib)) {
+    stop('Error: argument "attrib" must be provided!')
   }
 
-  if (is.null(coding)) {
-    stop("Error: 'coding' has to be specified!")
-  }
-
-  if (length(attrib) != length(coding)) {
-    stop("Error: 'coding' and 'attrib' have to have the same length!")
-  }
-
-
-  # test numeric input for coding
-  if (!(is.null(coding))) {
-    for (i in seq_along(coding)) {
-      if (!(is.numeric(coding[i]))) {
-        stop("Error: 'coding' only can have numeric input!")
-      }
-    }
-  }
-
-  # test whether coding only includes 0, 1
-  if (any(coding != 0 & coding != 1 & coding != 2)) {
-    stop(
-      "Error: Please only use '0' (for part-worth), '1' (for linear), or
-      '2' (for piecewise)!"
-    )
-  }
-
-
-  # test input of interpolate levels
-  if (!(is.list(interpolate.levels)) &&
-    !(is.null(interpolate.levels))) {
-    stop("Error: Input of 'interpolate.levels' has to be a list!")
-  }
-
-  # test variables of interpolate.levels
-  if (!(is.null(interpolate.levels))) {
-    for (tt in seq_along(interpolate.levels)) {
-      lng <- length(interpolate.levels[[tt]])
-
-      for (lng_lev in 1:lng) {
-        if (!(is.numeric(interpolate.levels[[tt]][lng_lev]))) {
-          stop(
-            "Error: Input of 'interpolate.levels' has to be a list ",
-            "with only numeric values!"
-          )
-        }
-      }
-    }
-  }
-
-  # interpolate.levels can not be larger than number of attributes
-  if (!is.null(interpolate.levels) &&
-    (length(interpolate.levels) > length(attrib))) {
-    stop(
-      "Error: List of 'interpolate.levels' can not be larger than list of
-      'attrib'!"
-    )
-  }
-
-  # check length of 'attrib' and coding
-  # test input of list in prod.levels
-  if (!(is.null(attrib))) {
-    for (tt in seq_along(attrib)) {
-      if (length(attrib[[tt]]) == 1 && coding[tt] == 0) {
-        stop(
-          "Error: If attribute is part-worth coded at least 2 attribute levels
-          need to be specified!"
-        )
-      }
-
-      if (length(attrib[[tt]]) > 1 && coding[tt] == 1) {
-        stop(
-          "Error: If attribute is linear coded only one attribute level needs
-          to be specified!"
-        )
-      }
-
-      if (length(attrib[[tt]]) == 1 && coding[tt] == 2) {
-        stop(
-          "Error: If attribute is piecewise coded at least 2 attribute levels
-          need to be specified!"
-        )
-      }
-    }
-  }
-
-  # if 1 is coded, interpolate.levels needs to be specified
-  if (any(coding == 1) && is.null(interpolate.levels)) {
-    stop(
-      "Error: 'interpolate.levels' is missing!"
-    )
-  }
-
-  # if no 1 coded interpolate.levels is not needed
-  if (!any(coding == 1) && !is.null(interpolate.levels)) {
-    stop(
-      "Error: 'interpolate.levels' only needs to be specified for linear
-      coded variables!"
-    )
-  }
-
-  # number of coding larger than length of interpolate levels
-
-  if (!is.null(interpolate.levels) &&
-    (sum(coding == 1) != length(interpolate.levels))) {
-    stop(
-      "Error: Number of linear coded variables is not equal to length of
-      'interpolate.levels'!"
-    )
-  }
-
-  # test whether res is specified
   if (missing(res)) {
-    stop("Error: 'res' is not defined!")
+    stop('Error: argument "res" must be provided!')
   }
 
-  # test whether res is correctly specified
-  if ((res != "agg") && (res != "ind")) {
-    stop(
-      "Error: 'res' can only be set to 'agg' or 'ind'!"
+  if (missing(coding)) {
+    stop('Error: argument "coding" must be provided!')
+  }
+
+  # end ------------------------------------------------------------------------
+
+  # check for attrib argument --------------------------------------------------
+
+  # attrib and coding must have the same length
+  same_length(coding, attrib, "coding", "attrib")
+
+  # end ------------------------------------------------------------------------
+
+  # check for coding argument --------------------------------------------------
+
+  # coding input should be numeric
+  numeric_vector(coding)
+
+  # coding must be 0, 1, 2
+  allowed_input(coding, c(0, 1, 2))
+
+  # only one piecewise coded attribute
+  number_piecewise(coding)
+
+  # end ------------------------------------------------------------------------
+
+  # check for interpolate.levels argument --------------------------------------
+  if (any(coding == 1)) {
+
+    # interpolate.levels must be provided if coding includes 1
+    if (missing(interpolate.levels)) {
+      stop('Error: argument "interpolate.levels" must be provided!')
+    }
+
+    # interpolate.levels must be a list
+    list_input(interpolate.levels)
+
+    # interpolate levels must be list with only numeric input
+    numeric_list(interpolate.levels)
+
+    # interpolate levels must be the same length as '1' specifies
+    coding_equals_length_list(coding, interpolate.levels, 1)
+
+    # coding input must equal length interpolate levels
+    same_length(
+      coding[coding %in% 1],
+      interpolate.levels,
+      "coding",
+      "interpolate.levels"
     )
   }
 
-  # number of coding larger than length of interpolate levels
-
-  if (any(coding == 2)) {
-    if (sum(coding == 2) > 1) {
-      stop("Error: Only one attribute can be piecewise-coded!")
+  if (all(coding != 1)) {
+    if (!missing(interpolate.levels)) {
+      stop('Error: argument "interpolate.levels" must not be defined!')
     }
   }
 
-  # can not specify res to 'ind' and specify group
-  if ((res == "ind") && !missing(group)) {
-    stop("Error: Can not speficy 'group' if 'res' is set to 'ind'!")
+  # end ------------------------------------------------------------------------
+
+  # check coding and attrib ----------------------------------------------------
+  for (i in seq_along(coding)) {
+    switch(EXPR = (coding[i] + 1),
+      coding_zero(attrib[i], attribute = i),
+      coding_one(attrib[i], attribute = i)
+    )
   }
 
-  ############################################################################
+  # numeric variables
+  attrib_names <- unlist(attrib)
+  var_names <- colnames(data[attrib_names])
+  variable_numeric_alt(data, variable = var_names, argument = attrib)
 
-  att <- length(attrib)
+  # end ------------------------------------------------------------------------
 
-  new <- c()
+  # check res ------------------------------------------------------------------
+  allowed_input(res, c("ind", "agg"))
 
-  helper <- 1
-  for (i in 1:att) {
-    data[[paste0("att_imp_", i)]] <- 0
+  # end ------------------------------------------------------------------------
 
-    vars <- attrib[[i]]
+  # check for group argument ---------------------------------------------------
 
-    new <- c(new, paste0("att_imp_", i))
+  # check for missings in group
+  missing_group(data, group = {{ group }})
+  # end ------------------------------------------------------------------------
 
-    for (j in seq_len(nrow(data))) {
-      if (coding[i] == 0 || coding[i] == 2) {
-        data[j, paste0("att_imp_", i)] <- abs(
-          diff(range(data[j, vars]))
-        )
-      }
+  # run att_imp() function -----------------------------------------------------
 
-      if (coding[i] == 1) {
-        data[j, paste0("att_imp_", i)] <- abs(
-          data[j, vars] * abs(
-            diff(range(interpolate.levels[[helper]]))
-          )
-        )
-      }
+  # create column names for new variables
+  new_col_names <- paste0("att_imp_", c(seq_along(coding)))
+
+  for (i in seq_along(coding)) {
+
+    # store the attribute levels
+    att_levels <- attrib[[i]]
+
+    # if not linear coded, calculate the difference between max and min
+    if (coding[i] != 1) {
+      data[[new_col_names[i]]] <- apply(data[att_levels], 1, summed_range)
     }
 
+    # if linear coded variable handle it differently
     if (coding[i] == 1) {
-      helper <- helper + 1
+      list_member <- sum(coding[1:i] == 1)
+      range_levels <- vapply(
+        X = interpolate.levels,
+        FUN = summed_range,
+        FUN.VALUE = numeric(1)
+      )[list_member]
+
+      data[[new_col_names[i]]] <- vapply(
+        X = data[, att_levels],
+        FUN = \(x) abs(x) * range_levels,
+        FUN.VALUE = numeric(1)
+      )
     }
   }
 
+  # calculate relative percentage
+  att_imp_res <- data %>%
+    dplyr::mutate(
+      dplyr::across(
+        tidyselect::all_of(new_col_names),
+        \(x) x / rowSums(.[, new_col_names]) * 100
+      )
+    )
+
+
+  # create aggregated results, if results set to "agg"
   if (res == "agg") {
-    attribute_importance <- data %>%
-      dplyr::mutate(dplyr::across(
-        tidyselect::all_of(new),
-        ~ .x / rowSums(data[new])
+    att_imp_res <- att_imp_res %>%
+      dplyr::group_by(pick({{ group }})) %>%
+      dplyr::reframe(dplyr::across(tidyselect::all_of(new_col_names),
+        c(mw = mean, std = sd),
+        .names = "{.col}___{.fn}"
       )) %>%
-      dplyr::group_by(dplyr::pick({{ group }})) %>%
-      dplyr::reframe(dplyr::across(tidyselect::all_of(new),
-        c(mw = mean, std = stats::sd),
-        .names = "{.col}....{.fn}"
-      )) %>%
-      tidyr::pivot_longer(.,
-        cols = tidyselect::ends_with(c("....mw", "....std")),
-        names_to = c("Option", ".value"), names_sep = "\\.\\.\\.\\."
-      ) %>%
-      dplyr::mutate_at(dplyr::vars(mw, std), ~ .x * 100)
-
-    return(attribute_importance)
+      tidyr::pivot_longer(
+        cols = tidyselect::ends_with(c("___mw", "___std")),
+        names_to = c("alternative", ".value"),
+        names_sep = "___"
+      )
   }
 
-  if (res == "ind") {
-    attribute_importance <- data %>%
-      dplyr::mutate(dplyr::across(
-        tidyselect::all_of(new),
-        ~ .x / rowSums(data[new])
-      )) %>%
-      dplyr::select({{ group }}, tidyselect::all_of(new)) %>%
-      dplyr::mutate(dplyr::across(tidyselect::all_of(new), ~ .x * 100))
-
-    return(attribute_importance)
-  }
+  return(att_imp_res)
+  # end ------------------------------------------------------------------------
 }

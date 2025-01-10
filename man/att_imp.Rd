@@ -17,7 +17,7 @@ att_imp(
 \item{data}{A data frame with all relevant variables.}
 
 \item{group}{Optional column name(s) to specify grouping variable(s) to get
-`att_imp` by group(s).}
+\code{att_imp()} by group(s).}
 
 \item{attrib}{A list that specifies the attribute levels for each attribute.}
 
@@ -27,11 +27,11 @@ coding, '1' = linear coding, or '2' = piecewise coding.}
 \item{interpolate.levels}{A list of the attribute levels that should
 be interpolated. These have to be the same as specified in model estimation
 (e.g., if you center attribute levels before estimation, insert the centered
-levels). Please make sure to provide the whole list. Only has to be
-specified for the variables that are coded as `1` (linear).}
+levels). Please make sure to provide the whole list (i.e., all levels). Only
+has to be specified for the variables that are coded as \code{1} (linear).}
 
-\item{res}{A vector indicating whether individual shares (`ind`) or
-aggregated (`agg`) shares should be returned.}
+\item{res}{A vector indicating whether individual results (\code{ind}) or
+aggregated (\code{agg}) results should be returned.}
 }
 \value{
 a tibble
@@ -40,61 +40,68 @@ a tibble
 Function to calculate attributes' importance score of (A)CBCs
 }
 \details{
-`att_imp` converts raw utilities of a CBC or an ACBC to relative
+\code{att_imp()} converts raw utilities of a CBC or an ACBC to relative
 importance scores (see, Orme, 2020, p. 80, for more information).
 
-`data` has to be a data frame with all attributes and the corresponding
+\code{data} a data frame with all attributes and the corresponding
 levels. Attribute levels need to be the raw utilities of hierarchical Bayes
- estimation.
+estimation.
 
-`group` optional grouping variable, if results should be displayed by
-different groups. Has to be column name of variables in `data`.
+\code{group} optional grouping variable, if results should be displayed by
+different groups. Has to be column name of variables in \code{data}.
 
-`attrib` specifies the attribute levels for each alternative.
-Input for `attrib` has to be a list. Needs to specify the column names
+\code{attrib} specifies the attribute levels for each alternative.
+Input for \code{attrib} has to be a list. Needs to specify the column names
 or column indexes of the attribute levels.
 
-`coding` is required to indicate the attribute coding. `0`
-to indicated part-worth coding, `1` for linear coding, or `2` for
+\code{coding} is required to indicate the attributes' coding. \code{0}
+to indicate part-worth coding, \code{1} for linear coding, or \code{2} for
 piecewise coding.
 
-`interpolate.levels` is required for linear coded variables.
+\code{interpolate.levels} is required for linear coded variables.
 If scaled or centered values were used for hierarchical Bayes
-estimation, these need to be defined in `att_imp`.
+estimation, these need to be defined in \code{att_imp()}.
 All values have to be specified. For example, if one linear coded attribute
 has 5 levels, all 5 levels have to be inserted.
 
-`res` specifies whether results should be aggregated across all
-participants or across `group` (`res` needs to be set to
-`agg`) or if scores should be converted for individuals only.
+\code{res} specifies whether results should be aggregated across all
+participants or across \code{group} (\code{res} needs to be set to
+\code{agg}) or if scores should be converted for individuals only.
 }
 \examples{
 
-library(validateHOT)
-
 att_imp(
-  data = CBC,
+  data = cbc,
   attrib = list(
-    c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-    c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-    c(
-      "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4",
-      "Att3_Lev5", "Att3_Lev6", "Att3_Lev7"
-    )
+    paste0("att1_lev", c(1:3)),
+    paste0("att2_lev", c(1:2)),
+    paste0("att3_lev", c(1:4)),
+    paste0("att4_lev", c(1:4)),
+    paste0("att5_lev", c(1:2)),
+    paste0("att6_lev", c(1:4)),
+    paste0("att7_lev", c(1:6)),
+    paste0("att8_lev", c(1:6)),
+    paste0("price_", c(1:6))
   ),
-  coding = c(0, 0, 0),
+  coding = c(rep(0, times = 9)),
   res = "agg"
 )
 
 att_imp(
-  data = CBC_lin,
+  data = cbc_linear,
   attrib = list(
-    c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-    c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-    c("Att3_Lin")
+    paste0("att1_lev", c(1:3)),
+    paste0("att2_lev", c(1:2)),
+    paste0("att3_lev", c(1:4)),
+    paste0("att4_lev", c(1:4)),
+    paste0("att5_lev", c(1:2)),
+    paste0("att6_lev", c(1:4)),
+    paste0("att7_lev", c(1:6)),
+    paste0("att8_lev", c(1:6)),
+    "price"
   ),
-  coding = c(0, 0, 1),
-  interpolate.levels = list(c(10, 20, 30, 40, 50, 60, 70)),
+  coding = c(rep(0, times = 8), 1),
+  interpolate.levels = list(c(seq(from = 175.99, to = 350.99, by = 35))),
   res = "agg"
 )
 
@@ -110,9 +117,9 @@ CA: Research Publishers LLC.
 }
 \seealso{
 {
-\code{\link[=prob_scores]{prob_scores}} for probability scores for MaxDiff
-\code{\link[=zero_anchored]{zero_anchored}} for zero-anchored interval
+\code{\link[=prob_scores]{prob_scores()}} for probability scores for MaxDiff
+\code{\link[=zero_anchored]{zero_anchored()}} for zero-anchored interval
 scores for MaxDiff
-\code{\link[=zc_diffs]{zc_diffs}} for zero-centered diff scores for (A)CBC
+\code{\link[=zc_diffs]{zc_diffs()}} for zero-centered diff scores for (A)CBC
 }
 }

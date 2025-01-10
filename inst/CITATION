@@ -1,8 +1,8 @@
 bibentry(
   bibtype  = "Unpublished",
-  title    = "validateHOT - An R Package to Validate Holdout Tasks",
+  title    = "validateHOT - An R Package for holdout task validation and market simulations",
   author   = "Joshua Schramm & Marcel Lichters",
-  year     = "2023",
-  note     = "R package version 1.0.0",
+  year     = "2025",
+  note     = "R package version 1.0.4",
   url      = "https://github.com/JoshSchramm94/validateHOT"
 )

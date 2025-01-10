@@ -26,14 +26,15 @@ coding, '1' = linear coding, or '2' = piecewise coding.}
 
 \item{interpolate.levels}{A list of the attribute levels that should
 be interpolated. These have to be the same as specified in model estimation
-(e.g., if you scale or center attribute levels before estimation, insert these levels).
-Please make sure to provide the whole list. Only has to be specified for the
-variables that are coded as '1' (linear).}
+(e.g., if you scale or center attribute levels before estimation, insert
+these levels). Please make sure to provide all levels. Only has to be
+specified for the variables that are coded as '1' (linear).}
 
-\item{res}{A vector indicating whether individual zero-centered diffs (`ind`) or
-aggregated (`agg`) zero-centered diffs should be returned.}
+\item{res}{A character vector indicating whether individual zero-centered
+diffs  (\code{ind}) or aggregated (\code{agg}) zero-centered diffs should be returned.}
 
-\item{none}{A vector whether `none` option was included.}
+\item{none}{An optional vector to specify \code{none}
+alternative in \code{data}.}
 }
 \value{
 a tibble
@@ -42,114 +43,119 @@ a tibble
 Function to calculate zero-centered diffs for (A)CBCs
 }
 \details{
-`zc_diffs()` converts raw utilities of a CBC or an ACBC to
+\code{zc_diffs()} converts raw utilities of a CBC or an ACBC to
 zero-centered diffs (Orme, 2020, p. 78). This allows for comparison between
 the attributes.
 
-`data` has to be a data frame with the attributes. Attribute levels have
+\code{data} has to be a data frame with the attributes. Attribute levels have
 to be the raw utilities.
 
-`group` optional grouping variable, if results should be displayed by
-different groups. Has to be column name of variables in `data`.
+\code{group} optional grouping variable, if results should be displayed by
+different groups. Has to be column name of variables in \code{data}.
 
-`attrib` specifies the attribute levels for each alternative.
-Input for `attrib` has to be a list. Needs to specify the column names or
+\code{attrib} specifies the attribute levels for each alternative.
+Input for \code{attrib} has to be a list. Needs to specify the column names or
 column indexes of the attribute levels.
 
-`coding` indicates the attribute coding. `0`to indicated part-worth coding,
-`1` for linear coding, or `2` for piecewise coding.
+\code{coding} indicates the attribute coding. \code{0}to indicated part-worth coding,
+\code{1} for linear coding, or \code{2} for piecewise coding.
 
-`interpolate.levels` is required for linear-coded variables.
+\code{interpolate.levels} is required for linear-coded variables.
 If scaled or centered values were used for Hierarchical Bayes
 estimation, these have to be specified in this case.
 All values have to be specified. For example, if one linear-coded attribute
 has 5 levels, all 5 levels have to be inserted.
 
-`res` specifies whether results should be aggregated across all participants
-or across `group` (`res` needs to be set to `agg`) or if scores
+\code{res} specifies whether results should be aggregated across all participants
+or across \code{group} (\code{res} needs to be set to \code{agg}) or if scores
 should be converted for individuals only.
 
-`none` specifies whether none option was included or not, if yes,
-column name or column index of `none` needs to be specified. If no
-`none` option was included, leave it empty.
+\code{none} specifies whether none option was included or not, if yes,
+column name or column index of \code{none} needs to be specified. If no
+\code{none} option was included, leave it empty.
 }
 \examples{
 
-library(validateHOT)
-
-# zero-centered scores for CBC (only part-worth) - without group argument defined
+# zero-centered scores for CBC (only part-worth) - without group
+# argument defined
 zc_diffs(
-  data = CBC,
+  data = cbc,
   attrib = list(
-    c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-    c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-    c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5", "Att3_Lev6", "Att3_Lev7")
+    paste0("att1_lev", c(1:3)),
+    paste0("att2_lev", c(1:2)),
+    paste0("att3_lev", c(1:4)),
+    paste0("att4_lev", c(1:4)),
+    paste0("att5_lev", c(1:2)),
+    paste0("att6_lev", c(1:4)),
+    paste0("att7_lev", c(1:6)),
+    paste0("att8_lev", c(1:6)),
+    paste0("price_", c(1:6))
   ),
-  coding = c(0, 0, 0),
+  coding = c(rep(0, times = 9)),
   none = "none",
   res = "agg"
 )
 
-# zero-centered scores for CBC (only part-worth) - with group argument defined
+# zero-centered scores for CBC (only part-worth) - with group argument
+# defined
 \dontrun{
 zc_diffs(
-  data = CBC,
+  data = cbc,
   attrib = list(
-    c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-    c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-    c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5", "Att3_Lev6", "Att3_Lev7")
+    paste0("att1_lev", c(1:3)),
+    paste0("att2_lev", c(1:2)),
+    paste0("att3_lev", c(1:4)),
+    paste0("att4_lev", c(1:4)),
+    paste0("att5_lev", c(1:2)),
+    paste0("att6_lev", c(1:4)),
+    paste0("att7_lev", c(1:6)),
+    paste0("att8_lev", c(1:6)),
+    paste0("price_", c(1:6))
   ),
-  coding = c(0, 0, 0),
+  coding = c(rep(0, times = 9)),
   none = "none",
-  group = "Group",
+  group = group,
   res = "agg"
 )
 }
 
-# zero-centered scores for CBC (incl. linear coded attribute) - without group argument defined
+# zero-centered scores for CBC (incl. linear coded attribute) - without
+# group argument defined
 zc_diffs(
-  data = CBC_lin,
+  data = cbc_linear,
   attrib = list(
-    c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-    c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-    c("Att3_Lin")
+    paste0("att1_lev", c(1:3)),
+    paste0("att2_lev", c(1:2)),
+    paste0("att3_lev", c(1:4)),
+    paste0("att4_lev", c(1:4)),
+    paste0("att5_lev", c(1:2)),
+    paste0("att6_lev", c(1:4)),
+    paste0("att7_lev", c(1:6)),
+    paste0("att8_lev", c(1:6)),
+    "price"
   ),
-  coding = c(0, 0, 1),
-  interpolate.levels = list(c(10, 20, 30, 40, 50, 60, 70)),
+  coding = c(rep(0, times = 8), 1),
+  interpolate.levels = list(c(seq(from = 175.99, to = 350.99, by = 35))),
   none = "none",
   res = "agg"
 )
 
-# zero-centered scores for CBC (incl. linear coded attribute) - with group argument defined
-\dontrun{
-zc_diffs(
-  data = CBC_lin,
-  attrib = list(
-    c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-    c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-    c("Att3_Lin")
-  ),
-  coding = c(0, 0, 1),
-  interpolate.levels = list(c(10, 20, 30, 40, 50, 60, 70)),
-  none = "none",
-  group = "Group",
-  res = "agg"
-)
-}
 
 }
 \references{
 {
 
-Orme, B. K. (2020). \emph{Getting Started with Conjoint Analysis: Strategies for Product Design and Pricing Research}.
-4th edition. Manhattan Beach, CA: Research Publishers LLC.
+Orme, B. K. (2020). \emph{Getting Started with Conjoint Analysis: Strategies
+for Product Design and Pricing Research}. 4th edition. Manhattan Beach, CA:
+Research Publishers LLC.
 
 }
 }
 \seealso{
 {
-\code{\link[=att_imp]{att_imp}} for attribute importance scores for (A)CBC
-\code{\link[=prob_scores]{prob_scores}} for probability scores for MaxDiff
-\code{\link[=zero_anchored]{zero_anchored}} for zero-anchored interval scores for MaxDiff
+\code{\link[=att_imp]{att_imp()}} for attribute importance scores for (A)CBC
+\code{\link[=prob_scores]{prob_scores()}} for probability scores for MaxDiff
+\code{\link[=zero_anchored]{zero_anchored()}} for zero-anchored interval
+scores for MaxDiff
 }
 }

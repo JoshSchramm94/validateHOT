@@ -3,8 +3,8 @@
 #' @param data A data frame with all relevant variables.
 #' @param group Optional column name(s) to specify grouping variable(s).
 #' @param items Vector that specifies the items.
-#' @param res A vector indicating whether individual shares (`ind`) or
-#' aggregated (`agg`) shares should be returned.
+#' @param res A vector indicating whether individual results (`ind`) or
+#' aggregated (`agg`) results should be returned.
 #' @param anchor An optional variable to specify anchor variable.
 #'
 #'
@@ -12,222 +12,158 @@
 #' `zero_anchored()` converts raw utilities of a MaxDiff to zero-anchored
 #' interval scores that have a range of 100.
 #'
-#' For anchored MaxDiff the anchor is set to 0. More information can be
-#' obtained here: https://sawtoothsoftware.com/help/lighthouse-studio/manual/analysis-manager-maxdiff-export-settings.html
+#' For anchored MaxDiff the anchor is set to 0.
 #'
-#' `data` has to be a data frame with the attributes. Items have
-#' to be the raw utilities.
+#' `data` a data frame with the attributes (raw utilities).
 #'
 #' `group` optional grouping variable, if results should be displayed by
 #' different groups. Has to be column name of variables in `data`.
 #'
-#' `items` specifies the items of the MaxDiff.
-#' Input for `items` has to be variable names.
+#' `items` specifies the items of the MaxDiff. Has to be column name of
+#' variables in `data`.
 #'
-#' `res` specifies whether results should be aggregated across all
-#' participants or across `group` (`res` needs to be set to
-#' `agg`) or if scores should be converted for individuals only.
+#' `res` specifies whether results should be aggregated across all participants
+#' or across `group` (`res` needs to be set to `agg`) or if scores should be
+#' converted for individuals only (`res` needs to be set to `ind`).
 #'
 #' `anchor` only needs to be specified if anchored MaxDiff is applied.
-#' Input for `anchor` has to be variable name.
+#' Input for `anchor` has to to be column name of variables in `data`.
 #'
-#' @importFrom dplyr select across reframe group_by pick
-#' @importFrom magrittr "%>%"
-#' @importFrom tidyselect all_of ends_with
-#' @importFrom tidyr pivot_longer
-#' @importFrom scales rescale
-#' @importFrom tibble as_tibble is_tibble
 #'
 #' @return a tibble
 #'
 #'
 #' @seealso {
-#' \code{\link[=att_imp]{att_imp}} for attribute importance scores for (A)CBC
-#' \code{\link[=prob_scores]{prob_scores}} for probability scores for MaxDiff
-#' \code{\link[=zc_diffs]{zc_diffs}} for zero-centered diff scores for (A)CBC
+#' [`att_imp()`][att_imp] for attribute importance scores for (A)CBC
+#' [`prob_scores()`][prob_scores] for probability scores for MaxDiff
+#' [`zc_diffs()`][zc_diffs] for zero-centered diff scores for (A)CBC
 #' }
 #'
 #' @references {
 #'
-#' Chrzan, K., & Orme, B. K. (2019). \emph{Applied MaxDiff: A Practitioner’s
-#' Guide to Best-Worst Scaling} Provo, UT: Sawtooth Software.
+#' Chrzan, K., & Orme, B. K. (2019). *Applied MaxDiff: A Practitioner’s
+#' Guide to Best-Worst Scaling* Provo, UT: Sawtooth Software.
 #'
 #' }
 #'
 #' @examples
 #'
-#' library(validateHOT)
-#'
 #' # zero-anchored interval scores for unanchored MaxDiff - without group
 #' # argument defined
 #' zero_anchored(
-#'   data = MaxDiff,
-#'   items = c(Option_01:Option_16),
+#'   data = maxdiff,
+#'   items = c(option_01:option_16),
 #'   res = "agg"
 #' )
 #' \dontrun{
 #' # zero-anchored interval scores for unanchored MaxDiff - with group defined
 #' zero_anchored(
-#'   data = MaxDiff,
-#'   group = Group,
-#'   items = c(Option_01:Option_16),
+#'   data = maxdiff,
+#'   group = group,
+#'   items = c(option_01:option_16),
 #'   res = "agg"
 #' )
 #' }
 #'
 #' # zero-anchored interval scores for anchored MaxDiff - without group defined
 #' zero_anchored(
-#'   data = MaxDiff,
-#'   items = c(Option_01:none),
+#'   data = maxdiff,
+#'   items = c(option_01:none),
 #'   anchor = none,
 #'   res = "agg"
 #' )
 #' \dontrun{
 #' # zero-anchored interval scores for anchored MaxDiff - with group defined
 #' zero_anchored(
-#'   data = MaxDiff,
-#'   group = Group,
-#'   items = c(Option_01:none),
+#'   data = maxdiff,
+#'   group = group,
+#'   items = c(option_01:none),
 #'   anchor = none,
 #'   res = "agg"
 #' )
 #' }
 #'
 #' @export
-zero_anchored <- function(data, group = NULL, items,
-                          res = c("agg", "ind"), anchor = NULL) {
+zero_anchored <- function(data,
+                          group = NULL,
+                          items,
+                          res = c("agg", "ind"),
+                          anchor = NULL) {
+  # check for missing arguments ------------------------------------------------
   if (missing(items)) {
-    stop("Error: 'items' is missing!")
+    stop('Error: argument "items" must be provided.')
   }
 
-  if (isTRUE(tibble::is_tibble(data))) {
-    stop("Error: 'data' has to be a data frame!")
-  }
-
-  if (length(data %>% dplyr::select({{ items }})) < 2) {
-    stop("Error: specify at least 2 items in 'items'!")
-  }
-
-  if (anyNA(data %>% dplyr::select({{ group }}))) {
-    warning("Warning: 'group' contains NAs!")
-  }
-
-  # alternatives
-  ## store names of alternatives
-  alternatives <- data %>%
-    dplyr::select({{ items }}) %>%
-    colnames()
-
-  ## check whether variable is numeric
-  for (i in seq_along(alternatives)) {
-    if (!is.numeric(data[[alternatives[i]]])) {
-      stop("Error: 'items' has to be numeric!")
-    }
-  }
-
-  ## check for missings
-  if (anyNA(data %>% dplyr::select({{ items }}))) {
-    stop("Error: 'items' contains NAs!")
-  }
-
-
-
-  # test whether res is specified
   if (missing(res)) {
-    stop("Error: 'res' is not defined!")
+    stop('Error: argument "res" must be provided.')
   }
+  # end ------------------------------------------------------------------------
 
-  # test whether res is correctly specified
-  if ((res != "agg") && (res != "ind")) {
-    stop(
-      "Error: 'res' can only be set to 'agg' or 'ind'!"
-    )
-  }
+  # check for items argument ---------------------------------------------------
 
-  # can not specify res to 'ind' and specify group
-  if ((res == "ind") && !missing(group)) {
-    stop("Error: Can not speficy 'group' if 'res' is set to 'ind'!")
-  }
+  # check for numeric input
+  variable_numeric(data, variable = {{ items }}, argument = items)
 
-  # test length of anchor
+  # check for length of items
+  n_opts_cols(data, opts = {{ items }})
+
+  # check for missings in items
+  nvar_missings(data, variables = {{ items }})
+
+  # end ------------------------------------------------------------------------
+
+  # check for group argument ---------------------------------------------------
+
+  # check for missings in group
+  missing_group(data, group = {{ group }})
+
+  # end ------------------------------------------------------------------------
+
+  # check for res argument -----------------------------------------------------
+
+  # res can only be set to "agg" or "ind"
+  allowed_input(res, c("agg", "ind"))
+
+  # end ------------------------------------------------------------------------
+
+  # check for anchor argument --------------------------------------------------
+
   if (!missing(anchor)) {
-    anc <- data %>%
-      dplyr::select({{ anchor }}) %>%
-      colnames(.)
+    # check for length of anchor
+    ncol_input(data, variable = {{ anchor }}, argument = anchor)
 
-    if (length(anc) > 1) {
-      stop("Error: 'anchor' can only be one variable!")
-    }
+    # anchor should be part of items
+    none_in_opts(data, none = {{ anchor }}, opts = {{ items }}, should = TRUE)
   }
 
-  if (!missing(anchor)) {
-    if (!(data %>% dplyr::select({{ anchor }}) %>% colnames()) %in%
-      (data %>% dplyr::select({{ items }}) %>% colnames())) {
-      stop("Error: 'anchor' has to be part of 'items'!")
-    }
+  # end ------------------------------------------------------------------------
+
+  # run zero_anchored() --------------------------------------------------------
+
+  # zero anchor utilities
+  if (missing(anchor)) {
+    zero_anchored_data <- zero_anchor_utilities(data, items = {{ items }})
+  } else {
+    zero_anchored_data <- zero_anchor_utilities(data, items = {{ items }},
+                                                anchor = {{ anchor }})
   }
 
-
-
-
-  #######################################################
-
-  var_items <- data %>%
-    dplyr::select({{ items }}) %>%
-    colnames(.)
-
-
-  for (i in seq_len(nrow(data))) {
-    vec <- unname(unlist(c(data[i, var_items])))
-
-    # data[i, var_items] <- NA
-
-    vec <- scales::rescale(vec, to = c(0, 100)) - mean(
-      scales::rescale(vec, to = c(0, 100))
-    )
-
-    if (!(missing(anchor))) {
-      vec <- vec - vec[match(
-        (data %>% dplyr::select({{ anchor }}) %>% colnames()),
-        var_items
-      )]
-    }
-
-    data[i, var_items] <- vec
-  }
-
+  # if res == "agg" aggregate results
   if (res == "agg") {
-    if (missing(group)) {
-      return(data %>%
-        dplyr::reframe(dplyr::across(tidyselect::all_of(var_items),
-          c(mw = mean, std = stats::sd),
-          .names = "{.col}....{.fn}"
-        )) %>%
-        tidyr::pivot_longer(.,
-          cols = tidyselect::ends_with(c("....mw", "....std")),
-          names_to = c("Option", ".value"), names_sep = "\\.\\.\\.\\."
-        ))
-    }
-
-    if (!(missing(group))) {
-      zero_anchored_data <- data %>%
-        dplyr::group_by(dplyr::pick({{ group }})) %>%
-        dplyr::reframe(dplyr::across(tidyselect::all_of(var_items),
-          c(mw = mean, std = stats::sd),
-          .names = "{.col}....{.fn}"
-        )) %>%
-        tidyr::pivot_longer(.,
-          cols = tidyselect::ends_with(c("....mw", "....std")),
-          names_to = c("Option", ".value"), names_sep = "\\.\\.\\.\\."
-        )
-
-      return(zero_anchored_data)
-    }
+    zero_anchored_data <- zero_anchored_data %>%
+      dplyr::group_by(dplyr::pick({{ group }})) %>%
+      dplyr::reframe(dplyr::across({{ items }},
+        c(mw = mean, std = sd),
+        .names = "{.col}___{.fn}"
+      )) %>%
+      tidyr::pivot_longer(
+        cols = tidyselect::ends_with(c("___mw", "___std")),
+        names_to = c("alternative", ".value"),
+        names_sep = "___"
+      )
   }
 
-  if (res == "ind") {
-    zero_anchored_data <- data
+  return(zero_anchored_data)
 
-    return(zero_anchored_data)
-  }
+  # end ------------------------------------------------------------------------
 }

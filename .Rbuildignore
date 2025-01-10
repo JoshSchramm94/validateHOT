@@ -9,3 +9,5 @@
 ^paper$
 ^Code_of_Conduct.md
 ^contributing.md
+^data-raw$
+^download

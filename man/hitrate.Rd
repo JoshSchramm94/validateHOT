@@ -2,7 +2,7 @@
 % Please edit documentation in R/hitrate.R
 \name{hitrate}
 \alias{hitrate}
-\title{Function to calculate hit rate of validation/holdout task}
+\title{Function to calculate hit rate of validation task}
 \usage{
 hitrate(data, group, opts, choice)
 }
@@ -10,75 +10,69 @@ hitrate(data, group, opts, choice)
 \item{data}{A data frame with all relevant variables.}
 
 \item{group}{Optional column name(s) to specify grouping variable(s)
-to get `hitrate()` by group(s).}
+to get \code{hitrate()} by group(s).}
 
 \item{opts}{Column names of the alternatives included in the
-validation/holdout task.}
+validation task.}
 
-\item{choice}{Column name of the actual choice in the validation/holdout
+\item{choice}{Column name of the actual choice in the validation
 task.}
 }
-\value{
-a tibble
-}
 \description{
-`hitrate()` measures number of times a choice was correctly
-predicted in a validation/holdout task.
+\code{hitrate()} measures number of times a choice was correctly
+predicted in a validation task.
 }
 \details{
-`hitrate()` measures number of times a participant's choice was correctly
+\code{hitrate()} measures number of times a participant's choice was correctly
 predicted by the model.
 Output contains the following 5 metrics:
 \itemize{
-\item `HR` hit rate (number of correctly predicted
+\item \code{hr} hit rate (number of correctly predicted
 choices) in percentages
-\item `se` standard error in percentages
-\item `chance` chance level of correctly predicted choices by just
+\item \code{se} standard error in percentages
+\item \code{chance} chance level of correctly predicted choices by just
 guessing
-\item `cor` absolute number of correctly predicted choices
-\item `n` total number of choices
+\item \code{cor} absolute number of correctly predicted choices
+\item \code{n} total number of choices
 }
 
-`data` has to be a data frame including the alternatives shown in
-the validation/holdout task. Can be created using the `createHOT()`
-function.
+\code{data} a data frame including the alternatives shown in the validation
+task. Can be created using the \code{create_hot()} function.
 
-`group` optional grouping variable, if results should be displayed by
-different groups. Has to be column name of variables in `data`.
+\code{group} optional grouping variable, if results should be displayed by
+different groups. Has to be column name of variables in \code{data}.
 
-`opts` is required to specify the different alternatives in the
-validation/holdout task.
-Input of `opts` has to be column names of variables in `data`.
+\code{opts} is required to specify the different alternatives in the validation
+task. Input of \code{opts} has to be column names of variables in \code{data}.
 
-`choice` to specify column of actual choice in the validation/holdout
-task. Input of opts `choice` has to be column name of actual choice.
+\code{choice} to specify column of actual choice in the validation
+task. Input of opts \code{choice} has to be column name of actual choice.
 }
 \examples{
 
-library(validateHOT)
-
-HOT <- createHOT(
-  data = MaxDiff,
-  id = 1,
-  none = 19,
-  prod.levels = list(3, 10, 11, 15, 16, 17, 18),
-  method = "MaxDiff",
-  choice = 20,
-  varskeep = 21
+hot <- create_hot(
+  data = maxdiff,
+  id = "id",
+  none = "none",
+  prod.levels = list(2, 9, 10, 14, 15, 16, 17),
+  method = "maxdiff",
+  varskeep = "group",
+  choice = "hot"
 )
+
 # hit rate - without group argument defined
 hitrate(
-  data = HOT,
-  opts = c(Option_1:None),
+  data = hot,
+  opts = c(option_1:none),
   choice = choice
 )
 
 # hit rate - with group argument defined
 hitrate(
-  data = HOT,
-  opts = c(Option_1:None),
+  data = hot,
+  opts = c(option_1:none),
   choice = choice,
-  group = Group
+  group = group
 )
 
 }

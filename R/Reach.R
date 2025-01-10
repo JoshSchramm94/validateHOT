@@ -22,129 +22,114 @@
 #' current product.
 #'
 #'
-#' `data` has to be a data frame including the alternatives that
-#' should be tested.
+#' `data` a data frame including the alternatives that should
+#' be tested.
 #'
 #' `group` optional grouping variable, if results should be displayed
 #' by different groups. Has to be column name of variables in `data`.
 #'
-#' `opts` specifies the different alternatives in the
-#' product assortment that should be considered.
+#' `opts` defines product assortment that should be considered.
 #' Input of `opts` has to be column names of variables in `data`.
 #'
 #' `none` to specify column name of the `none` alternative (i.e.,
 #' threshold variable).
 #'
 #'
-#' @importFrom dplyr select mutate across rowwise c_across pick reframe
-#' group_by
-#' @importFrom magrittr "%>%"
-#'
 #' @return a tibble
 #'
 #' @examples
 #'
-#' library(validateHOT)
-#'
-#' HOT <- createHOT(
-#'   data = MaxDiff,
-#'   id = 1,
-#'   none = 19,
-#'   prod.levels = list(3, 10, 11, 15, 16, 17, 18),
-#'   method = "MaxDiff",
-#'   choice = 20, varskeep = 21
+#' hot <- create_hot(
+#'   data = maxdiff,
+#'   id = "id",
+#'   none = "none",
+#'   prod.levels = list(2, 9, 10, 14, 15, 16, 17),
+#'   method = "maxdiff",
+#'   varskeep = "group",
+#'   choice = "hot"
 #' )
 #'
 #' # reach - without group argument defined
 #' reach(
-#'   data = HOT,
-#'   opts = c(Option_1, Option_2, Option_6),
-#'   none = None
+#'   data = hot,
+#'   opts = c(option_1, option_2, option_6),
+#'   none = none
 #' )
 #'
 #' # reach - with group argument defined
 #' reach(
-#'   data = HOT,
-#'   opts = c(Option_1, Option_2, Option_6),
-#'   none = None,
-#'   group = Group
+#'   data = hot,
+#'   opts = c(option_1, option_2, option_6),
+#'   none = none,
+#'   group = group
 #' )
 #'
 #' @export
-
 reach <- function(data, group, none, opts) {
-  # check for wrong / missing input
-  if (length(data %>% dplyr::select({{ none }})) == 0) {
-    stop("Error: argument 'none' is missing!")
+  # check for missing arguments ------------------------------------------------
+  if (missing(none)) {
+    stop('Error: argument "none" must be provided.')
   }
 
-  if (length(data %>% dplyr::select({{ opts }})) == 0) {
-    stop("Error: argument 'opts' is missing!")
+  if (missing(opts)) {
+    stop('Error: argument "opts" must be provided.')
   }
+  # end ------------------------------------------------------------------------
 
-  # grouping variable
-  ## store names of grouping variables
-  groups <- data %>%
-    dplyr::select({{ group }}) %>%
-    colnames()
+  # check for opts argument ----------------------------------------------------
 
-  ## check for missings
-  if (anyNA(data %>% dplyr::select({{ group }}))) {
-    warning("Warning: 'group' contains NAs!")
-  }
+  # check for numeric input
+  variable_numeric(data, variable = {{ opts }}, argument = opts)
 
-  # alternatives
-  ## store names of alternatives
-  alternatives <- data %>%
-    dplyr::select({{ opts }}) %>%
-    colnames()
+  # check for missings in opts
+  nvar_missings(data, variables = {{ opts }})
 
-  ## check whether variable is numeric
-  for (i in seq_along(alternatives)) {
-    if (!is.numeric(data[[alternatives[i]]])) {
-      stop("Error: 'opts' has to be numeric!")
-    }
-  }
+  # end ------------------------------------------------------------------------
 
-  ## check for missings
-  if (anyNA(data %>% dplyr::select({{ opts }}))) {
-    stop("Error: 'opts' contains NAs!")
-  }
+  # check for `none` argument --------------------------------------------------
 
-  # None
-  ## check for missing
-  if (anyNA(data %>% dplyr::select({{ none }}))) {
-    stop("Error: 'none' contains NAs!")
-  }
+  # check if `none` is parts of `opts`
+  none_in_opts(data, none = {{ none }}, opts = {{ opts }}, should = FALSE)
 
-  ## check for str
-  Noo <- data %>%
-    dplyr::select({{ none }}) %>%
-    colnames()
+  # check for missings in `opts`
+  nvar_missings(data, variables = {{ none }})
 
-  if (!is.numeric(data[[Noo]])) {
-    stop("Error: 'none' has to be numeric!")
-  }
+  # check for length of input
+  ncol_input(data, variable = {{ none }}, argument = none)
 
-  ## check none can not be part of opts
-  if ((data %>% dplyr::select({{ none }}) %>% colnames()) %in%
-    (data %>% dplyr::select({{ opts }}) %>% colnames())) {
-    stop("Error: 'none' can not be part of 'opts'!")
-  }
+  # check for numeric input
+  variable_numeric(data, variable = {{ none }}, argument = none)
+
+  # end ------------------------------------------------------------------------
+
+  # check for group argument ---------------------------------------------------
+
+  # check for missings in group
+  missing_group(data, group = {{ group }})
+
+  # end ------------------------------------------------------------------------
+
+  # run reach() function -------------------------------------------------------
+
+  # store option names
+  variables <- dplyr::select(data, {{ opts }}) %>% colnames()
 
   reach_data <- data %>%
-    # select relevant variables
-    dplyr::select({{ opts }}, {{ none }}, {{ group }}) %>%
+
+    # mark those with higher than none utility as purchase option
     dplyr::mutate(
-      thres = {{ none }}, # store utility of threshold
-      # if value of alternatives above threshold --> reached
-      dplyr::across({{ opts }}, ~ ifelse(.x > thres, 1, 0))
+      dplyr::across(
+        {{ opts }},
+        \(x) ifelse(x > {{ none }}, 1, 0)
+      )
     ) %>%
-    dplyr::rowwise() %>%
-    # if sum of alternatives is at least once above 0 --> reached
-    dplyr::mutate(reach = ifelse(sum({{ opts }}) > 0, 1, 0)) %>%
+
+    # count the percentage of people with purchase option
+    dplyr::mutate(options = apply(.[variables], 1, sum)) %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
-    dplyr::reframe(reach = mean(reach) * 100)
+    dplyr::reframe(reach = mean(options >= 1) * 100)
 
   return(reach_data)
+
+  # end ------------------------------------------------------------------------
 }

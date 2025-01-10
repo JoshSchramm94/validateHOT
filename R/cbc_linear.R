@@ -1,0 +1,120 @@
+#' CBC data set with part-worth coded attributes and linear-coded attribute
+#'
+#' A data set with raw scores export for an CBC including a linear-coded
+#' attribute.
+#'
+#'
+#' \describe{
+#'   \item{id}{(integer) Unique identifier}
+#'   \item{att1_lev1}{(numeric) Part-worth utility of level 1 of attribute 1}
+#'   \item{att1_lev2}{(numeric) Part-worth utility of level 2 of attribute 1}
+#'   \item{att1_lev3}{(numeric) Part-worth utility of level 3 of attribute 1}
+#'   \item{att2_lev1}{(numeric) Part-worth utility of level 1 of attribute 2}
+#'   \item{att2_lev2}{(numeric) Part-worth utility of level 2 of attribute 2}
+#'   \item{att3_lev1}{(numeric) Part-worth utility of level 1 of attribute 3}
+#'   \item{att3_lev2}{(numeric) Part-worth utility of level 2 of attribute 3}
+#'   \item{att3_lev3}{(numeric) Part-worth utility of level 3 of attribute 3}
+#'   \item{att3_lev4}{(numeric) Part-worth utility of level 4 of attribute 3}
+#'   \item{att4_lev1}{(numeric) Part-worth utility of level 1 of attribute 4}
+#'   \item{att4_lev2}{(numeric) Part-worth utility of level 2 of attribute 4}
+#'   \item{att4_lev3}{(numeric) Part-worth utility of level 3 of attribute 4}
+#'   \item{att4_lev4}{(numeric) Part-worth utility of level 4 of attribute 4}
+#'   \item{att5_lev1}{(numeric) Part-worth utility of level 1 of attribute 5}
+#'   \item{att5_lev2}{(numeric) Part-worth utility of level 2 of attribute 5}
+#'   \item{att6_lev1}{(numeric) Part-worth utility of level 1 of attribute 6}
+#'   \item{att6_lev2}{(numeric) Part-worth utility of level 2 of attribute 6}
+#'   \item{att6_lev3}{(numeric) Part-worth utility of level 3 of attribute 6}
+#'   \item{att6_lev4}{(numeric) Part-worth utility of level 4 of attribute 6}
+#'   \item{att7_lev1}{(numeric) Part-worth utility of level 1 of attribute 7}
+#'   \item{att7_lev2}{(numeric) Part-worth utility of level 2 of attribute 7}
+#'   \item{att7_lev3}{(numeric) Part-worth utility of level 3 of attribute 7}
+#'   \item{att7_lev4}{(numeric) Part-worth utility of level 4 of attribute 7}
+#'   \item{att7_lev5}{(numeric) Part-worth utility of level 5 of attribute 7}
+#'   \item{att7_lev6}{(numeric) Part-worth utility of level 6 of attribute 7}
+#'   \item{att8_lev1}{(numeric) Part-worth utility of level 1 of attribute 8}
+#'   \item{att8_lev2}{(numeric) Part-worth utility of level 2 of attribute 8}
+#'   \item{att8_lev3}{(numeric) Part-worth utility of level 3 of attribute 8}
+#'   \item{att8_lev4}{(numeric) Part-worth utility of level 4 of attribute 8}
+#'   \item{att8_lev5}{(numeric) Part-worth utility of level 5 of attribute 8}
+#'   \item{att8_lev6}{(numeric) Part-worth utility of level 6 of attribute 8}
+#'   \item{price}{(numeric) Part-worth utility for linear-coded price attribute}
+#'   \item{none}{(numeric) Part-worth utility of outside good (no-buy option)}
+#'   \item{hot}{(integer) Actual choice in the validation task}
+#'   \item{group}{(integer) Grouping variable}
+#' }
+#'
+#' @docType data
+#' @keywords datasets
+#' @name cbc_linear
+#' @usage data(cbc_linear)
+#' @source TBD
+#' @format A data frame with 105 rows and 36 variables
+#'
+#' @examples
+#' \dontrun{
+#' # create total utility of validation tasks
+#'
+#' hot_cbc_linear <- create_hot(
+#'   data = cbc_linear,
+#'   id = "id",
+#'   none = "none",
+#'   prod.levels = list(
+#'     c(3, 6, 10, 13, 16, 20, 24, 32, 248.55),
+#'     c(3, 5, 10, 14, 16, 18, 22, 27, 237.39),
+#'     c(4, 6, 9, 14, 15, 20, 25, 30, 273.15),
+#'     c(4, 5, 10, 11, 16, 19, 26, 32, 213.55),
+#'     c(2, 6, 8, 14, 16, 17, 26, 31, 266.10),
+#'     c(2, 5, 7, 12, 16, 20, 26, 29, 184.50)
+#'   ),
+#'   coding = c(rep(0, times = 8), 1),
+#'   lin.p = 33,
+#'   interpolate.levels = list(c(seq(from = 175.99, to = 350.99, by = 35))),
+#'   method = "cbc",
+#'   choice = "hot"
+#' )
+#'
+#'
+#' # measure the relative importance of the attributes
+#'
+#' att_imp(
+#'   data = cbc_linear,
+#'   attrib = list(
+#'     paste0("att1_lev", c(1:3)),
+#'     paste0("att2_lev", c(1:2)),
+#'     paste0("att3_lev", c(1:4)),
+#'     paste0("att4_lev", c(1:4)),
+#'     paste0("att5_lev", c(1:2)),
+#'     paste0("att6_lev", c(1:4)),
+#'     paste0("att7_lev", c(1:6)),
+#'     paste0("att8_lev", c(1:6)),
+#'     "price"
+#'   ),
+#'   interpolate.levels = list(c(seq(from = 175.99, to = 350.99, by = 35))),
+#'   coding = c(rep(0, times = 8), 1),
+#'   res = "agg"
+#' )
+#'
+#'
+#' # convert raw utilities into zero-centered diffs
+#'
+#' zc_diffs(
+#'   data = cbc_linear,
+#'   attrib = list(
+#'     paste0("att1_lev", c(1:3)),
+#'     paste0("att2_lev", c(1:2)),
+#'     paste0("att3_lev", c(1:4)),
+#'     paste0("att4_lev", c(1:4)),
+#'     paste0("att5_lev", c(1:2)),
+#'     paste0("att6_lev", c(1:4)),
+#'     paste0("att7_lev", c(1:6)),
+#'     paste0("att8_lev", c(1:6)),
+#'     "price"
+#'   ),
+#'   coding = c(rep(0, times = 8), 1),
+#'   interpolate.levels = list(c(seq(from = 175.99, to = 350.99, by = 35))),
+#'   none = "none",
+#'   res = "agg"
+#' )
+#' }
+#'
+"cbc_linear"

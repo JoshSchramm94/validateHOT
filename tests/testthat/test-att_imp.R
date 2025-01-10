@@ -1,460 +1,253 @@
-test_that("Coding missing ", {
+# check for error messages for missing arguments -------------------------------
+test_that("Error if coding is missing ", {
   expect_error(att_imp(
-    data = CBC,
+    data = cbc,
     attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c(
-        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7"
-      )
+      paste0("att1_lev", c(1:3)),
+      paste0("att2_lev", c(1:2)),
+      paste0("att3_lev", c(1:4)),
+      paste0("att4_lev", c(1:4)),
+      paste0("att5_lev", c(1:2)),
+      paste0("att6_lev", c(1:4)),
+      paste0("att7_lev", c(1:6)),
+      paste0("att8_lev", c(1:6)),
+      paste0("price_", c(1:6))
     ),
+    # coding = c(rep(0, times = 9)),
     res = "agg"
   ))
 })
 
-test_that("Coding not 0, 1, or 2 ", {
+test_that("Error if res is missing ", {
   expect_error(att_imp(
-    data = CBC,
+    data = cbc,
     attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c(
-        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7"
-      )
+      paste0("att1_lev", c(1:3)),
+      paste0("att2_lev", c(1:2)),
+      paste0("att3_lev", c(1:4)),
+      paste0("att4_lev", c(1:4)),
+      paste0("att5_lev", c(1:2)),
+      paste0("att6_lev", c(1:4)),
+      paste0("att7_lev", c(1:6)),
+      paste0("att8_lev", c(1:6)),
+      paste0("price_", c(1:6))
     ),
-    coding = c(0, 0, 3),
-    res = "agg"
+    coding = c(rep(0, times = 9)),
+    # res = "agg"
   ))
 })
 
-test_that("Coding not 0, 1, or 2 ", {
+test_that("Error if attrib is missing ", {
   expect_error(att_imp(
-    data = CBC,
-    attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c(
-        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7"
-      )
-    ),
-    coding = c(0, 0, "a"),
+    data = cbc,
+    # attrib = list(
+    #   paste0("att1_lev", c(1:3)),
+    #   paste0("att2_lev", c(1:2)),
+    #   paste0("att3_lev", c(1:4)),
+    #   paste0("att4_lev", c(1:4)),
+    #   paste0("att5_lev", c(1:2)),
+    #   paste0("att6_lev", c(1:4)),
+    #   paste0("att7_lev", c(1:6)),
+    #   paste0("att8_lev", c(1:6)),
+    #   paste0("price_", c(1:6))
+    # ),
+    coding = c(rep(0, times = 9)),
     res = "agg"
   ))
 })
 
-test_that("Coding 1 and interpolate.levels is missing ", {
+test_that("coding provided but interpolate.levels missing ", {
   expect_error(att_imp(
-    data = CBC_lin,
+    data = cbc_linear,
     attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lin")
+      paste0("att1_lev", c(1:3)),
+      paste0("att2_lev", c(1:2)),
+      paste0("att3_lev", c(1:4)),
+      paste0("att4_lev", c(1:4)),
+      paste0("att5_lev", c(1:2)),
+      paste0("att6_lev", c(1:4)),
+      paste0("att7_lev", c(1:6)),
+      paste0("att8_lev", c(1:6)),
+      "price"
     ),
-    coding = c(0, 0, 1),
+    coding = c(rep(0, times = 8), 1),
+    # interpolate.levels = list(c(seq(from = 175.99, to = 350.99, by = 35))),
     res = "agg"
   ))
 })
 
-test_that("Linear coded variables not equal to length of interpolate.levels ", {
+# end --------------------------------------------------------------------------
+
+# check for error messages for wrong input -------------------------------------
+
+test_that("coding not 0, 1, 2 ", {
   expect_error(att_imp(
-    data = CBC_lin,
+    data = cbc_linear,
     attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1"),
-      c("Att3_Lin")
+      paste0("att1_lev", c(1:3)),
+      paste0("att2_lev", c(1:2)),
+      paste0("att3_lev", c(1:4)),
+      paste0("att4_lev", c(1:4)),
+      paste0("att5_lev", c(1:2)),
+      paste0("att6_lev", c(1:4)),
+      paste0("att7_lev", c(1:6)),
+      paste0("att8_lev", c(1:6)),
+      "price"
     ),
-    coding = c(0, 1, 1),
-    interpolate.levels = list(c(10, 20, 30, 40, 50, 60, 70)),
+    coding = c(rep(0, times = 8), 3),
+    interpolate.levels = list(c(seq(from = 175.99, to = 350.99, by = 35))),
     res = "agg"
   ))
 })
 
-test_that("Linear coded variables has more than 1 level ", {
+test_that("more than 2 piecewise coded attributes provided ", {
   expect_error(att_imp(
-    data = CBC,
+    data = acbc,
     attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lev1", "Att3_Lev2")
+      paste0("att1_lev", c(1:3)),
+      paste0("att2_lev", c(1:2)),
+      paste0("att3_lev", c(1:4)),
+      paste0("att4_lev", c(1:4)),
+      paste0("att5_lev", c(1:2)),
+      paste0("att6_lev", c(1:4)),
+      paste0("att7_lev", c(1:6)),
+      paste0("att8_lev", c(1:6)),
+      paste0("price_", c(1:2))
     ),
-    coding = c(0, 0, 1),
-    interpolate.levels = list(c(10, 20, 30, 40, 50, 60, 70)),
+    coding = c(0, 2, rep(0, times = 6), 2),
     res = "agg"
   ))
 })
 
-test_that("More than 1 variables code 2 ", {
+test_that("Linear coded variables not equal to length of
+          interpolate.levels ", {
   expect_error(att_imp(
-    data = CBC,
+    data = cbc_linear,
     attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lev1", "Att3_Lev2")
+      paste0("att1_lev", c(1:3)),
+      paste0("att2_lev", c(1:2)),
+      paste0("att3_lev", c(1:4)),
+      paste0("att4_lev", c(1:4)),
+      paste0("att5_lev", c(1:2)),
+      paste0("att6_lev", c(1:4)),
+      paste0("att7_lev", c(1:6)),
+      paste0("att8_lev", c(1:6)),
+      "price"
     ),
-    coding = c(0, 2, 2),
+    coding = c(rep(0, times = 7), 1, 1),
+    interpolate.levels = list(c(seq(from = 175.99, to = 350.99, by = 35))),
     res = "agg"
   ))
 })
 
+test_that("attrib includes non-numeric variables ", {
+  cbc_linear$att1_lev1 <- as.character(cbc_linear$att1_lev1)
 
-test_that("Warning if group contains NA ", {
-  CBC2 <- CBC
-
-  CBC2$Group[34] <- NA
-
-  expect_warning(att_imp(
-    data = CBC2,
-    attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c(
-        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7"
-      )
-    ),
-    coding = c(0, 0, 0),
-    group = Group,
-    res = "agg"
-  ))
-})
-
-test_that("Test input for interpolate.levels ", {
   expect_error(att_imp(
-    data = CBC_lin,
+    data = cbc_linear,
     attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lin")
+      paste0("att1_lev", c(1:3)),
+      paste0("att2_lev", c(1:2)),
+      paste0("att3_lev", c(1:4)),
+      paste0("att4_lev", c(1:4)),
+      paste0("att5_lev", c(1:2)),
+      paste0("att6_lev", c(1:4)),
+      paste0("att7_lev", c(1:6)),
+      paste0("att8_lev", c(1:6)),
+      "price"
     ),
-    coding = c(0, 0, 1),
-    interpolate.levels = c(10, 20, 30, 40, 50, 60, 70),
+    coding = c(rep(0, times = 8), 1),
+    interpolate.levels = list(c(seq(from = 175.99, to = 350.99, by = 35))),
     res = "agg"
   ))
 })
 
-test_that("Test input for interpolate.levels ", {
+test_that("interpolate.levels must be a list ", {
   expect_error(att_imp(
-    data = CBC_lin,
+    data = cbc_linear,
     attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lin")
+      paste0("att1_lev", c(1:3)),
+      paste0("att2_lev", c(1:2)),
+      paste0("att3_lev", c(1:4)),
+      paste0("att4_lev", c(1:4)),
+      paste0("att5_lev", c(1:2)),
+      paste0("att6_lev", c(1:4)),
+      paste0("att7_lev", c(1:6)),
+      paste0("att8_lev", c(1:6)),
+      "price"
     ),
-    coding = c(0, 0, 1),
-    interpolate.levels = list(c(10, "a", 30, 40, 50, 60, 70)),
+    coding = c(rep(0, times = 8), 1),
+    interpolate.levels = c(seq(from = 175.99, to = 350.99, by = 35)),
     res = "agg"
   ))
 })
 
-test_that("Input for interpolate.levels can not be larger than 'attrib' ", {
-  expect_error(att_imp(
-    data = CBC_lin,
-    attrib = list(
-      c("Att1_Lev1"),
-      c("Att2_Lev1"),
-      c("Att3_Lin")
-    ),
-    coding = c(1, 1, 1),
-    interpolate.levels = list(
-      c(10, 20, 30, 40, 50, 60, 70),
-      c(10, 20, 30, 40, 50, 60, 70),
-      c(10, 20, 30, 40, 50, 60, 70),
-      c(10, 20, 30, 40, 50, 60, 70)
-    ),
-    res = "agg"
-  ))
-})
+# end --------------------------------------------------------------------------
 
-test_that("Interpolate.levels only for linear coded variables ", {
-  expect_error(att_imp(
-    data = CBC,
-    attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lev1", "Att3_Lev2")
-    ),
-    coding = c(0, 0, 0),
-    interpolate.levels = list(c(10, 20, 30, 40, 50, 60, 70)),
-    res = "agg"
-  ))
-})
-
-test_that("Interpolate.levels only for linear coded variables ", {
-  expect_error(att_imp(
-    data = CBC,
-    attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1"),
-      c("Att3_Lev1")
-    ),
-    coding = c(0, 0, 0),
-    interpolate.levels = list(c(10, 20, 30, 40, 50, 60, 70)),
-    res = "agg"
-  ))
-})
-
-
-test_that("Structure of Output data.frame ", {
-  expect_true(is.data.frame(
-    att_imp(
-      data = CBC,
-      attrib = list(
-        c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-        c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-        c(
-          "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-          "Att3_Lev6", "Att3_Lev7"
-        )
-      ),
-      coding = c(0, 0, 0),
-      res = "agg"
-    )
-  ))
-})
-
-test_that("Structure of Output tibble ", {
-  expect_true(tibble::is_tibble(
-    att_imp(
-      data = CBC,
-      attrib = list(
-        c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-        c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-        c(
-          "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-          "Att3_Lev6", "Att3_Lev7"
-        )
-      ),
-      coding = c(0, 0, 0),
-      res = "agg"
-    )
-  ))
-})
-
+# group input equals group output ----------------------------------------------
 test_that("group output equals group input ", {
-  expect_equal(utils::str(
-    att_imp(
-      data = CBC,
-      attrib = list(
-        c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-        c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-        c(
-          "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-          "Att3_Lev6", "Att3_Lev7"
-        )
-      ),
-      coding = c(0, 0, 0),
-      group = Group,
-      res = "agg"
-    )[[1]]
-  ), utils::str(CBC$Group))
+  expect_equal(str(att_imp(
+    data = cbc,
+    attrib = list(
+      paste0("att1_lev", c(1:3)),
+      paste0("att2_lev", c(1:2)),
+      paste0("att3_lev", c(1:4)),
+      paste0("att4_lev", c(1:4)),
+      paste0("att5_lev", c(1:2)),
+      paste0("att6_lev", c(1:4)),
+      paste0("att7_lev", c(1:6)),
+      paste0("att8_lev", c(1:6)),
+      paste0("price_", c(1:6))
+    ),
+    coding = c(rep(0, times = 9)),
+    res = "agg",
+    group = group
+  )[[1]]), str(cbc$group))
 })
 
 test_that("group output equals group input - character input ", {
-  CBC$Group2 <- rep(c("Group 1", "Group 2"), length.out = nrow(CBC))
-  expect_equal(utils::str(att_imp(
-    data = CBC,
+  cbc$group2 <- rep(c("group 1", "group 2"), length.out = nrow(cbc))
+
+  expect_equal(str(att_imp(
+    data = cbc,
     attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c(
-        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7"
-      )
+      paste0("att1_lev", c(1:3)),
+      paste0("att2_lev", c(1:2)),
+      paste0("att3_lev", c(1:4)),
+      paste0("att4_lev", c(1:4)),
+      paste0("att5_lev", c(1:2)),
+      paste0("att6_lev", c(1:4)),
+      paste0("att7_lev", c(1:6)),
+      paste0("att8_lev", c(1:6)),
+      paste0("price_", c(1:6))
     ),
-    coding = c(0, 0, 0),
-    group = Group2,
-    res = "agg"
-  )[[1]]), utils::str(CBC$Group2))
+    coding = c(rep(0, times = 9)),
+    res = "agg",
+    group = group2
+  )[[1]]), str(cbc$group2))
 })
 
 test_that("group output equals group input - labelled input ", {
-  CBC$Group2 <- rep(c(1:2), length.out = nrow(CBC))
-  CBC$Group2 <- labelled::labelled(CBC$Group2,
-    labels = c("Group 1" = 1, "Group 2" = 2)
+  cbc$group2 <- rep(c(1:2), length.out = nrow(cbc))
+  cbc$group2 <- labelled::labelled(cbc$group2,
+    labels = c("group 1" = 1, "group 2" = 2)
   )
   expect_true(labelled::is.labelled(att_imp(
-    data = CBC,
+    data = cbc,
     attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c(
-        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7"
-      )
+      paste0("att1_lev", c(1:3)),
+      paste0("att2_lev", c(1:2)),
+      paste0("att3_lev", c(1:4)),
+      paste0("att4_lev", c(1:4)),
+      paste0("att5_lev", c(1:2)),
+      paste0("att6_lev", c(1:4)),
+      paste0("att7_lev", c(1:6)),
+      paste0("att8_lev", c(1:6)),
+      paste0("price_", c(1:6))
     ),
-    coding = c(0, 0, 0),
-    group = Group2,
-    res = "agg"
+    coding = c(rep(0, times = 9)),
+    res = "agg",
+    group = group2
   )[[1]]))
 })
-
-test_that("check whether examples are correct ", {
-  expect_equal(round(as.numeric(att_imp(
-    data = CBC,
-    attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c(
-        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7"
-      )
-    ),
-    coding = c(0, 0, 0),
-    res = "agg"
-  )[[2]]), 1), c(35.7, 27.7, 36.6))
-
-  expect_equal(att_imp(
-    data = CBC,
-    attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c(
-        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7"
-      )
-    ),
-    coding = c(0, 0, 0),
-    res = "agg"
-  )[[1]], c("att_imp_1", "att_imp_2", "att_imp_3"))
-
-  expect_equal(round(as.numeric(att_imp(
-    data = CBC,
-    attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c(
-        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7"
-      )
-    ),
-    coding = c(0, 0, 0),
-    res = "agg"
-  )[[3]]), 1), c(11.3, 10.0, 9.3))
-})
-
-
-test_that("check whether examples are correct - CBC_lin ", {
-  expect_equal(round(as.numeric(att_imp(
-    data = CBC_lin,
-    attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lin")
-    ),
-    coding = c(0, 0, 1),
-    interpolate.levels = list(c(10, 20, 30, 40, 50, 60, 70)),
-    res = "agg"
-  )[[2]]), 1), c(36.9, 31.9, 31.3))
-
-  expect_equal(att_imp(
-    data = CBC_lin,
-    attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lin")
-    ),
-    coding = c(0, 0, 1),
-    interpolate.levels = list(c(10, 20, 30, 40, 50, 60, 70)),
-    res = "agg"
-  )[[1]], c("att_imp_1", "att_imp_2", "att_imp_3"))
-
-  expect_equal(round(as.numeric(att_imp(
-    data = CBC_lin,
-    attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c("Att3_Lin")
-    ),
-    coding = c(0, 0, 1),
-    interpolate.levels = list(c(10, 20, 30, 40, 50, 60, 70)),
-    res = "agg"
-  )[[3]]), 1), c(12.4, 13.4, 16.4))
-})
-
-
-test_that("res missing ", {
-  expect_error(att_imp(
-    data = CBC,
-    attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c(
-        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7"
-      )
-    ),
-    coding = c(0, 0, 0)
-  ))
-})
-
-test_that("res noz specified to ind or agg ", {
-  expect_error(att_imp(
-    data = CBC,
-    attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c(
-        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7"
-      )
-    ),
-    coding = c(0, 0, 0),
-    res = "xyz"
-  ))
-})
-
-test_that("group can not be specified when res set to ind ", {
-  expect_error(att_imp(
-    data = CBC,
-    attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c(
-        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7"
-      )
-    ),
-    coding = c(0, 0, 0),
-    res = "ind", group = "Group"
-  ))
-})
-
-
-test_that("rows of inputs equals rows of output ", {
-  expect_equal(nrow(att_imp(
-    data = CBC,
-    attrib = list(
-      c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-      c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-      c(
-        "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-        "Att3_Lev6", "Att3_Lev7"
-      )
-    ),
-    coding = c(0, 0, 0),
-    res = "ind"
-  )), nrow(CBC))
-})
-
-
-test_that("each row equals 100 ", {
-  expect_equal(
-    rowSums(att_imp(
-      data = CBC,
-      attrib = list(
-        c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-        c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-        c(
-          "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4", "Att3_Lev5",
-          "Att3_Lev6", "Att3_Lev7"
-        )
-      ),
-      coding = c(0, 0, 0),
-      res = "ind"
-    )),
-    rep(100, nrow(CBC))
-  )
-})
+# end --------------------------------------------------------------------------

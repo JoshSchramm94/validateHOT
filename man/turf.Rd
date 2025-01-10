@@ -21,83 +21,80 @@ turf(
 
 \item{none}{Column name of none / threshold alternative.}
 
-\item{size}{A numeric vector to determine size of the assortment.}
+\item{size}{An integer to determine size of the assortment.}
 
-\item{fixed}{An optional vector to determine alternatives/item that have to
-be included in the assortment.}
+\item{fixed}{An optional vector to determine alternatives / items that have
+to be included in the assortment.}
 
 \item{prohib}{An optional list with vectors to determine prohibitions, i.e.,
-alternatives/items that are not allowed to be together in one assortment.}
+alternatives / items that are not allowed to be together in one assortment.}
 
-\item{approach}{A character whether to run First Choice approach ('fc') or
-Threshold approach ('thres').}
+\item{approach}{A character whether to run first choice approach ('fc') or
+threshold approach ('thres').}
 }
 \value{
 data frame
 }
 \description{
-T(otal) U(nduplicated) R(each) and F(requency) is
-a "product line extension model" (Miaoulis et al., 1990, p. 29). For each
-possible combinations, it looks for the reach and frequency of this
-combination. Participants are reached, if at least one of the alternatives
-in a combination has a higher utility than `none`. On the contrary,
-frequency calculates the averaged number of alternatives that have a
-higher utility than `none`.
+T(otal) U(nduplicated) R(each) and F(requency) is a "product line extension
+model" (Miaoulis et al., 1990, p. 29). For each possible combination,
+\code{turf()} looks for the reach and frequency of this combination. Participants
+are reached, if at least one of the alternatives in a combination has a
+higher utility than \code{none}. On the contrary, frequency calculates the
+averaged number of alternatives that have a
+higher utility than \code{none}.
 }
 \details{
-`data` has to be a data frame including the alternatives that should be
-tested.
+\code{data} a data frame including the alternatives that should be tested.
 
-`opts` is required to specify the different alternatives in the
-product assortment that should be considered.
-Input of `opts` has to be column names of variables in `data`.
+\code{opts} to specify the different alternatives in the product assortment that
+should be considered. Input of \code{opts} has to be column name of variables
+in \code{data}.
 
-`none` to specify column name of the `none` alternative in the
-validation/holdout task.
+\code{none} to specify column name of the \code{none} alternative in \code{data}
+that needs to be exceeded.
 
-`size` has to be a whole number determining the size of the assortment.
+\code{size} an integer to determine the size of the assortment.
 
-`fixed` has to be a vector of variables that are fixed in the
+\code{fixed} has to be a vector of variables that are fixed in the
 assortment, i.e., they have to be part of the assortment.
 
-`prohib` has to be a list of vectors of variables that are prohibited
+\code{prohib} has to be a list of vectors of variables that are prohibited
 in the assortment, i.e., alternatives that are not allowed to be together in
 one assortment.
 
-`approach` character defining whether first
-choice `approach = 'fc'` or threshold `approach = 'thres'` should
-be applied for running `turf()`. If `approach = 'fc'`,
-participants are considered being reached, if their alternative with the
-highest utility is included in the assortment and this alternative's utility
-is larger than the threshold's utility (Chrzan & Orme, 2019, p. 111).
-On the contrary, if `approach = 'thres'`, participants are considered
-being reached, if utility of one product is higher than the one of
-the `none` alternative (Chrzan & Orme, 2019, p. 112).
-If `approach = 'fc'`, `reach` equals `freq` since
-participants have at maximum their most preferred alternative that
-exceeds the `none` alternative.
+\code{approach} character defining whether first choice \code{approach = 'fc'} or
+threshold \code{approach = 'thres'} should be applied for running \code{turf()}. If
+\code{approach = 'fc'}, participants are considered being reached, if their
+alternative with the highest utility is included in the assortment and this
+alternative's utility is larger than the threshold's utility (Chrzan & Orme,
+2019, p. 111).
+On the contrary, if \code{approach = 'thres'}, participants are considered
+being reached, if utility of one product is higher than the one of the
+\code{none} alternative (Chrzan & Orme, 2019, p. 112).
+If \code{approach = 'fc'}, \code{reach} equals \code{freq} since participants have at
+maximum their most preferred alternative that exceeds the \code{none}
+alternative.
 }
 \examples{
 
-library(validateHOT)
-
-HOT <- createHOT(
-  data = MaxDiff,
-  id = 1,
-  none = 19,
+hot <- create_hot(
+  data = maxdiff,
+  id = "id",
+  none = "none",
   prod.levels = list(
-    3, 4, 5, 6, 7, 8, 9, 10, 11,
-    12, 13, 14, 15, 16, 17, 18
+    2, 3, 4, 5, 6, 7, 8, 9, 10,
+    11, 12, 13, 14, 15, 16, 17
   ),
-  method = "MaxDiff",
-  choice = 20
+  method = "maxdiff",
+  choice = "hot"
 )
 
 # turf no fixed alternatives + no prohibitions
 t1 <- turf(
-  data = HOT,
-  opts = c(Option_1:Option_16),
-  none = None,
+  data = hot,
+  opts = c(option_1:option_16),
+  none = none,
   size = 3L,
   approach = "thres"
 )
@@ -106,11 +103,11 @@ head(t1)
 
 # turf alternative 4 and 5 fixed, no prohibitions
 t2 <- turf(
-  data = HOT,
-  opts = c(Option_1:Option_16),
-  none = None,
+  data = hot,
+  opts = c(option_1:option_16),
+  none = none,
   size = 4L,
-  fixed = c("Option_4", "Option_5"),
+  fixed = c("option_4", "option_5"),
   approach = "thres"
 )
 
@@ -118,12 +115,12 @@ head(t2)
 
 #' # turf alternative 4 and 5 fixed, 2 and 9 not allowed together
 t3 <- turf(
-  data = HOT,
-  opts = c(Option_1:Option_16),
-  none = None,
+  data = hot,
+  opts = c(option_1:option_16),
+  none = none,
   size = 4L,
-  fixed = c("Option_4", "Option_5"),
-  prohib = list(c("Option_2", "Option_9")),
+  fixed = c("option_4", "option_5"),
+  prohib = list(c("option_2", "option_9")),
   approach = "thres"
 )
 

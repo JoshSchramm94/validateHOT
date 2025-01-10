@@ -19,12 +19,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-<code>validateHOT</code> is a package for conjoint and MaxDiff users and 
-its functions are threefold: First, <code>validateHOT</code> provides functions 
-to validate a validation/holdout task and ensure whether the model is valid in 
+validateHOT is a package for conjoint and MaxDiff users and 
+its functions are threefold: First, validateHOT provides functions 
+to validate a validation task and ensure whether the model is valid in 
 terms of predicting outside choice sets (i.e., choices that were not included 
-in the model's estimation). Second, <code>validateHOT</code> provides functions 
-to run market simulations. Third, <code>validateHOT</code> also converts raw 
+in the model's estimation). Second, validateHOT provides functions 
+to run market simulations. Third, validateHOT also converts raw 
 logit utilities into scores that are easier to communicate. All three 
 components are key functions for preference measurement techniques such as 
 choice-based conjoint (CBC), adaptive choice-based conjoint (ACBC), or Maximum 
@@ -32,45 +32,41 @@ Difference Scaling (MaxDiff).
 
 This vignette should present you ...
 
--   ... how to create utility scores for a validation/holdout task of a *CBC*, 
+-   ... how to create utility scores for a validation task of a *CBC*, 
 *ACBC*, or *MaxDiff* based on the **raw logit utilities** of a *Hierarchical* 
 *Bayes* estimation which was estimated in *Sawtooth Software*
 -   ... how to measure validation metrics which are often reported for a 
-validation/holdout task in research papers, these are:
-    -   Hit rate (<code>hitrate()</code>)
-    -   Kullback-Leibler-Divergence (<code>kl()</code>)
-    -   Mean absolute error (<code>mae()</code>)
-    -   Mean hit probability (<code>mhp()</code>)
-    -   Median absolute error (<code>medae()</code>)
-    -   Root mean square error (<code>rmse()</code>)
+validation task in research papers, these are:
+    -   Hit rate (`hirate()`)
+    -   Kullback-Leibler-Divergence (`kl()`)
+    -   Mean absolute error (`mae()`)
+    -   Mean hit probability (`mhp()`)
+    -   Median absolute error (`medae()`)
+    -   Root mean square error (`rmse()`)
 -   ... how to measure metrics of the confusion matrix
-    -   <code>accuracy()</code>
-    -   F1-score (<code>f1()</code>)
-    -   <code>precision()</code>
-    -   <code>recall()</code>
-    -   <code>specificity()</code>
--   ... how to use <code>validateHOT</code> for simulation purposes
+    -   Accuracy (`accuracy()`)
+    -   F1-score (`f1()`)
+    -   Precision (`precision()`)
+    -   Recall (`recall()`)
+    -   Specificity (`specificity()`)
+-   ... how to use the validateHOT package for simulation purposes
     -   Determine the perfect product assortment with highest reach and 
-    frequency; <code>turf()</code>)
+    frequency; `turf()`)
     -   Frequency of how many products are bought on average of a specified 
-    assortment (<code>freqassort()</code>)
+    assortment (`freqassort()`)
     -   How many participants are reached with a specified assortment (buying 
-    at least one alternative of the assortment; <code>reach()</code>)
-    -   running market simulations with specified set (<code>marksim()</code>). 
-    <code>validateHOT</code> currently provides market simulations based on 
-    share of preference as well as first choice rule.
--   ... and finally, how to use <code>validateHOT</code> to convert raw 
+    at least one alternative of the assortment; `reach()`)
+    -   running market simulations with specified set (`marksim()`)
+-   ... and finally, how to use the validateHOT package to convert raw 
 utilities into scores that are easier to interpret
-    -   <code>att_imp()</code> (attribute importance for CBC and ACBC)
-    -   <code>prob_scores()</code> (probability scores for (unanchored) 
-    MaxDiff)
-    -   <code>zc_diffs()</code> (zero-centered diffs for CBC and ACBC)
-    -   <code>zero_anchored()</code> (zero-anchored interval scores for 
-    (anchored) MaxDiff)
+    -   Attribute importance for CBC and ACBC (`att_imp()`)
+    -   Probability scores for (unanchored) MaxDiff (`prob_scores()`)
+    -   Zero-centered diffs for CBC and ACBC (`zc_diffs()`)
+    -   Zero-anchored interval scores for (anchored) MaxDiff (`zero_anchored()`)
 
 ## Installation
 
-You can install `validateHOT` by using the `remotes` package [@remotes].
+You can install validateHOT by using the remotes package [@remotes].
 
 ```{r}
 # install.packages("remotes")
@@ -81,40 +77,38 @@ You can install `validateHOT` by using the `remotes` package [@remotes].
 Afterwards, load the package.
 
 ```{r setup}
-library("validateHOT")
+library(validateHOT)
 ```
 
-Moreover, we also load two packages for later purposes. We also explain some 
-functions using the `tidyverse` logic. To do so, we load the `dplyr` 
-(Wickham et al., 2023) package as well as the `magrittr` 
-(Bache & Wickham, 2022) package.
+Moreover, we also load two packages for later purposes: the dplyr 
+(Wickham et al., 2023) package and the magrittr (Bache & Wickham, 2022) 
+package.
 
 ```{r, warning=FALSE, message=FALSE}
 library(dplyr)
 library(magrittr)
 ```
 
-## `createHOT()`: creating validation/holdout task in *R*
+## `create_hot()`: creating validation task in *R*
 
-At first, we have to create the validation/holdout task, which means that we 
-need to create the utilities for each alternative presented in the 
-validation/holdout task. This is quite easy for a *MaxDiff*, however, for a 
+At first, we have to create the validation task, which means that we 
+need to calculate the utilities for each alternative presented in the 
+validation task. This is quite easy for a *MaxDiff*, however, for a 
 *CBC* or *ACBC*, we need to add the utilities of each attribute level and might 
-even have to interpolate some values, if they are *linear-coded* or 
+have to interpolate some values, if they are *linear-coded* or 
 *piecewise-coded*.
 
 ### MaxDiff
 
-However, let us start with the `MaxDiff`. We use the data set `MaxDiff` that 
-comes with the package and store the utilities in the data set `HOT`. In this 
-example, we assume that we have a validation task with seven alternatives plus 
-a no-buy alternative (we define the argument by specifying the column index; 
-`none = 19`), so a total of eight alternatives a participant can choose from. 
-As already mentioned, it is a *MaxDiff* study (`method = "MaxDiff"`). 
-Furthermore, we specify the column index of both the `id` (unique identifier 
-in the data set) and `choice` (the actual choice in the validation/holdout 
-task). To specify the seven alternatives in the validation/holdout task, we 
-use the `prod.levels` arguments and specify their column indexes in a `list`. 
+However, let us start with a MaxDiff. We use the data set `maxdiff` that 
+comes with the package and store the utilities in the data set `hot_mxd`. In 
+this  example, we assume that we have a validation task with seven alternatives 
+plus a no-buy alternative, so a total of 8 alternatives a participant can 
+choose from. We set the `method` to `"maxdiff"`. 
+Furthermore, we specify the `id` argument (unique identifier 
+in the data set) and `choice` (the actual choice in the validation 
+task). To specify the seven alternatives in the validation task, we 
+use the `prod.levels` arguments and specify their column indexes in a `list`.
 In case we wanted to keep further variables from our original data set, we need 
 to specify those in the `varskeep` argument.
 
@@ -123,53 +117,56 @@ to specify those in the `varskeep` argument.
 **variables, you have to specify the column indexes in `prod.levels`!**
 
 ```{r, eval = F}
-HOT <- createHOT(
-  data = MaxDiff, # data frame
-  id = 1, # column index of unique identifier
-  none = 19, # column index of none alternative
-  prod.levels = list(3, 10, 11, 15, 16, 17, 18), # column index of alternatives
-  method = "MaxDiff", # method applied
-  choice = 20 # column index of actual choice
+hot_mxd <- create_hot(
+  data = maxdiff,
+  id = "id",
+  none = "none",
+  prod.levels = list(2, 9, 10, 14, 15, 16, 17),
+  method = "maxdiff",
+  varskeep = "group",
+  choice = "hot"
 )
 ```
 
-In case you have a forced-choice validation/holdout task, do not specify the 
-`none` argument. Finally, in case you want to create a market scenario and not 
-a validation/holdout task, you do not need to define the `choice` argument.
+In case you have a forced-choice validation task, you can leave the
+`none` argument empty. Finally, in case you want to create a market scenario 
+and not a validation task, you can leave the `choice` argument empty.
 
 ### Choice-Based Conjoint
 
 #### Part-Worth utilities only
 
-In case, you conduct a *CBC* (`method = "CBC"`) and all attributes are coded as 
+In case, you conduct a *CBC* (`method = "cbc"`) and all attributes are coded as 
 part-worth, the following example will help you to create the total utilities 
-for your alternatives. We use the `CBC` data set, which comes with 
-`validateHOT`. This example shows a *CBC* with three alternatives plus the 
-no-buy alternative.
+for your alternatives. We use the `cbc` data set, which comes with 
+the validateHOT package. This example shows a *CBC* with a validation task with 6 
+alternatives plus the no-buy alternative.
 
-When using *CBC* or *ACBC*, we need to specify the coding, where `0` stands for 
-part-worth coding, `1` for linear coding, and `2` for piecewise coding. Since 
-we only have part-worth coding we set `coding = c(0, 0, 0)`.
+When using *CBC* or *ACBC*, we need to specify the coding argument. `0` stands 
+for part-worth coding, `1` for linear coding, and `2` for piecewise coding. 
+Since we only have part-worth coding we set all attributes to `0` in `coding`
+(`coding = c(rep(0, times = 9))`).
 
-Finally, we specify the attribute levels for each alternative. For example, 
-the first alternative is composed of the following attribute levels 
-`r colnames(CBC)[4]`, `r colnames(CBC)[9]`, and `r colnames(CBC)[19]`. 
-The second is composed of the attribute levels `c(8, 12, 17)`, namely, 
-`r colnames(CBC)[8]`, `r colnames(CBC)[12]`, and `r colnames(CBC)[17]`; etc.
+Finally, we specify the attribute levels for each alternative in `prod.levels`.
+The column indexes of each alternative are stored in a vector. For each 
+alternative, we create one vector and store all alternatives in a list.
 
 ```{r, eval = F}
-createHOT(
-  data = CBC,
-  id = "ID",
+hot_cbc <- create_hot(
+  data = cbc,
+  id = "id",
   none = "none",
-  coding = c(0, 0, 0),
   prod.levels = list(
-    c("Att1_Lev1", "Att2_Lev1", "Att3_Lev6"),
-    c("Att1_Lev5", "Att2_Lev4", "Att3_Lev4"),
-    c("Att1_Lev2", "Att2_Lev2", "Att3_Lev4")
+    c(3, 6, 10, 13, 16, 20, 24, 32, 35),
+    c(3, 5, 10, 14, 16, 18, 22, 27, 35),
+    c(4, 6, 9, 14, 15, 20, 25, 30, 36),
+    c(4, 5, 10, 11, 16, 19, 26, 32, 34),
+    c(2, 6, 8, 14, 16, 17, 26, 31, 36),
+    c(2, 5, 7, 12, 16, 20, 26, 29, 33)
   ),
-  method = "CBC",
-  choice = "HOT"
+  coding = c(rep(0, times = 9)),
+  method = "cbc",
+  choice = "hot"
 )
 ```
 
@@ -177,75 +174,65 @@ createHOT(
 
 Now, let us imagine that instead of having all attributes coded as part-worth, 
 you also include one (or more) attributes that are linear-coded. So, let us run 
-again a *CBC* (`method = "CBC"`). All settings are the same as shown in the 
-example above, however, this time we change the coding to 
-`coding = c(0, 0, 1)`, which tells `createHOT()` that the first two attributes 
-are part-worth coded, while the last attribute is linear-coded. How will this 
-impact the way we define our products? We can see that when we specify the 
-third attribute for our three alternatives, we insert a value that this 
-alternative should have for the linear-coded attribute In this example, let us 
-assume that the third attribute is weight. The first alternative in our 
-validation/holdout task is assumed to have a weight of 60 (`c(4, 9, 60)`), the 
-second a weight of `40`, and the last alternative a weight of `45`.
+again a *CBC* (`method = "cbc"`). All settings are the same as shown in the 
+example above, however, this time we also include a `1` in `coding`
+`coding = c(rep(0, times = 8), 1)`. This tells `create_hot()` that the first 
+8 attributes are part-worth coded, while the last attribute is linear-coded. 
+For the last attribute, we insert a value that this 
+alternative should have for the linear-coded attribute. In this example, the 
+last attribute is price. The first alternative in our validation task is 
+assumed to have a price of `248.55`, the second a price of `237.39`, etc.
 
-`createHOT()` will interpolate these values, therefore, we have to define the 
-values we used for the attributes in the hierarchical Bayes estimations.
+`create_hot()` will interpolate these values, therefore, we have to define the 
+values we used for the attributes in the *hierarchical Bayes* estimation.
 
 The exact values that have been specified for the *hierarchical Bayes* 
 estimation in Sawtooth or `ChoiceModelR` need to be specified (see information 
 below). You specify these values in `interpolate.levels` in a list. In the 
-example of `CBC_lin`, there are seven levels ranging from 10 to 70. Please make 
-sure to include **all** levels of the linear-coded attribute. Next, we have to 
-specify the column index of the linear-coded attribute in the `lin.p` argument.
+example of `cbc_linear`, there are six levels ranging from 175.99 to 350.99. 
+Please make sure to include **all** levels of the linear-coded attribute. 
+Next, we have to  specify the column name or column index of the linear-coded 
+attribute in the `lin.p` argument.
 
 Finally, in our example, we would also like to keep some variables that should 
-be attached to the data frame we are creating. We can specify the variables we 
-would like to keep in `varskeep`.
+be attached to the data frame we are creating (see `varskeep` argument).
 
-> [**Important**]{.underline}: The value you would like to interpolate (in the 
-example below 60, 40, and 45) need to be within the range you specify in 
-`ìnterpolate.levels`. For example, instead of using `c(10, 20, 30, 40, 50, 
-60, 70)`, we could also use `c(1, 2, 3, 4, 5, 6, 7)` or even better if we 
-zero-center it to `c(-3, -2, -1, 0, 1, 2, 3)`. In this case we would need to 
-adapt the values to be interpolate as well, so in our case 60 becomes 2, 40 
-becomes 0, and 45 becomes 0.5 in a zero-centered approach. Usually these steps 
-are done automatically by the software and you provide the attribute levels 
-that were also shwon to the participants.
+> [**Important**]{.underline}: In case the value to be interpolated is not
+within the range specified in `interpolate.levels`, `create_hot() will display
+a warning that extrapolation is applied.
 
 ```{r}
-HOT <- createHOT(
-  # data frame
-  data = CBC_lin,
-  # column index of unique identifier
-  id = 1,
-  # column index of none alternative
-  none = 15,
-  # coding of the 3 attributes; 0 = part-worth, 1 = linear, 2 = piecewise
-  coding = c(0, 0, 1),
-  # column index of the attribute levels for each alternative
-  # (for linear coded we specify the value to be interpolated)
-  prod.levels = list(c(4, 9, 60), c(8, 12, 40), c(5, 10, 45)),
-  # actual values for the levels that should be interpolated
-  interpolate.levels = list(c(10, 20, 30, 40, 50, 60, 70)),
-  # column index of the linear coded variable
-  lin.p = 14,
-  # method
-  method = "CBC",
-  # column index of variables that should be kept in the data frame
-  varskeep = 17,
-  # column index of choice
-  choice = 16
+hot_cbc_linear <- create_hot(
+  data = cbc_linear,
+  id = "id",
+  none = "none",
+  prod.levels = list(
+    c(3, 6, 10, 13, 16, 20, 24, 32, 248.55),
+    c(3, 5, 10, 14, 16, 18, 22, 27, 237.39),
+    c(4, 6, 9, 14, 15, 20, 25, 30, 273.15),
+    c(4, 5, 10, 11, 16, 19, 26, 32, 213.55),
+    c(2, 6, 8, 14, 16, 17, 26, 31, 266.10),
+    c(2, 5, 7, 12, 16, 20, 26, 29, 184.50)
+  ),
+  coding = c(rep(0, times = 8), 1),
+  lin.p = 33,
+  interpolate.levels = list(c(seq(from = 175.99, to = 350.99, by = 35))),
+  method = "cbc",
+  choice = "hot"
 )
 ```
 
-> [**Important**]{.underline}: Remember, since we have a linear-coded variable 
-included, we **have** to provide the column indexes in `prod.levels`. For the 
-other arguemnts (in the case above `id`, `none`, `lin.p`, `varskeep`, and 
-`choice`) we could still specify the column names.
+> [**Important**]{.underline}: Remember since we have a linear-coded variable 
+included, we **have** to provide the column indexes in `prod.levels`.
+
+Sometimes you estimate a **CBC** using parth-worth coding, however, afterwards,
+you treat this attribute as continuous variable (e.g., the price). You can 
+treat this attribute similar to a piecewise-coded. Currently, `create_hot()` 
+just allows for one piecewise-coded attribute. 
 
 ### Adaptive Choice-Based Conjoint (ACBC)
 
-Finally, let us introduce you how to use `validateHOT` for an adaptive 
+Finally, let us introduce you how to use the validateHOT package for an adaptive 
 choice-based conjoint (ACBC). We also provide two examples, which are typical 
 issues you might face.
 
@@ -253,196 +240,204 @@ issues you might face.
 
 In the first example, we would like to introduce you the example if you are 
 using a linear-coded price for your ACBC. This price is not coded with `1` in 
-the `coding` argument for the `createHOT()` function. Since it is a little bit 
+the `coding` argument for the `create_hot()` function. Since it is a little bit 
 different than normal linear-coded variables (i.e., you get two coefficients 
 instead of just one), we approach this a bit different.
 
-For our example, we will use the `ACBC` data set, which is also provided by 
-`validateHOT`. If you take a look at the data frame, you see that there are a 
-total of eight attributes, plus the price (2 coefficients; `Price_2.093` as 
-well as `Price_27.287`), and lastly the `none` coefficient. Since all eight 
-attributes are part-worth coded, the setup is the same as for the CBC.
+For our example, we will use the `acbc` data set, which is also provided by 
+the validateHOT package. If you take a look at the data frame, you see that there are a 
+total of 8 attributes, plus the price with 2 coefficients. 
 
-For our example, we use a validation/holdout task with six alternatives plus a 
-no-buy alternative. First, we define the six alternatives. We can see that for 
-`prod1`, we again indicate the column indexes for the eight different 
+We use the same validation task as before (i.e., 6 alternatives plus a 
+no-buy alternative). First, we define the 6 alternatives (`prod`). We can see 
+that for `prod1`, we  indicate the column indexes for the eight different 
 attributes. Finally, the price (last element of the vector, e.g., `prod1` has 
-a price of `15.99`) is piecewise-coded.
+a price of `248.55`) is piecewise-coded.
 
-After defining each alternative in the validation/holdout task, let us look at 
-the `createHOT()` function. We specify our `data`, the column index of `id`, 
-the column index of the no-buy alternative (`none`), the products, which we 
-have defined before, the method (`ACBC`), and the column index of the actual 
-choice (`choice`). We specify the coding (`c(0, 0, 0, 0, 0, 0, 0, 0, 2)`). 
-Remember that in `createHOT()` we specify a linear-coded price in an ACBC as 
+After defining each alternative in the validation task, let us look at 
+the `create_hot()` function. We specify our `data`, the `id`, the no-buy 
+alternative (`none`), the products, which we have defined before, the method 
+(`acbc`), the choice (`choice`), ans finally, we specify the coding 
+(`c(rep(0, times = 8), 2)`). 
+Remember that in `create_hot()` we specify a linear-coded price in an ACBC as 
 piecewise, which is why we set the last attribute to `2` instead of `1`. For 
-`interpolate.levels`, we specify the lower bound of our price (`2.093`) and 
-the upper bound of price (`27.287`). Finally, we specify `piece.p`, which is 
+`interpolate.levels`, we specify the lower bound of our price (`121.95`) and 
+the upper bound of price (`507.95`). Finally, we specify `piece.p`, which is 
 equivalent to `lin.p`, however, we specify the position of the lower and the 
 upper bound of the value we would like to interpolate. Since we only have two 
 values if we have a linear-coded price, i.e., the lower and the upper bound, 
-we specify the position of them. Please be aware that you have to specify the 
-position for each alternative in the validation/holdout task, which is why you 
-have to specify the position `c(35, 36)` for each of the six alternatives.
+we specify the column index or column names of them. Please be aware that you 
+have to specify the position for each alternative in the validation task, which
+is why you have to specify the position `c(35, 36)` for each of the six 
+alternatives.
 
 ```{r, eval = F}
-# define alternatives, for each attribute we specify the column index except
-# for the last one we specify the price to be interpolated.
-prod1 <- c(5, 11, 15, 17, 21, 25, 32, 34, 15.99)
-prod2 <- c(6, 9, 15, 17, 23, 27, 31, 34, 12.99)
-prod3 <- c(8, 12, 16, 19, 23, 24, 28, 34, 12.99)
-prod4 <- c(7, 12, 14, 18, 22, 24, 28, 33, 9.99)
-prod5 <- c(4, 10, 13, 17, 23, 27, 28, 34, 7.99)
-prod6 <- c(5, 9, 14, 17, 23, 27, 29, 33, 9.99)
+prod1 <- c(3, 6, 10, 13, 16, 20, 24, 32, 248.55)
+prod2 <- c(3, 5, 10, 14, 16, 18, 22, 27, 237.39)
+prod3 <- c(4, 6, 9, 14, 15, 20, 25, 30, 273.15)
+prod4 <- c(4, 5, 10, 11, 16, 19, 26, 32, 213.55)
+prod5 <- c(2, 6, 8, 14, 16, 17, 26, 31, 266.10)
+prod6 <- c(2, 5, 7, 12, 16, 20, 26, 29, 184.50)
 
-# calculate total utilities for validation/ holdout task
-HOT <- createHOT(
-  # data frame
-  data = ACBC,
-  # column index of the id
-  id = 1,
-  # column index of none alternative
-  none = 37,
-  # products specified above
+hot_acbc <- create_hot(
+  data = acbc,
+  id = "id",
+  none = "none",
   prod.levels = list(prod1, prod2, prod3, prod4, prod5, prod6),
-  # coding of the 9 attributes; 0 = part-worth, 1 = linear, 2 = piecewise
-  coding = c(0, 0, 0, 0, 0, 0, 0, 0, 2),
-  # actual values for the levels that should be interpolated, for linear
-  # coded price in ACBC this is just the lower bound and the upper bound
-  interpolate.levels = list(c(2.093, 27.287)),
-  # position of the piecewise coded variable
+  coding = c(rep(0, times = 8), 2),
+  interpolate.levels = list(c(121.95, 507.95)),
   piece.p = list(
-    c(35, 36), c(35, 36),
-    c(35, 36), c(35, 36),
-    c(35, 36), c(35, 36)
+    list(
+      c(33, 34), c(33, 34), c(33, 34),
+      c(33, 34), c(33, 34), c(33, 34)
+    )
   ),
-  # method
-  method = "ACBC",
-  # column index of choice
-  choice = 38
+  method = "acbc",
+  choice = "hot"
+)
+```
+
+> If you prefer coding the price as linear, please see the following workaround.
+Usually the price is scaled between -1 and +1 for converging purposes, as 
+described [here](https://sawtoothsoftware.com/help/lighthouse-studio/manual/acbc-modeling-price-function.html). You could use the following code chunk and get the same
+results:
+
+```{r, eval = FALSE}
+prod1 <- c(3, 6, 10, 13, 16, 20, 24, 32, 
+           (-1 + 2 * ((248.55 - 121.95) / (507.95 - 121.95))))
+prod2 <- c(3, 5, 10, 14, 16, 18, 22, 27, 
+           (-1 + 2 * ((237.39 - 121.95) / (507.95 - 121.95))))
+prod3 <- c(4, 6, 9, 14, 15, 20, 25, 30, 
+           (-1 + 2 * ((273.15 - 121.95) / (507.95 - 121.95))))
+prod4 <- c(4, 5, 10, 11, 16, 19, 26, 32, 
+           (-1 + 2 * ((213.55 - 121.95) / (507.95 - 121.95))))
+prod5 <- c(2, 6, 8, 14, 16, 17, 26, 31, 
+           (-1 + 2 * ((266.10 - 121.95) / (507.95 - 121.95))))
+prod6 <- c(2, 5, 7, 12, 16, 20, 26, 29, 
+           (-1 + 2 * ((184.50 - 121.95) / (507.95 - 121.95))))
+
+hot_acbc <- create_hot(
+  data = acbc,
+  id = "id",
+  none = "none",
+  prod.levels = list(prod1, prod2, prod3, prod4, prod5, prod6),
+  coding = c(rep(0, times = 8), 1),
+  interpolate.levels = list(c(-1, 1)),
+  lin.p = "price_2",
+  method = "acbc",
+  choice = "hot"
 )
 ```
 
 #### Piecewise-coded ACBC
 
-So far, we have only looked at examples where at maximum one attribute was not 
+So far, we have only looked at examples where at maximum 1 attribute was not 
 part-worth coded. In the final example, we will have all three types of coding 
 included. Since piecewise coding is only available for ACBC in Sawtooth 
 Software, we will show another example with an ACBC. The data set is similar 
-to the previous one (six alternatives plus a no-buy alternative). We will use 
-the data frame `ACBC_interpolate`, which is also part of `validateHOT`.
+to the previous one (6 alternatives plus a no-buy alternative). We will use 
+the data frame `acbc_interpolate`, which is also part of the validateHOT packge.
 
 The `coding` specified below (`c(0, 1, 0, 0, 0, 0, 0, 0, 2)`) already tells us 
 that the second attribute is linear-coded, while the last attribute is 
 piecewise-coded. The rest of the attributes are part-worth coded.
 
-Again our validation/holdout task has six alternatives plus the no-buy 
+Again our validation task has 6 alternatives plus the no-buy 
 alternative. For `interpolate.levels`, we have to specify two vectors in the 
 list. The first vector contains the values for the linear-coded attribute 
-(`c(3, 5, 8, 10)`), and the second vector contains the break points you have 
+(`c(9, 10)`), and the second vector contains the break points you have 
 specified for your piecewise-coded price. In `ACBC_interpolate`, we provide an 
-example where we used seven break points for the price 
-(`c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)`). We specify the column 
+example where we used 5 break points for the price 
+(`c(121.95, 226.95, 272.95, 326.95, 507.95)`). We specify the column 
 index of the linear-coded attribute in `lin.p`. Next, we specify `piece.p` by 
 inserting the column index of the piecewise-coded attribute. The raw utilities 
-for the seven break points (`c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)`) 
-are stored in the columns 32 to 38. Again, we need to specify the lower and 
+for the five break points (`c(121.95, 226.95, 272.95, 326.95, 507.95)`) 
+are stored in the columns 32 to 36. Again, we need to specify the lower and 
 upper break point of the value we would like to interpolate in `piece.p`, and 
-we need to do this for each of the six alternatives in the validation/holdout 
-task. For example, for the first alternative (`15.99`), we see that the lower 
-break point is `12.99` while the upper break point is `17.99`. Therefore, we 
-specify the column index of these two in `piece.p` (`c(36, 37)`). Let us also 
-look at the second product since it represents a scenario you might face in 
-practice. The alternative should have a price of `12.99`. If we look at the 
-break points we can see that one of the break points is also `12.99`. In this 
-case, we could either use the column index of `12.99` as lower or upper 
-position, the results will be identical.
+we need to do this for each of the six alternatives in the validation 
+task. For example, for the first alternative (`248.55`), we see that the lower 
+break point is `226.95` while the upper break point is `272.95`. Therefore, we 
+specify the column indexes of these 2 in `piece.p` (`c(33, 34)`). Alternatively,
+we could also set it to `c("price_2", "price_3")`. If the price 
+is the same as one of the break points, we could either use the variable
+of the same-priced break point as lower or upper position. The results will be 
+identical.
 
 ```{r, eval = F}
-HOT <- createHOT(
-  # data frame
-  data = ACBC_interpolate,
-  # column index of the id
-  id = 1,
-  none = 39, # column index of none alternative
-  prod.levels = list(
-    # column index of the attribute levels for each alternative
-    # (for linear coded and piecewise coded we specify value to be interpolated)
-    c(5, 5, 12, 14, 18, 22, 29, 31, 15.99),
-    c(6, 4, 12, 14, 20, 24, 28, 31, 12.99),
-    c(8, 6, 13, 16, 20, 21, 25, 31, 12.99),
-    c(7, 5, 11, 15, 19, 21, 25, 30, 9.99),
-    c(4, 9, 10, 14, 20, 24, 25, 31, 7.99),
-    c(5, 8, 11, 14, 20, 24, 26, 30, 9.99)
-  ),
-  # coding of the 9 attributes; 0 = part-worth, 1 = linear, 2 = piecewise
-  coding = c(0, 1, 0, 0, 0, 0, 0, 0, 2),
-  # actual values for the levels that should be interpolated
-  # (first entry refers to the linear coded variable, second entry refers
-  # to the piecewise coded variable)
+prod1 <- c(3, 10, 9, 12, 15, 19, 23, 31, 248.55)
+prod2 <- c(3, 9, 9, 13, 15, 17, 21, 26, 237.39)
+prod3 <- c(4, 10, 8, 13, 14, 19, 24, 29, 273.15)
+prod4 <- c(4, 9, 9, 10, 15, 18, 25, 31, 213.55)
+prod5 <- c(2, 10, 7, 13, 15, 16, 25, 30, 266.10)
+prod6 <- c(2, 9, 6, 11, 15, 19, 25, 28, 184.50)
+
+hot_acbc_interpolate <- create_hot(
+  data = acbc_interpolate,
+  id = "id",
+  none = "none",
+  prod.levels = list(prod1, prod2, prod3, prod4, prod5, prod6),
+  coding = c(0, 1, rep(0, times = 6), 2),
+  lin.p = 5,
   interpolate.levels = list(
-    c(3, 5, 8, 10),
-    c(1.99, 6.99, 9.99, 10.99, 12.99, 17.99, 25.99)
+    c(9, 10),
+    c(121.95, 226.95, 272.95, 326.95, 507.95)
   ),
-  # position of the piecewise coded variable
   piece.p = list(
-    c(36, 37), c(35, 36), c(35, 36),
-    c(33, 34), c(33, 34), c(33, 34)
+    list(
+      c(33, 34), c(33, 34), c(34, 35),
+      c(32, 33), c(33, 34), c(32, 33)
+    )
   ),
-  # position of the linear coded variable
-  lin.p = 9,
-  # method
-  method = "ACBC",
-  # column index of choice
-  choice = 40
+  method = "acbc",
+  choice = "hot"
 )
 ```
 
 #### Alternative-Specific Design
 
 In case you applied an alternative-specific design in your study and would 
-like to create a validation/holdout task with an alternative-specific attribute 
+like to create a validation task with an alternative-specific attribute, 
 please apply `NA` for this attribute level. That is all you have to change.
 
 ## Validation metrics
 
-First, we focus on metrics that are often reported for validation/holdout tasks 
+First, we focus on metrics that are often reported for validation tasks 
 in research papers, namely:
 
--   Hit rate (<code>hitrate()</code>)
--   Kullback-Leibler-Divergence (<code>kl()</code>)
--   Mean absolute error (<code>mae()</code>)
--   Mean hit probability (<code>mhp()</code>)
--   Median absolute error (<code>medae()</code>)
--   Root mean square error (<code>rmse()</code>)
+-   Hit rate (`hitrate()`)
+-   Kullback-Leibler-Divergence (`kl()`)
+-   Mean absolute error (`mae()`)
+-   Mean hit probability (`mhp()`)
+-   Median absolute error (`medae()`)
+-   Root mean square error (`rmse()`)
 
 ### `hitrate()`
 
-Once the validation/holdout task is created, the setup is similar for all three 
+Once the validation task is created, the setup is similar for all three 
 methods (i.e., (A)CBC and MaxDiff). We will use the MaxDiff example from above. 
 Moreover, since we also would like to show some functions exemplary split by 
-groups, we will use the `varskeep` argument.
+groups, we will use the `varskeep` argument and keep the variable `group`.
 
 ```{r}
-HOT <- createHOT(
-  data = MaxDiff,
-  id = 1,
-  none = 19,
-  prod.levels = list(3, 10, 11, 15, 16, 17, 18),
-  method = "MaxDiff",
-  choice = 20,
-  varskeep = 21
+hot_mxd <- create_hot(
+  data = maxdiff,
+  id = "id",
+  none = "none",
+  prod.levels = list(2, 9, 10, 14, 15, 16, 17),
+  method = "maxdiff",
+  varskeep = "group",
+  choice = "hot"
 )
 ```
 
-For `hitrate()`, we specify our data (`HOT` in our case), the column names of 
-alternatives (this includes the no-buy alternative; `opts`), and finally, the 
-actual choice in the holdout task (`choice`).
+For `hitrate()`, we specify our data (`hot_mxd` ), the column names 
+of the alternatives (this includes the no-buy alternative; `opts`), and 
+finally, the actual choice in the validation task (`choice`).
 
 ```{r}
 hitrate(
-  data = HOT, # data frame
-  opts = c(Option_1:None), # column names of alternatives
+  data = hot_mxd, # data frame
+  opts = c(option_1:none), # column names of alternatives
   choice = choice # column name of choice
 )
 ```
@@ -454,10 +449,10 @@ Let us first use $log{_2}$ as logarithm base.
 
 ```{r}
 kl(
-  data = HOT, # data frame
-  opts = c(Option_1:None), # column names of alternatives
+  data = hot_mxd, # data frame
+  opts = c(option_1:none), # column names of alternatives
   choice = choice, # column name of choice
-  base = "log2" # logarithm base
+  log_base = "log2" # logarithm base
 )
 ```
 
@@ -465,12 +460,11 @@ However, we can also use the normal $log$ base. Let us try this in the next
 step and this time we display the results by using the `tidyverse` logic.
 
 ```{r}
-HOT %>%
+hot_mxd %>%
   kl(
-    data = ., # data frame
-    opts = c(Option_1:None), # column names of alternatives
+    opts = c(option_1:none), # column names of alternatives
     choice = choice, # column name of choice
-    base = "log" # logarithm base
+    log_base = "log" # logarithm base
   )
 ```
 
@@ -481,28 +475,27 @@ which is equivalent to (Predicted \|\| Observed).
 ### `mae()`
 
 For the mean absolute error, `mae()`, we split the results by the grouping 
-variable `Group`, therefore, we use the `group` argument:
+variable `group`, therefore, we use the `group` argument:
 
 ```{r}
 mae(
-  data = HOT, # data frame
-  opts = c(Option_1:None), # column names of alternatives
+  data = hot_mxd, # data frame
+  opts = c(option_1:none), # column names of alternatives
   choice = choice, # column name of choice
-  group = Group # Grouping variable
+  group = group # Grouping variable
 )
 ```
 
 ### `mhp()`
 
-We will display the mean hit probability split by the `Group` variable 
-(`group = Group`):
+We will display the mean hit probability split by the `group` variable:
 
 ```{r}
 mhp(
-  data = HOT, # data frame
-  opts = c(Option_1:None), # column names of alternatives
+  data = hot_mxd, # data frame
+  opts = c(option_1:none), # column names of alternatives
   choice = choice, # column name of choice
-  group = Group # Grouping variable
+  group = group # Grouping variable
 )
 ```
 
@@ -512,8 +505,8 @@ Next, we look at the median absolute error:
 
 ```{r}
 medae(
-  data = HOT, # data frame
-  opts = c(Option_1:None), # column names of alternatives
+  data = hot_mxd, # data frame
+  opts = c(option_1:none), # column names of alternatives
   choice = choice # column name of choice
 )
 ```
@@ -524,16 +517,16 @@ And finally, to end this block, we look at the root mean square error.
 
 ```{r}
 rmse(
-  data = HOT, # data frame
-  opts = c(Option_1:None), # column names of alternatives
+  data = hot_mxd, # data frame
+  opts = c(option_1:none), # column names of alternatives
   choice = choice # column name of choice
 )
 ```
 
 ## Confusion matrix
 
-Next, we will take a look at the five metrics of the confusion matrix. The 
-current logic for the confusion matrix is that `validateHOT` calculates, for 
+Next, we will take a look at the 5 metrics of the confusion matrix. The 
+current logic for the confusion matrix is that validateHOT calculates, for 
 example, whether your model overestimates or underestimates purchase behavior. 
 Therefore, you need to specify a `none` alternative for the five metrics of 
 confusion matrix, namely ...
@@ -544,29 +537,29 @@ confusion matrix, namely ...
 -   `recall()`
 -   `specificity()`
 
-> To translate this to the `validateHOT` logic, imagine you have a 
-validation/holdout task with five alternatives plus the alternative not to buy 
-any of those chosen. `validateHOT` now measures whether or not a buy 
-(participant opts for one of the five alternatives) or a no-buy (participant 
+> To translate this to the logic of the validateHOT package, imagine you have a 
+validation task with 5 alternatives plus the alternative not to buy 
+any of those chosen. validateHOT now measures whether or not a buy 
+(participant opts for one of the 5 alternatives) or a no-buy (participant 
 opts for the no-buy alternative), respectively, is correctly predicted.
 
 The setup is similar to the ones of the validation metrics reported above, the 
-only difference is that you have to specify the column index of the no-buy 
+only difference is that you have to specify the column name of the no-buy 
 alternative (`none`).
 
 ### `accuracy()`
 
-We begin with the `accuracy()` and we still work with the `HOT` data frame we 
-created above. We specify the eight alternatives (seven alternatives + no-buy 
+We begin with the `accuracy()` and we still work with the `hot_mxd` data frame 
+we created above. We specify the eight alternatives (seven alternatives + no-buy 
 alternative) as well as the `none` argument, the column name of the no-buy 
 alternative.
 
 ```{r}
 accuracy(
-  data = HOT, # data frame
-  opts = c(Option_1:None), # column names of alternatives
+  data = hot_mxd, # data frame
+  opts = c(option_1:none), # column names of alternatives
   choice = choice, # column name of choice
-  none = None # column name of none alternative
+  none = none # column name of none alternative
 )
 ```
 
@@ -577,26 +570,26 @@ however, we use the `f1()` function.
 
 ```{r}
 f1(
-  data = HOT, # data frame
-  opts = c(Option_1:None), # column names of alternatives
+  data = hot_mxd, # data frame
+  opts = c(option_1:none), # column names of alternatives
   choice = choice, # column name of choice
-  none = None # column name of none alternative
+  none = none # column name of none alternative
 )
 ```
 
-### `(precision))`
+### `precision()`
 
 To display the precision, we use the `precision()` function. This time, we want 
-to display the results split by the `Group` variable in `HOT`, therefore, we 
+to display the results split by the `group` variable in `hot_mxd`, thus, we 
 specify the `group` argument.
 
 ```{r}
 precision(
-  data = HOT, # data frame
-  opts = c(Option_1:None), # column names of alternatives
+  data = hot_mxd, # data frame
+  opts = c(option_1:none), # column names of alternatives
   choice = choice, # column name of choice
-  none = None, # column name of none alternative
-  group = Group # Grouping variable
+  none = none, # column name of none alternative
+  group = group
 )
 ```
 
@@ -604,25 +597,25 @@ precision(
 
 Similar to the validation metrics shown above, we can also implement these 
 functions in `tidyverse` logic. In the following code chunk, we first adjust 
-the `Group` variable to a `factor`. In the last step, we round the results to 
+the `group` variable to a `factor`. In the last step, we round the results to 
 two decimals.
 
 ```{r}
-HOT %>%
+hot_mxd %>%
   dplyr::mutate(
-    Group = factor(Group,
+    group = factor(group,
       levels = c(1:3),
       labels = paste0("Group ", c(1:3))
     )
   ) %>% # change Group to factor
   recall(
     data = ., # data frame
-    opts = c(Option_1:None), # column names of alternatives
+    opts = c(option_1:none), # column names of alternatives
     choice = choice, # column name of choice
-    none = None, # column name of none alternative
-    group = Group
+    none = none, # column name of none alternative
+    group = group
   ) %>% # Grouping variable
-  mutate_if(
+  dplyr::mutate_if(
     is.numeric, # only for numeric
     round, # round
     2
@@ -635,16 +628,16 @@ Finally, the following code runs the `specificity()` function.
 
 ```{r}
 specificity(
-  data = HOT, # data frame
-  opts = c(Option_1:None), # column names of alternatives
+  data = hot_mxd, # data frame
+  opts = c(option_1:none), # column names of alternatives
   choice = choice, # column name of choice
-  none = None # column name of none alternative
+  none = none
 )
 ```
 
 ## Simulation metrics
 
-Next, let us talk about the simulation metrics. `validateHOT` currently 
+Next, let us talk about the simulation metrics. The validateHOT package currently 
 provides the following four functions:
 
 -   Reach of the assortment (`reach()`)
@@ -658,25 +651,25 @@ Let us imagine you have a specific assortment, and you want to check how many
 participants consider purchasing at least one of the products or alternatives 
 of this assortment.
 
-In our case, let us assume we want to test three alternatives - `Option_1`, 
-`Option_4`, and `Option_6` - and see how many participants would consider 
+In our case, let us assume we want to test three alternatives - `option_1`, 
+`option_4`, and `option_6` - and see how many participants would consider 
 choosing at least one of these alternatives.
 
 > **NOTE**: Both `reach()` and `freqassort()` apply the so-called threshold 
-approach. In this case, each alternative which utility exceeds the one of the 
-threshold is considered as, for example, purchase option. In our case, we use 
-the utility of the outside good (i.e., no-buy), however, it could also be the 
-utility of a status quo alternative. A participant is considered as reached, if 
-at least one alternative exceeds this threshold.
+approach. In this case, each alternative which utility exceeds the utility of 
+the threshold is considered as, for example, purchase option. In our case, we 
+use the utility of the outside good (i.e., no-buy), however, it could also be 
+the utility of a status quo alternative. A participant is considered as 
+reached, if at least one alternative exceeds this threshold.
 
 ```{r}
 reach(
   # data frame
-  data = HOT,
+  data = hot_mxd,
   # alternatives considered in the assortment
-  opts = c(Option_1, Option_4, Option_6),
+  opts = c(option_1, option_4, option_6),
   # threshold that has to be exceeded
-  none = None
+  none = none
 )
 ```
 
@@ -689,11 +682,11 @@ We will use the same example as we did when introducing the `reach()` function.
 ```{r}
 freqassort(
   # data frame
-  data = HOT,
+  data = hot_mxd,
   # alternatives considered in the assortment
-  opts = c(Option_1, Option_4, Option_6),
+  opts = c(option_1, option_4, option_6),
   # threshold that has to be exceeded
-  none = None
+  none = none
 )
 ```
 
@@ -711,101 +704,92 @@ alternative with the highest utility (Chrzan & Orme, 2019, p. 112).
 This function is extremely helpful when running a `MaxDiff` (Chrzan & Orme, 
 2019), however, we also show a way to use `turf()` with rating scales. Let us 
 first assume we ran a MaxDiff study with 16 alternatives and we now want to 
-find out which combination of a total of three alternatives can reach most of 
-the participants, put differently, the combination of three alternatives from 
+find out which combination of a total of 3 alternatives can reach most of 
+the participants, put differently, the combination of 3 alternatives from 
 which most of the participants buy at least one alternative. We use the 
 `MaxDiff` data set for this example.
 
-In this example, we have 16 different alternatives included as well as outside 
+In this example, we have 16 different alternatives included and an outside 
 option (`none`). To use the `turf()` function, we first have to specify the 
-data frame `data = MaxDiff`. Afterwards, we specify the alternatives (`opts`) 
+data frame `data = "maxdiff"`. Afterwards, we specify the alternatives (`opts`) 
 that should be considered when creating the different assortments as well as 
 the threshold (`none`) that needs to be exceeded. As described above, the final 
-product assortment should include a total of three items (`size = 3`). Finally, 
+product assortment should include a total of 3 items (`size = 3`). Finally, 
 we apply the threshold approach (`thres`). We display the first five results 
 using the `head()` function.
 
 ```{r}
 turf(
-  data = MaxDiff,
-  opts = c(Option_01:Option_16),
+  data = maxdiff,
+  opts = c(option_01:option_16),
   none = none,
   size = 3,
   approach = "thres"
 ) %>%
-  head(., n = 5)
+  head(n = 5)
 ```
 
-By default, the results are sorted in descending order by `reach`. We see that 
-`Combo 1` has a `reach` of 
-`r round(turf(data = MaxDiff, opts = c(Option_01:Option_16), none = none, size = 3, approach = "thres") %>% select(reach) %>% .[1,1], digits = 2)`%. This assortment includes 
-`Option_01`, `Option_04`, and `Option_13`. This means that for 
-`r round(turf(data = MaxDiff, opts = c(Option_01:Option_16), none = none, size = 3, approach = "thres") %>% select(reach) %>% .[1,1], digits = 2)`% of the participants at least one of 
-three items exceed the threshold. Finally, the frequency `freq` of this 
-assortment is `r round(turf(data = MaxDiff, opts = c(Option_01:Option_16), none = none, size = 3, approach = "thres") %>% select(freq) %>% .[1,1], digits = 2)`.
-
-If we decide to rather use the first choice approach, we simply change the 
-`approach` argument to `approach = 'fc'`.
+By default, the results are sorted in descending order by `reach`. If we decide 
+to rather use the first choice approach, we simply change the `approach` 
+argument to `approach = 'fc'`.
 
 ```{r}
-turf(
-  data = MaxDiff,
-  opts = c(Option_01:Option_16),
+maxdiff %>% 
+  turf(
+  opts = c(option_01:option_16),
   none = none,
   size = 3,
   approach = "fc"
 ) %>%
-  head(., n = 5)
+  head(n = 5)
 ```
 
-We see that the combination with the highest reach has changed. The combination 
-with the highest reach (`reach` equal to `r round(turf(data = MaxDiff, opts = c(Option_01:Option_16), none = none, size = 3, approach = "fc") %>% select(reach) %>% .[1,1], digits = 2)`%) 
-includes `Option_01`, `Option_04`, and `Option_06`. Please be aware that, if 
-`approach = 'fc'`, `reach` and `freq` will be equal since the volume is limited 
-to one per participant.
+We see that the combination with the highest reach has changed. Please be aware 
+that, if `approach = 'fc'`, `reach` and `freq` will be equal since the volume 
+is limited to one per participant.
 
 Let us know imagine the case that we already have two fixed items, meaning that 
 these items have to be included in the assortment, and we want to find two 
 further items that maximize `reach`. In `turf()`, we only have to use the 
-`fixed` argument. So let us assume that `Option_02` as well as `Option_12` are 
+`fixed` argument. So let us assume that `option_02` as well as `option_12` are 
 fixed. Again we just display the Top-5 results.
 
 ```{r}
 turf(
-  data = MaxDiff,
-  opts = c(Option_01:Option_16),
+  data = maxdiff,
+  opts = c(option_01:option_16),
   none = none,
   size = 4,
-  fixed = c("Option_02", "Option_12"),
+  fixed = c("option_02", "option_12"),
   approach = "thres"
 ) %>%
-  head(., n = 5)
+  head(n = 5)
 ```
 
-We see that adding `Option_01` and `Option_4` yields the highest reach. Again, 
+We see that adding `option_13` and `Option_15` yields the highest reach. Again, 
 if you prefer the first choice approach over the threshold approach, just 
 change `approach` to `fc` instead of `thres`.
 
 Finally, you could also specify if there are one or more items or combinations 
 that should not be included in any of the solutions. For example, let us take 
-the example from above. Both `Option_02` and `Option_12` should be included. 
-However, neither the combination of `Option_02` and `Option_04` nor the 
-combination of `Option_12` and `Option_09` should be included.
+the example from above. Both `option_02` and `option_12` should be included. 
+However, neither the combination of `option_02` and `option_04` nor the 
+combination of `option_12` and `option_09` should be included.
 
 ```{r}
 turf(
-  data = MaxDiff,
-  opts = c(Option_01:Option_16),
+  data = maxdiff,
+  opts = c(option_01:option_16),
   none = none,
   size = 4,
-  fixed = c("Option_02", "Option_12"),
-  prohib = list(c("Option_02", "Option_04"), c("Option_12", "Option_09")),
+  fixed = c("option_02", "option_12"),
+  prohib = list(c("option_02", "option_04"), c("option_12", "option_09")),
   approach = "thres"
 ) %>%
-  head(., n = 5)
+  head(n = 5)
 ```
 
-Argument `prohib` has to be list. Moreover, it could also include single 
+Argument `prohib` has to be a list. Moreover, it could also include single 
 alternatives instead of combinations.
 
 If you would like to use `turf()` with data surveyed using, for example, a 
@@ -819,56 +803,55 @@ scale.
 Let us create hypothetical data for this example:
 
 ```{r}
-Likert <- base::data.frame(
-  alt_01 = base::round(stats::runif(1000, min = 1, max = 5), digits = 0),
-  alt_02 = base::round(stats::runif(1000, min = 1, max = 5), digits = 0),
-  alt_03 = base::round(stats::runif(1000, min = 1, max = 5), digits = 0),
-  alt_04 = base::round(stats::runif(1000, min = 1, max = 5), digits = 0),
-  alt_05 = base::round(stats::runif(1000, min = 1, max = 5), digits = 0),
-  alt_06 = base::round(stats::runif(1000, min = 1, max = 5), digits = 0),
-  alt_07 = base::round(stats::runif(1000, min = 1, max = 5), digits = 0),
-  alt_08 = base::round(stats::runif(1000, min = 1, max = 5), digits = 0),
-  alt_09 = base::round(stats::runif(1000, min = 1, max = 5), digits = 0),
-  alt_10 = base::round(stats::runif(1000, min = 1, max = 5), digits = 0)
+set.seed(123)
+likert <- data.frame(
+  alt_01 = round(runif(1000, min = 1, max = 5), digits = 0),
+  alt_02 = round(runif(1000, min = 1, max = 5), digits = 0),
+  alt_03 = round(runif(1000, min = 1, max = 5), digits = 0),
+  alt_04 = round(runif(1000, min = 1, max = 5), digits = 0),
+  alt_05 = round(runif(1000, min = 1, max = 5), digits = 0),
+  alt_06 = round(runif(1000, min = 1, max = 5), digits = 0),
+  alt_07 = round(runif(1000, min = 1, max = 5), digits = 0),
+  alt_08 = round(runif(1000, min = 1, max = 5), digits = 0),
+  alt_09 = round(runif(1000, min = 1, max = 5), digits = 0),
+  alt_10 = round(runif(1000, min = 1, max = 5), digits = 0)
 )
 ```
 
-In order to use `turf()`, we need to provide a threshold to the data frame, a 
+To use `turf()`, we need to provide a threshold to the data frame, a 
 value that needs to be exceeded. In our case, we only want to consider option 
 **4** and **5** on the scale, therefore, the threshold needs to be lower than 4 
 accordingly (please be aware that setting the threshold to 4 is not working in 
-this case, the threshold **has** to be lower, for example, 3.9999). In our 
+this case, the threshold **has** to be lower, for example, 3.99). In our 
 case, since we only have whole numbers we could also set the threshold to 
 **3**. And afterwards, we run the `turf()` function again.
 
 ```{r}
-Likert %>%
-  mutate(thres = 3) %>% # adds the threshold variable
+likert %>%
+  dplyr::mutate(thres = 3) %>% # adds the threshold variable
   turf(
-    data = .,
     opts = c(alt_01:alt_10),
     none = thres,
     size = 3,
     approach = "thres"
   ) %>%
-  head(., n = 5)
+  head(n = 5)
 ```
 
 ### `marksim()`
 
-Finally, `validateHOT` also provides a function, `marksim()` to calculate the 
-assumed market share of a specified assortment. <code>validateHOT</code> 
+Finally, the validateHOT package provides a function, `marksim()` to calculate the 
+assumed market share of a specified assortment. The package 
 currently provides market simulations based on *share of preference rule* or 
 *first choice rule*. To specify which market simulation method to run, you can 
-easily decide by specifying the <code>method</code> argument.
+easily decide by specifying the `method` argument.
 
 #### Share of Preference
 
 ```{r}
-HOT %>%
+hot_mxd %>%
   marksim(
-    data = ., # data frame
-    opts = c(Option_1:None), # column names of alternatives
+    opts = c(option_1:none), # column names of alternatives
     method = "sop" # market simulation method
   )
 ```
@@ -876,10 +859,9 @@ HOT %>%
 #### First Choice
 
 ```{r}
-HOT %>%
+hot_mxd %>%
   marksim(
-    data = ., # data frame
-    opts = c(Option_1:None), # column names of alternatives
+    opts = c(option_1:none), # column names of alternatives
     method = "fc" # market simulation method
   )
 ```
@@ -903,10 +885,10 @@ setting `res` to `ind`.
 
 ### `att_imp()`
 
-Let us again use the examples from above, namely, `CBC`, `CBC_lin`, `ACBC`, and 
-`ACBC_interpolate`.
+Let us again use the examples from above, namely, `cbc`, `cbc_linear`, 
+`acbc`, and `acbc_interpolate`.
 
-#### `CBC`
+#### `cbc`
 
 To use `att_imp()`, we first need to specify the `data`. Next, we need to 
 define the attribute levels for each attribute (`attrib`), again, all attribute 
@@ -916,90 +898,96 @@ or linear, `1`).
 
 ```{r}
 att_imp(
-  data = CBC,
+  data = cbc,
   attrib = list(
-    c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-    c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-    c(
-      "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4",
-      "Att3_Lev5", "Att3_Lev6", "Att3_Lev7"
-    )
+    paste0("att1_lev", c(1:3)),
+    paste0("att2_lev", c(1:2)),
+    paste0("att3_lev", c(1:4)),
+    paste0("att4_lev", c(1:4)),
+    paste0("att5_lev", c(1:2)),
+    paste0("att6_lev", c(1:4)),
+    paste0("att7_lev", c(1:6)),
+    paste0("att8_lev", c(1:6)),
+    paste0("price_", c(1:6))
   ),
-  coding = c(0, 0, 0),
+  coding = c(rep(0, times = 9)),
   res = "agg"
 )
 ```
 
-#### `CBC_lin`
+#### `cbc_linear`
 
-Next, we assume that one of the attributes was linear-coded (`Att3_Lin`), 
-which we specify in `coding`. Again, as we had to do for `createHOT()` as well, 
+Next, we assume that one of the attributes was linear-coded (`price`), 
+which we specify in `coding`. Again, as we had to do for `create_hot()`, 
 we need to provide the values that we used for model estimation (see above). We 
 again specify those in the argument `interpolate.levels`.
 
 ```{r}
 att_imp(
-  data = CBC_lin,
+  data = cbc_linear,
   attrib = list(
-    c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-    c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-    c("Att3_Lin")
+    paste0("att1_lev", c(1:3)),
+    paste0("att2_lev", c(1:2)),
+    paste0("att3_lev", c(1:4)),
+    paste0("att4_lev", c(1:4)),
+    paste0("att5_lev", c(1:2)),
+    paste0("att6_lev", c(1:4)),
+    paste0("att7_lev", c(1:6)),
+    paste0("att8_lev", c(1:6)),
+    "price"
   ),
-  coding = c(0, 0, 1),
-  interpolate.levels = list(c(10, 20, 30, 40, 50, 60, 70)),
+  interpolate.levels = list(c(seq(from = 175.99, to = 350.99, by = 35))),
+  coding = c(rep(0, times = 8), 1),
   res = "agg"
 )
 ```
 
-#### `ACBC`
+#### `acbc`
 
-Above, we explained how to address a piecewise-coded ACBC in `createHOT()`. We 
+Above, we explained how to address a piecewise-coded ACBC in `create_hot()`. We 
 again specify a linear-coded price in ACBC as piecewise-coded (see explanation 
 above).
 
 ```{r}
 att_imp(
-  data = ACBC,
+  data = acbc,
   attrib = list(
-    c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-    c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4"),
-    c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4"),
-    c("Att4_Lev1", "Att4_Lev2", "Att4_Lev3"),
-    c("Att5_Lev1", "Att5_Lev2", "Att5_Lev3", "Att5_Lev4"),
-    c("Att6_Lev1", "Att6_Lev2", "Att6_Lev3", "Att6_Lev4"),
-    c("Att7_Lev1", "Att7_Lev2", "Att7_Lev3", "Att7_Lev4", "Att7_Lev5"),
-    c("Att8_Lev1", "Att8_Lev2"),
-    c("Price_2.093", "Price_27.287")
+    paste0("att1_lev", c(1:3)),
+    paste0("att2_lev", c(1:2)),
+    paste0("att3_lev", c(1:4)),
+    paste0("att4_lev", c(1:4)),
+    paste0("att5_lev", c(1:2)),
+    paste0("att6_lev", c(1:4)),
+    paste0("att7_lev", c(1:6)),
+    paste0("att8_lev", c(1:6)),
+    paste0("price_", c(1:2))
   ),
-  coding = c(rep(0, 8), 2),
+  coding = c(rep(0, times = 8), 2),
   res = "agg"
 )
 ```
 
-#### `ACBC_interpolate`
+#### `acbc_interpolate`
 
-Finally, in `ACBC_interpolate` we also had one linear-coded atribute, which we 
+Finally, in `acbc_interpolate` we also had one linear-coded attribute, which we 
 specify in the coding again.
 
 ```{r}
 att_imp(
-  data = ACBC_interpolate,
+  data = acbc_interpolate,
   attrib = list(
-    c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-    c("Att2_Lin"),
-    c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4"),
-    c("Att4_Lev1", "Att4_Lev2", "Att4_Lev3"),
-    c("Att5_Lev1", "Att5_Lev2", "Att5_Lev3", "Att5_Lev4"),
-    c("Att6_Lev1", "Att6_Lev2", "Att6_Lev3", "Att6_Lev4"),
-    c("Att7_Lev1", "Att7_Lev2", "Att7_Lev3", "Att7_Lev4", "Att7_Lev5"),
-    c("Att8_Lev1", "Att8_Lev2"),
-    c(
-      "Price_1.99", "Price_6.99", "Price_9.99", "Price_10.99", "Price_12.99",
-      "Price_17.99", "Price_25.99"
-    )
+    paste0("att1_lev", c(1:3)),
+    "att2",
+    paste0("att3_lev", c(1:4)),
+    paste0("att4_lev", c(1:4)),
+    paste0("att5_lev", c(1:2)),
+    paste0("att6_lev", c(1:4)),
+    paste0("att7_lev", c(1:6)),
+    paste0("att8_lev", c(1:6)),
+    paste0("price_", c(1:5))
   ),
-  coding = c(0, 1, rep(0, 6), 2),
-  interpolate.levels = list(c(3, 5, 8, 10)),
+  interpolate.levels = list(c(9, 10)),
+  coding = c(0, 1, rep(0, times = 6), 2),
   res = "agg"
 )
 ```
@@ -1015,8 +1003,8 @@ task from which s/he had to choose the best and worst item.
 
 ```{r}
 prob_scores(
-  data = MaxDiff,
-  items = c(Option_01:Option_16),
+  data = maxdiff,
+  items = c(option_01:option_16),
   set.size = 4,
   res = "agg"
 )
@@ -1028,8 +1016,8 @@ can also be another threshold variable.
 
 ```{r}
 prob_scores(
-  data = MaxDiff,
-  items = c(Option_01:none),
+  data = maxdiff,
+  items = c(option_01:none),
   set.size = 4,
   res = "agg",
   anchor = none
@@ -1042,86 +1030,93 @@ The input is almost identical to `att_imp()`, the only difference in case you
 included a `none` option in your study, you need to specify it here by defining 
 the `none` argument.
 
-#### CBC
+#### `cbc`
 
 ```{r}
 zc_diffs(
-  data = CBC,
+  data = cbc,
   attrib = list(
-    c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-    c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-    c(
-      "Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4",
-      "Att3_Lev5", "Att3_Lev6", "Att3_Lev7"
-    )
+    paste0("att1_lev", c(1:3)),
+    paste0("att2_lev", c(1:2)),
+    paste0("att3_lev", c(1:4)),
+    paste0("att4_lev", c(1:4)),
+    paste0("att5_lev", c(1:2)),
+    paste0("att6_lev", c(1:4)),
+    paste0("att7_lev", c(1:6)),
+    paste0("att8_lev", c(1:6)),
+    paste0("price_", c(1:6))
   ),
-  coding = c(0, 0, 0),
+  coding = c(rep(0, times = 9)),
   res = "agg",
   none = "none"
 )
 ```
 
-#### CBC_lin
+#### `cbc_linear`
 
 ```{r}
 zc_diffs(
-  data = CBC_lin,
+  data = cbc_linear,
   attrib = list(
-    c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-    c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4", "Att2_Lev5"),
-    c("Att3_Lin")
+    paste0("att1_lev", c(1:3)),
+    paste0("att2_lev", c(1:2)),
+    paste0("att3_lev", c(1:4)),
+    paste0("att4_lev", c(1:4)),
+    paste0("att5_lev", c(1:2)),
+    paste0("att6_lev", c(1:4)),
+    paste0("att7_lev", c(1:6)),
+    paste0("att8_lev", c(1:6)),
+    "price"
   ),
-  coding = c(0, 0, 1),
-  interpolate.levels = list(c(10, 20, 30, 40, 50, 60, 70)),
+  interpolate.levels = list(c(seq(from = 175.99, to = 350.99, by = 35))),
+  coding = c(rep(0, times = 8), 1),
   res = "agg",
   none = "none"
 )
 ```
 
-#### `ACBC`
+#### `acbc`
 
 ```{r}
 zc_diffs(
-  data = ACBC,
+  data = acbc,
   attrib = list(
-    c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-    c("Att2_Lev1", "Att2_Lev2", "Att2_Lev3", "Att2_Lev4"),
-    c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4"),
-    c("Att4_Lev1", "Att4_Lev2", "Att4_Lev3"),
-    c("Att5_Lev1", "Att5_Lev2", "Att5_Lev3", "Att5_Lev4"),
-    c("Att6_Lev1", "Att6_Lev2", "Att6_Lev3", "Att6_Lev4"),
-    c("Att7_Lev1", "Att7_Lev2", "Att7_Lev3", "Att7_Lev4", "Att7_Lev5"),
-    c("Att8_Lev1", "Att8_Lev2"),
-    c("Price_2.093", "Price_27.287")
+    paste0("att1_lev", c(1:3)),
+    paste0("att2_lev", c(1:2)),
+    paste0("att3_lev", c(1:4)),
+    paste0("att4_lev", c(1:4)),
+    paste0("att5_lev", c(1:2)),
+    paste0("att6_lev", c(1:4)),
+    paste0("att7_lev", c(1:6)),
+    paste0("att8_lev", c(1:6)),
+    paste0("price_", c(1:2))
   ),
-  coding = c(rep(0, 8), 2),
+  coding = c(rep(0, times = 8), 2),
   res = "agg",
   none = "none"
 )
 ```
 
-#### `ACBC_interpolate`
+#### `acbc_interpolate`
 
 ```{r}
 zc_diffs(
-  data = ACBC_interpolate,
+  data = acbc_interpolate,
   attrib = list(
-    c("Att1_Lev1", "Att1_Lev2", "Att1_Lev3", "Att1_Lev4", "Att1_Lev5"),
-    c("Att2_Lin"),
-    c("Att3_Lev1", "Att3_Lev2", "Att3_Lev3", "Att3_Lev4"),
-    c("Att4_Lev1", "Att4_Lev2", "Att4_Lev3"),
-    c("Att5_Lev1", "Att5_Lev2", "Att5_Lev3", "Att5_Lev4"),
-    c("Att6_Lev1", "Att6_Lev2", "Att6_Lev3", "Att6_Lev4"),
-    c("Att7_Lev1", "Att7_Lev2", "Att7_Lev3", "Att7_Lev4", "Att7_Lev5"),
-    c("Att8_Lev1", "Att8_Lev2"),
-    c(
-      "Price_1.99", "Price_6.99", "Price_9.99", "Price_10.99", "Price_12.99",
-      "Price_17.99", "Price_25.99"
-    )
+    paste0("att1_lev", c(1:3)),
+    "att2",
+    paste0("att3_lev", c(1:4)),
+    paste0("att4_lev", c(1:4)),
+    paste0("att5_lev", c(1:2)),
+    paste0("att6_lev", c(1:4)),
+    paste0("att7_lev", c(1:6)),
+    paste0("att8_lev", c(1:6)),
+    paste0("price_", c(1:5))
   ),
-  coding = c(0, 1, rep(0, 6), 2),
-  interpolate.levels = list(c(3, 5, 8, 10)),
-  res = "agg"
+  interpolate.levels = list(c(9, 10)),
+  coding = c(0, 1, rep(0, times = 6), 2),
+  res = "agg",
+  none = "none"
 )
 ```
 
@@ -1134,20 +1129,20 @@ The analysis is almost identical to `prob_scores()` introduced above.
 
 ```{r}
 zero_anchored(
-  data = MaxDiff,
-  items = c(Option_01:Option_16),
+  data = maxdiff,
+  items = c(option_01:option_16),
   res = "agg"
 )
 ```
 
-The code for the anchored MaxDiff is the same, only that we also have to 
+The code for the anchored MaxDiff is the same, but we also have to 
 specify the `anchor` argument, which is the the `none` alternative, however, 
 can also be another threshold variable.
 
 ```{r}
 zero_anchored(
-  data = MaxDiff,
-  items = c(Option_01:none),
+  data = maxdiff,
+  items = c(option_01:none),
   res = "agg",
   anchor = none
 )

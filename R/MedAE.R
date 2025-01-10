@@ -1,179 +1,164 @@
 #' Function to calculate median absolute error
 #'
 #' @description
-#' `medae` measures the median absolute error (MedAE) of a
-#' validation/holdout task.
+#' `medae()` measures the median absolute error (MedAE) of a
+#' validation task.
 #'
 #' @param data A data frame with all relevant variables.
 #' @param group Optional column name(s) to specify grouping variable(s)
 #' to get `medae()` by group(s).
 #' @param opts Column names of the alternatives included in the
-#' validation/holdout task.
-#' @param choice Column name of the actual choice in the validation/holdout
+#' validation task.
+#' @param choice Column name of the actual choice in the validation
 #' task.
 #'
 #' @details
-#' `medae` calculates the deviation between predicted and
+#' `medae()` calculates the deviation between predicted and
 #' stated (actual) choice share and returns the median error in the
-#' validation/holdout task, which is less likely to be influenced by outliers.
+#' validation task, which is less likely to be influenced by outliers.
 #'
-#' `data` has to be a data frame including the alternatives shown in
-#' the validation/holdout task. Can be created using the `createHOT()`
-#' function.
+#' `data` a data frame including the alternatives shown in the validation task.
+#' Can be created using the `create_hot()` function.
 #'
-#' `group` optional grouping variable, if results should be displayed by
-#' different groups. Has to be column name of variables in `data`.
+#' `group` optional grouping variable(s), if results should be displayed by
+#' different groups. Has to be column name(s) of variables in `data`.
 #'
-#' `opts` is required to specify the different alternatives in the
-#' validation/holdout task. Input of `opts` has to be column names
-#' of variables in `data`.
+#' `opts` to specify the different alternatives in the validation task.
+#' Input of `opts` has to be column names of variables in `data`.
 #'
-#' `choice` to specify column of actual choice in the validation/holdout
-#' task. Input of opts `choice` has to be column name of actual choice.
+#' `choice` to specify column of actual choice in the validation
+#' task. Input of `choice` has to be column name of actual choice.
 #'
 #' @return a tibble
-#' @importFrom dplyr select mutate group_by pick count ungroup across reframe
-#' @importFrom magrittr "%>%"
-#' @importFrom stats median
-#' @importFrom tidyr pivot_longer
-#' @importFrom tidyselect ends_with
 #'
 #' @examples
 #'
-#' library(validateHOT)
-#'
-#' HOT <- createHOT(
-#'   data = MaxDiff,
-#'   id = 1,
-#'   none = 19,
-#'   prod.levels = list(3, 10, 11, 15, 16, 17, 18),
-#'   method = "MaxDiff",
-#'   choice = 20,
-#'   varskeep = 21
+#' hot <- create_hot(
+#'   data = maxdiff,
+#'   id = "id",
+#'   none = "none",
+#'   prod.levels = list(2, 9, 10, 14, 15, 16, 17),
+#'   method = "maxdiff",
+#'   choice = "hot",
+#'   varskeep = "group"
 #' )
 #'
 #' # medae - without group argument defined
 #' medae(
-#'   data = HOT,
-#'   opts = c(Option_1:None),
+#'   data = hot,
+#'   opts = c(option_1:none),
 #'   choice = choice
 #' )
 #'
 #' # medae - with group argument defined
 #' medae(
-#'   data = HOT,
-#'   opts = c(Option_1:None),
+#'   data = hot,
+#'   opts = c(option_1:none),
 #'   choice = choice,
-#'   group = Group
+#'   group = group
 #' )
 #'
 #' @export
-
-
 medae <- function(data, group, opts, choice) {
-  if (length(data %>% dplyr::select({{ opts }})) == 0) {
-    stop("Error: argument 'opts' is missing!")
+  # check for missing arguments ------------------------------------------------
+  if (missing(opts)) {
+    stop('Error: argument "opts" must be provided.')
   }
 
-  if (length(data %>% dplyr::select({{ opts }})) == 1) {
-    stop("Error: specify at least 2 alternatives in 'opts'!")
+  if (missing(choice)) {
+    stop('Error: argument "choice" must be provided.')
   }
+  # end ------------------------------------------------------------------------
 
-  # grouping variable
-  ## check for missings
-  if (anyNA(data %>% dplyr::select({{ group }}))) {
-    warning("Warning: 'group' contains NAs!")
-  }
+  # check for opts argument ----------------------------------------------------
 
-  # alternatives
-  ## store names of alternatives
-  alternatives <- data %>%
-    dplyr::select({{ opts }}) %>%
-    colnames()
+  # check for numeric input
+  variable_numeric(data, variable = {{ opts }}, argument = opts)
 
-  ## check whether variable is numeric
-  for (i in seq_along(alternatives)) {
-    if (!is.numeric(data[[alternatives[i]]])) {
-      stop("Error: 'opts' has to be numeric!")
-    }
-  }
+  # check for length of opts (>1)
+  n_opts_cols(data, opts = {{ opts }})
 
-  ## check for missings
-  if (anyNA(data %>% dplyr::select({{ opts }}))) {
-    stop("Error: 'opts' contains NAs!")
-  }
+  # check for missings in opts
+  nvar_missings(data, variables = {{ opts }})
 
-  # choice
-  ## check for missing
-  if (anyNA(data %>% dplyr::select({{ choice }}))) {
-    stop("Error: 'choice' contains NAs!")
-  }
+  # end ------------------------------------------------------------------------
 
-  ## check for str
-  choi <- data %>%
-    dplyr::select({{ choice }}) %>%
-    colnames()
+  # check for `choice` argument ------------------------------------------------
 
-  if (!is.numeric(data[[choi]])) {
-    stop("Error: 'choice' has to be numeric!")
-  }
+  # check for numeric input
+  variable_numeric(data, variable = {{ choice }}, argument = choice)
 
-  # create actual share of actual choice
+  # check for missings in `choice`
+  nvar_missings(data, variables = {{ choice }})
+
+  # check for length of input
+  ncol_input(data, variable = {{ choice }}, argument = choice)
+
+  # end ------------------------------------------------------------------------
+
+  # check for group argument ---------------------------------------------------
+
+  # check for missings in group
+  missing_group(data, group = {{ group }})
+
+  # end ------------------------------------------------------------------------
+
+  # run medae() --------------------------------------------------------------
+
+  # define factor labels
+  factor_labels <- define_fctr_labels(data, {{ opts }}, "option_")
+
+  # actual share of choice
   WS1 <- data %>%
     dplyr::mutate(
-      # create factor
       merger = factor(
-        {{ choice }},
-        levels = c(seq_along(dplyr::select(data, {{ opts }}))),
-        labels = c(seq_along(dplyr::select(data, {{ opts }})))
+        x = {{ choice }},
+        levels = c(seq_along(factor_labels)),
+        labels = factor_labels
       )
     ) %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
-    dplyr::count(merger, .drop = FALSE) %>% # count choices
-    dplyr::mutate(chosen = n / sum(n) * 100) %>% # calculate percentage
-    dplyr::select(-"n") # drop variable
+    dplyr::count(merger, .drop = FALSE) %>%
+    dplyr::mutate(chosen = percentage(n) * 100) %>%
+    dplyr::select(-"n")
 
-  # create predicted share
+  n_opts_rep <- length(WS1$merger)
+
+  # predicted share of choice
   WS2 <- data %>%
-    # exponentiate
-    dplyr::mutate(dplyr::across({{ opts }}, ~ exp(.x))) %>%
-    dplyr::rowwise() %>%
-    # calculate sum rowwise
-    dplyr::mutate(Summe = sum(dplyr::pick({{ opts }}))) %>%
-    dplyr::ungroup() %>%
-    # calculate choice probability
-    dplyr::mutate(dplyr::across({{ opts }}, ~ .x / Summe * 100)) %>%
+    mnl({{ opts }}) %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
-    # aggregate choice probability
-    dplyr::reframe(across({{ opts }}, ~ mean(.x),
-      .names = "{.col}_mean"
-    )) %>%
-    # change to longer format
-    tidyr::pivot_longer(.,
-      cols = tidyselect::ends_with("_mean"),
-      names_to = "alt", values_to = "mean"
+    dplyr::reframe(
+      dplyr::across({{ opts }}, \(x) mean(x))
+    ) %>%
+    tidyr::pivot_longer(
+      cols = {{ opts }},
+      names_to = "alternatives",
+      values_to = "share"
     ) %>%
     dplyr::mutate(
-      # adapt labeling
-      alt = substr(
-        alt, 1,
-        (nchar(alt) - nchar("_mean"))
-      ),
-      merger = rep(seq_along(dplyr::select(data, {{ opts }})),
-        length.out = length(alt)
-      ) # create merger
+      merger = factor(
+        x = rep(factor_labels,
+          length.out = n_opts_rep,
+          labels = factor_labels
+        )
+      )
     )
+
+  # define merging variables
+  merge_variables <- c(dplyr::select(WS2, {{ group }}) %>%
+    colnames(), "merger")
 
   medae_data <- WS2 %>%
     merge(
       x = .,
       y = WS1,
-      by = c(WS2 %>% dplyr::select(., {{ group }}) %>%
-        colnames(), "merger")
-    ) %>% # merge
+      by = merge_variables
+    ) %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
-    dplyr::mutate(MEDAE = abs(mean - chosen)) %>% # calculate medae
-    dplyr::reframe(medae = stats::median(MEDAE))
+    dplyr::reframe(medae = median(abs(share - chosen)))
 
   return(medae_data)
+
+  # end ------------------------------------------------------------------------
 }

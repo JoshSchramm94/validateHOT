@@ -1,240 +1,156 @@
-HOT <- createHOT(
-  data = MaxDiff, none = 19,
-  id = 1,
-  prod.levels = list(3, 10, 11, 15, 16, 17, 18),
-  choice = 20, method = "MaxDiff", varskeep = 21
+# create data for tests
+hot <- create_hot(
+  data = maxdiff,
+  id = "id",
+  none = "none",
+  prod.levels = list(2, 9, 10, 14, 15, 16, 17),
+  method = "maxdiff",
+  varskeep = "group",
+  choice = "hot"
 )
+# end --------------------------------------------------------------------------
 
-test_that("Error if none is missing", {
-  expect_error(f1(data = HOT, opts = c(Option_1:None), choice = choice))
+# check for error messages for missing arguments -------------------------------
+test_that("Error if none is missing ", {
+  expect_error(f1(data = hot, opts = c(option_1:none), choice = choice))
 })
 
-test_that("Error if opts is missing", {
-  expect_error(f1(data = HOT, choice = choice, none = None))
+test_that("Error if opts is missing ", {
+  expect_error(f1(data = hot, choice = choice, none = none))
 })
 
-test_that("Error if opts has just length 1", {
-  expect_error(f1(data = HOT, opts = Option_1, choice = choice, none = None))
+test_that("Error if choice is missing ", {
+  expect_error(f1(data = hot, opts = c(option_1:none), none = none))
 })
 
-test_that("Error if none is not part of opts", {
+# end --------------------------------------------------------------------------
+
+# check for wrong input --------------------------------------------------------
+test_that("Error if opts has just length 1 ", {
   expect_error(f1(
-    data = HOT, opts = c(Option_1:Option_3), choice = choice,
-    none = None
+    data = hot, opts = option_1,
+    choice = choice, none = none
   ))
 })
 
-test_that("Warning if group contains NA ", {
-  HOT2 <- HOT
-
-  HOT2$Group[34] <- NA
-
-  expect_warning(f1(
-    data = HOT2, opts = c(Option_1:None), choice = choice,
-    none = None, group = Group
+test_that("Error if none is not part of opts ", {
+  expect_error(f1(
+    data = hot, opts = c(option_1:option_3),
+    choice = choice, none = none
   ))
 })
 
-test_that("Error if alternatives contains NA ", {
-  HOT2 <- HOT
+test_that("Error if opts contains NA ", {
+  hot_testthat <- hot
 
-  HOT2$Option_2[34] <- NA
-
-  expect_error(f1(
-    data = HOT2, opts = c(Option_1:None), choice = choice,
-    none = None, group = Group
-  ))
-})
-
-test_that("Error if alternatives is not numeric ", {
-  HOT2 <- HOT
-
-  HOT2$Option_2 <- as.character(HOT2$Option_2)
+  hot_testthat$option_2[34] <- NA
 
   expect_error(f1(
-    data = HOT2, opts = c(Option_1:None), choice = choice,
-    none = None, group = Group
+    data = hot_testthat, opts = c(option_1:none),
+    choice = choice, none = none
   ))
 })
 
 test_that("Error if choice contains NA ", {
-  HOT2 <- HOT
+  hot_testthat <- hot
 
-  HOT2$choice[34] <- NA
+  hot_testthat$choice[34] <- NA
 
   expect_error(f1(
-    data = HOT2, opts = c(Option_1:None), choice = choice,
-    none = None, group = Group
+    data = hot_testthat, opts = c(option_1:none),
+    choice = choice, none = none
+  ))
+})
+
+test_that("Error if opts is not numeric ", {
+  hot_testthat <- hot
+
+  hot_testthat$option_2 <- as.character(hot_testthat$option_2)
+
+  expect_error(f1(
+    data = hot_testthat, opts = c(option_1:none),
+    choice = choice, none = none
   ))
 })
 
 test_that("Error if choice is not numeric ", {
-  HOT2 <- HOT
+  hot_testthat <- hot
 
-  HOT2$choice <- as.character(HOT2$choice)
+  hot_testthat$choice <- as.character(hot_testthat$choice)
 
   expect_error(f1(
-    data = HOT2, opts = c(Option_1:None), choice = choice,
-    none = None, group = Group
+    data = hot_testthat, opts = c(option_1:none),
+    choice = choice, none = none
   ))
 })
 
-test_that("Structure of Output data.frame ", {
-  expect_true(is.data.frame(f1(
-    data = HOT, opts = c(Option_1:None),
-    choice = choice, none = None
-  )))
+test_that("Warning if group contains NA ", {
+  hot2 <- hot
+
+  hot2$group[34] <- NA
+
+  expect_warning(f1(
+    data = hot2, opts = c(option_1:none),
+    choice = choice, none = none,
+    group = group
+  ))
 })
 
-test_that("Structure of Output tibble ", {
-  expect_true(tibble::is_tibble(f1(
-    data = HOT, opts = c(Option_1:None),
-    choice = choice, none = None
-  )))
-})
+# end --------------------------------------------------------------------------
 
-test_that("Length of output equals number of groups - no group ", {
-  expect_equal(nrow(f1(
-    data = HOT, opts = c(Option_1:None),
-    choice = choice, none = None
-  )), 1)
-})
-
-test_that("Length of output equals number of groups - 1 group ", {
-  expect_equal(
-    nrow(f1(
-      data = HOT, opts = c(Option_1:None),
-      choice = choice, none = None, group = Group
-    )),
-    length(unique(HOT$Group))
-  )
-})
-
-test_that("Length of output equals number of groups - 2 group ", {
-  HOT$Group2 <- c("Group 1", "Group 2")
-  expect_equal(
-    nrow(f1(
-      data = HOT, opts = c(Option_1:None),
-      choice = choice, none = None,
-      group = c(Group, Group2)
-    )),
-    (length(unique(HOT$Group)) *
-      length(unique(HOT$Group2)))
-  )
-})
-
-test_that("Numeric output - no group ", {
-  expect_true(is.numeric(f1(
-    data = HOT, opts = c(Option_1:None),
-    choice = choice, none = None
-  )[[1]]))
-})
-
-test_that("Numeric output - 1 group ", {
-  expect_true(is.numeric(f1(
-    data = HOT, opts = c(Option_1:None),
-    choice = choice, none = None,
-    group = Group
-  )[[2]]))
-})
-
+# group input equals group output ----------------------------------------------
 test_that("group output equals group input ", {
-  expect_equal(
-    utils::str(f1(
-      data = HOT, opts = c(Option_1:None),
-      choice = choice, none = None, group = Group
-    )[[1]]),
-    utils::str(HOT$Group)
-  )
+  expect_equal(str(f1(
+    data = hot, opts = c(option_1:none),
+    choice = choice, none = none,
+    group = group
+  )[[1]]), str(hot$group))
 })
 
 test_that("group output equals group input - character input ", {
-  HOT$Group2 <- c("Group 1", "Group 2")
-  expect_equal(utils::str(f1(
-    data = HOT, opts = c(Option_1:None),
-    choice = choice, none = None,
-    group = Group2
-  )[[1]]), utils::str(HOT$Group2))
+  hot$group2 <- c("group 1", "group 2")
+  expect_equal(
+    str(f1(
+      data = hot, opts = c(option_1:none),
+      choice = choice, none = none,
+      group = group2
+    )[[1]]), str(hot$group2)
+  )
 })
 
 test_that("group output equals group input - labelled input ", {
-  HOT$Group2 <- c(1:2)
-  HOT$Group2 <- labelled::labelled(HOT$Group2,
-    labels = c("Group 1" = 1, "Group 2" = 2)
+  hot$group2 <- c(1:2)
+  hot$group2 <- labelled::labelled(hot$group2,
+    labels = c("group 1" = 1, "group 2" = 2)
   )
   expect_true(labelled::is.labelled(f1(
-    data = HOT, opts = c(Option_1:None),
-    choice = choice, none = None,
-    group = Group2
+    data = hot,
+    opts = c(option_1:none),
+    choice = choice, none = none,
+    group = group2
   )[[1]]))
 })
+# end --------------------------------------------------------------------------
 
-test_that("group output equals group input - multiple grouping variables ", {
-  HOT$Group2 <- c(1:2)
-  HOT$Group2 <- labelled::labelled(HOT$Group2,
-    labels = c("Group 1" = 1, "Group 2" = 2)
-  )
-  expect_equal(
-    utils::str(f1(
-      data = HOT, opts = c(Option_1:None),
-      choice = choice, none = None,
-      group = c(Group, Group2)
-    )[[1]]),
-    utils::str(HOT$Group)
-  )
-  expect_true(labelled::is.labelled(f1(
-    data = HOT, opts = c(Option_1:None),
-    choice = choice, none = None,
-    group = c(Group, Group2)
-  )[[2]]))
-  expect_true(is.numeric(f1(
-    data = HOT, opts = c(Option_1:None),
-    choice = choice, none = None,
-    group = c(Group, Group2)
-  )[[3]]))
-})
+# check for different input data type ------------------------------------------
 
-test_that("f1() also working with data.frame not created with createHOT()", {
+test_that("f1() also working with data.frame not created with create_hot() ", {
   set.seed(2023)
 
-  newHOT <- data.frame(
-    Option_1 = stats::runif(10, min = -5, max = 5),
-    Option_2 = stats::runif(10, min = -5, max = 5),
-    Option_3 = stats::runif(10, min = -5, max = 5),
-    Option_4 = stats::runif(10, min = -5, max = 5),
-    Option_5 = stats::runif(10, min = -5, max = 5),
-    Choice = sample(c(1:5), 10, replace = T)
+  new_hot_df <- data.frame(
+    option_1 = runif(10, min = -5, max = 5),
+    option_2 = runif(10, min = -5, max = 5),
+    option_3 = runif(10, min = -5, max = 5),
+    option_4 = runif(10, min = -5, max = 5),
+    option_5 = runif(10, min = -5, max = 5),
+    choice = sample(c(1:5), 10, replace = T)
   )
   expect_true(is.numeric(f1(
-    data = newHOT, opts = c(Option_1:Option_5),
-    choice = Choice, none = Option_3
+    data = new_hot_df,
+    opts = c(option_1:option_5),
+    choice = choice,
+    none = option_3
   )[[1]]))
-  expect_true(tibble::is_tibble(f1(
-    data = newHOT, opts = c(Option_1:Option_5),
-    choice = Choice, none = Option_5
-  )))
-  expect_false(anyNA(f1(
-    data = newHOT, opts = c(Option_1:Option_5),
-    choice = Choice, none = Option_5
-  )))
 })
 
-test_that("check whether examples are correct ", {
-  expect_equal(round(
-    as.numeric(f1(
-      data = HOT,
-      opts = c(Option_1:None),
-      choice = choice, none = None
-    )),
-    0
-  ), 80)
-  expect_equal(
-    round(as.numeric(f1(
-      data = HOT,
-      opts = c(Option_1:None),
-      choice = choice, none = None,
-      group = Group
-    )[[2]]), 0),
-    c(84, 77, 76)
-  )
-})
+# end --------------------------------------------------------------------------

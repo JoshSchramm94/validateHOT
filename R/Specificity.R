@@ -10,15 +10,15 @@
 #' @param group Optional column name(s) to specify grouping variable(s)
 #' to get `specificity()` by group(s).
 #' @param opts Column names of the alternatives included in the
-#' validation/holdout task.
-#' @param choice Column name of the actual choice in the validation/holdout
+#' validation task.
+#' @param choice Column name of the actual choice in the validation
 #' task.
 #' @param none Column name of none alternative.
 #'
 #' @details
-#' The current logic of `specificity()` is to determine whether a binary
-#' coded choice is correctly predicted by the model. To use the function, the
-#' validation/holdout task must include a `none` alternative.
+#' The current logic of `specificity()` is to determine whether a binary coded
+#' choice is correctly predicted by the model. To use the function, the
+#' validation task must include a `none` alternative.
 #' One possible application is, for example, whether a buy or a no-buy choice
 #' has been correctly predicted. For example, suppose you have three
 #' alternatives plus a `none` alternative and want to check whether a buy
@@ -26,22 +26,21 @@
 #' example, test whether your model significantly overestimates or
 #' underestimates a purchase likelihood.
 #'
-#' `data` has to be a data frame including the alternatives shown in
-#' the validation/holdout task. Can be created using the `createHOT()`
-#' function.
+#' `data` a data frame including the alternatives shown in the validation task.
+#' Can be created using the `create_hot()` function.
 #'
-#' `group` optional grouping variable, if results should be displayed by
-#' different groups. Has to be column name of variables in `data`.
+#' `group` optional grouping variable(s), if results should be displayed by
+#' different groups. Has to be column name(s) of variables in `data`.
 #'
-#' `opts` is required to specify the different alternatives in the
-#' validation/holdout task (also includes the `none` alternative).
+#' `opts` to specify the different alternatives in the
+#' validation task (also includes the `none` alternative).
 #' Input of `opts` has to be column names of variables in `data`.
 #'
-#' `choice` to specify column of actual choice in the validation/holdout
+#' `choice` to specify column of actual choice in the validation
 #' task. Input of `choice` has to be column name of actual choice.
 #'
-#' `none` is required to specify column name of the `none`
-#' alternative in the validation/holdout task.
+#' `none` to specify column name of the `none`
+#' alternative in the validation task.
 #'
 #' Please be aware about the following 2x2 table regarding coding of buy and
 #' no-buy choice:
@@ -53,144 +52,134 @@
 #'  \tab No-Buy \tab C \tab D  \cr
 #' }
 #'
-#' @importFrom dplyr group_by reframe select pick
-#' @importFrom magrittr "%>%"
 #'
 #' @return a tibble
 #'
 #' @seealso {
-#' \code{\link[=accuracy]{accuracy}}
-#' \code{\link[=f1]{f1}}
-#' \code{\link[=precision]{precision}}
-#' \code{\link[=recall]{recall}}
+#' [`accuracy()`][accuracy]
+#' [`f1()`][f1]
+#' [`precision()`][precision]
+#' [`recall()`][recall]
 #' }
 #'
 #' @references {
 #'
-#' Burger, S. V. (2018). \emph{Introduction to Machine Learning with R:
-#' Rigorous Mathematical Analysis}. O'Reilly.
+#' Burger, S. V. (2018). *Introduction to Machine Learning with R:
+#' Rigorous Mathematical Analysis*. O'Reilly.
 #'
 #' }
 #'
 #' @examples
 #'
-#' library(validateHOT)
-#'
-#' HOT <- createHOT(
-#'   data = MaxDiff,
-#'   id = 1,
-#'   none = 19,
-#'   prod.levels = list(3, 10, 11, 15, 16, 17, 18),
-#'   method = "MaxDiff",
-#'   varskeep = 21,
-#'   choice = 20
+#' hot <- create_hot(
+#'   data = maxdiff,
+#'   id = "id",
+#'   none = "none",
+#'   prod.levels = list(2, 9, 10, 14, 15, 16, 17),
+#'   method = "maxdiff",
+#'   varskeep = "group",
+#'   choice = "hot"
 #' )
 #'
 #' # specificity - without group argument defined
 #' specificity(
-#'   data = HOT,
-#'   opts = c(Option_1:None),
+#'   data = hot,
+#'   opts = c(option_1:none),
 #'   choice = choice,
-#'   none = None
+#'   none = none
 #' )
 #'
 #' # specificity - with group argument defined
 #' specificity(
-#'   data = HOT,
-#'   opts = c(Option_1:None),
+#'   data = hot,
+#'   opts = c(option_1:none),
 #'   choice = choice,
-#'   none = None,
-#'   group = Group
+#'   none = none,
+#'   group = group
 #' )
 #'
 #' @export
 
 specificity <- function(data, group, opts, choice, none) {
-  # check for wrong / missing input
-  if (length(data %>% dplyr::select({{ none }})) == 0) {
-    stop("Error: argument 'none' is missing!")
+  # check for missing arguments ------------------------------------------------
+  if (missing(none)) {
+    stop('Error: argument "none" must be provided.')
   }
 
-  if (length(data %>% dplyr::select({{ opts }})) == 0) {
-    stop("Error: argument 'opts' is missing!")
+  if (missing(opts)) {
+    stop('Error: argument "opts" must be provided.')
   }
 
-  if (length(data %>% dplyr::select({{ opts }})) == 1) {
-    stop("Error: specify at least 2 alternatives in 'opts'!")
+  if (missing(choice)) {
+    stop('Error: argument "choice" must be provided.')
   }
+  # end ------------------------------------------------------------------------
 
-  if (!(data %>% dplyr::select({{ none }}) %>% colnames()) %in%
-    (data %>% dplyr::select({{ opts }}) %>% colnames())) {
-    stop("Error: 'none' has to be part of 'opts'!")
-  }
+  # check for `opts` argument --------------------------------------------------
 
-  # grouping variable
-  ## check for missings
-  if (anyNA(data %>% dplyr::select({{ group }}))) {
-    warning("Warning: 'group' contains NAs!")
-  }
+  # check for numeric input
+  variable_numeric(data, variable = {{ opts }}, argument = opts)
 
-  # alternatives
-  ## store names of alternatives
-  alternatives <- data %>%
-    dplyr::select({{ opts }}) %>%
-    colnames()
+  # check for length of `opts`
+  n_opts_cols(data, opts = {{ opts }})
 
-  ## check whether variable is numeric
-  for (i in seq_along(alternatives)) {
-    if (!is.numeric(data[[alternatives[i]]])) {
-      stop("Error: 'opts' has to be numeric!")
-    }
-  }
+  # check for missings in `opts`
+  nvar_missings(data, variables = {{ opts }})
 
-  ## check for missings
-  if (anyNA(data %>% dplyr::select({{ opts }}))) {
-    stop("Error: 'opts' contains NAs!")
-  }
+  # end ------------------------------------------------------------------------
 
-  # choice
-  ## check for missing
-  if (anyNA(data %>% dplyr::select({{ choice }}))) {
-    stop("Error: 'choice' contains NAs!")
-  }
+  # check for `choice` argument ------------------------------------------------
 
-  ## check for str
-  choi <- data %>%
-    dplyr::select({{ choice }}) %>%
-    colnames()
+  # check for numeric input
+  variable_numeric(data, variable = {{ choice }}, argument = choice)
 
-  if (!is.numeric(data[[choi]])) {
-    stop("Error: 'choice' has to be numeric!")
-  }
+  # check for missings in `choice`
+  nvar_missings(data, variables = {{ choice }})
 
-  # test length of none
-  if (!missing(none)) {
-    anc <- data %>%
-      dplyr::select({{ none }}) %>%
-      colnames(.)
-    if (length(anc) > 1) {
-      stop("Error: 'none' can only be one variable!")
-    }
-  }
+  # check for length of input
+  ncol_input(data, variable = {{ choice }}, argument = choice)
 
+  # end ------------------------------------------------------------------------
+
+  # check for `none` argument --------------------------------------------------
+
+  # check if `none` is parts of `opts`
+  none_in_opts(data, none = {{ none }}, opts = {{ opts }}, should = TRUE)
+
+  # check for missings in `opts`
+  nvar_missings(data, variables = {{ none }})
+
+  # check for length of input
+  ncol_input(data, variable = {{ none }}, argument = none)
+
+  # end ------------------------------------------------------------------------
+
+  # check for group argument ---------------------------------------------------
+
+  # check for missings in group
+  missing_group(data, group = {{ group }})
+
+  # end ------------------------------------------------------------------------
+
+  # run specificity() function -------------------------------------------------
   specificity_data <- data %>%
     dplyr::mutate(
+
       # store column index with highest utility
-      pred = max.col(dplyr::pick({{ opts }})),
-      buy = ifelse({{ choice }} != match(
-        data %>% dplyr::select({{ none }}) %>% colnames(),
-        data %>% dplyr::select({{ opts }}) %>% colnames()
-      ), 1, 2), # dichotomies actual choice (1 = prod, 2 = none)
-      pred = ifelse(pred != match(
-        data %>% dplyr::select({{ none }}) %>% colnames(),
-        data %>% dplyr::select({{ opts }}) %>% colnames()
-      ), 1, 2) # dichotomies pred choice (1 = prod, 2 = none)
+      predicted = max.col(dplyr::pick({{ opts }})),
+      none = colnames_match(., {{ none }}, {{ opts }}),
+
+      # check whether it is a purchase option
+      actual = ifelse({{ choice }} != none, 1, 2),
+      predicted = ifelse(predicted != none, 1, 2)
     ) %>%
     dplyr::group_by(pick({{ group }})) %>%
+
+    # calculate specificity
     dplyr::reframe(
-      specificity = 100 * (sum(buy == 2 & pred == 2) /
-        (sum(buy == 2 & pred == 2) +
-          sum(buy == 2 & pred == 1)))
+      specificity = 100 * (sum(actual == 2 & predicted == 2) /
+        (sum(actual == 2 & predicted == 2) +
+          sum(actual == 2 & predicted == 1)))
     )
 
   return(specificity_data)
