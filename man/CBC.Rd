@@ -8,10 +8,10 @@
 A data frame with 105 rows and 41 variables
 }
 \source{
-TBD
+\url{https://osf.io/m5x3a/}
 }
 \usage{
-data(cbc)
+cbc
 }
 \description{
 A data set with raw scores export for an CBC, assuming part-worth coding for
@@ -63,7 +63,7 @@ price (if included).
 }
 }
 \examples{
-\dontrun{
+
 # create total utility of validation tasks
 
 hot_cbc <- create_hot(
@@ -123,6 +123,5 @@ zc_diffs(
   none = "none",
   res = "agg"
 )
-}
 }
 \keyword{datasets}

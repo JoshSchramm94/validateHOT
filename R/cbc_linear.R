@@ -46,12 +46,11 @@
 #' @docType data
 #' @keywords datasets
 #' @name cbc_linear
-#' @usage data(cbc_linear)
-#' @source TBD
+#' @usage cbc_linear
+#' @source \url{https://osf.io/m5x3a/}
 #' @format A data frame with 105 rows and 36 variables
 #'
 #' @examples
-#' \dontrun{
 #' # create total utility of validation tasks
 #'
 #' hot_cbc_linear <- create_hot(
@@ -115,6 +114,5 @@
 #'   none = "none",
 #'   res = "agg"
 #' )
-#' }
 #'
 "cbc_linear"

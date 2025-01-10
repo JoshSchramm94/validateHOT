@@ -8,10 +8,10 @@
 A data frame with 118 rows and 20 variables
 }
 \source{
-TBD
+\url{https://osf.io/m5x3a/}
 }
 \usage{
-data(maxdiff)
+maxdiff
 }
 \description{
 A data set with raw scores export for a MaxDiff (Best-Worst Scaling case 1).
@@ -41,7 +41,7 @@ A data set with raw scores export for a MaxDiff (Best-Worst Scaling case 1).
 }
 }
 \examples{
-\dontrun{
+
 # create total utility of validation tasks
 
 hot_mxd <- create_hot(
@@ -91,6 +91,5 @@ zero_anchored(
   items = c(option_01:option_16),
   res = "agg"
 )
-}
 }
 \keyword{datasets}

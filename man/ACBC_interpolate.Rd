@@ -9,7 +9,7 @@ piecewise-coded price}
 A data frame with 110 rows and 39 variables
 }
 \source{
-TBD
+\url{https://osf.io/m5x3a/}
 }
 \usage{
 data(acbc_interpolate)
@@ -70,7 +70,6 @@ price level 5}
 }
 }
 \examples{
-\dontrun{
 # create total utility of validation tasks
 
 prod1 <- c(3, 10, 9, 12, 15, 19, 23, 31, 248.55)
@@ -80,16 +79,22 @@ prod4 <- c(4, 9, 9, 10, 15, 18, 25, 31, 213.55)
 prod5 <- c(2, 10, 7, 13, 15, 16, 25, 30, 266.10)
 prod6 <- c(2, 9, 6, 11, 15, 19, 25, 28, 184.50)
 
-hot_acbc <- create_hot(
-  data = acbc,
+hot_acbc_interpolate <- create_hot(
+  data = acbc_interpolate,
   id = "id",
   none = "none",
   prod.levels = list(prod1, prod2, prod3, prod4, prod5, prod6),
-  coding = c(rep(0, times = 8), 2),
-  interpolate.levels = list(c(121.95, 507.95)),
+  coding = c(0, 1, rep(0, times = 6), 2),
+  lin.p = 5,
+  interpolate.levels = list(
+    c(9, 10),
+    c(121.95, 226.95, 272.95, 326.95, 507.95)
+  ),
   piece.p = list(
-    c(33, 34), c(33, 34), c(33, 34),
-    c(33, 34), c(33, 34), c(33, 34)
+    list(
+      c(33, 34), c(33, 34), c(34, 35),
+      c(32, 33), c(33, 34), c(32, 33)
+    )
   ),
   method = "acbc",
   choice = "hot"
@@ -99,19 +104,20 @@ hot_acbc <- create_hot(
 # measure the relative importance of the attributes
 
 att_imp(
-  data = acbc,
+  data = acbc_interpolate,
   attrib = list(
     paste0("att1_lev", c(1:3)),
-    paste0("att2_lev", c(1:2)),
+    "att2",
     paste0("att3_lev", c(1:4)),
     paste0("att4_lev", c(1:4)),
     paste0("att5_lev", c(1:2)),
     paste0("att6_lev", c(1:4)),
     paste0("att7_lev", c(1:6)),
     paste0("att8_lev", c(1:6)),
-    paste0("price_", c(1:2))
+    paste0("price_", c(1:5))
   ),
-  coding = c(rep(0, times = 8), 2),
+  interpolate.levels = list(c(9, 10)),
+  coding = c(0, 1, rep(0, times = 6), 2),
   res = "agg"
 )
 
@@ -136,7 +142,6 @@ zc_diffs(
   res = "agg",
   none = "none"
 )
-}
 
 }
 \keyword{datasets}

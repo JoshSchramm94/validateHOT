@@ -8,10 +8,10 @@
 A data frame with 105 rows and 36 variables
 }
 \source{
-TBD
+\url{https://osf.io/m5x3a/}
 }
 \usage{
-data(cbc_linear)
+cbc_linear
 }
 \description{
 A data set with raw scores export for an CBC including a linear-coded
@@ -58,7 +58,6 @@ attribute.
 }
 }
 \examples{
-\dontrun{
 # create total utility of validation tasks
 
 hot_cbc_linear <- create_hot(
@@ -122,7 +121,6 @@ zc_diffs(
   none = "none",
   res = "agg"
 )
-}
 
 }
 \keyword{datasets}

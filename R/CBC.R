@@ -50,12 +50,12 @@
 #' @docType data
 #' @keywords datasets
 #' @name cbc
-#' @source TBD
-#' @usage data(cbc)
+#' @source \url{https://osf.io/m5x3a/}
+#' @usage cbc
 #' @format A data frame with 105 rows and 41 variables
 #'
 #' @examples
-#' \dontrun{
+#'
 #' # create total utility of validation tasks
 #'
 #' hot_cbc <- create_hot(
@@ -115,5 +115,4 @@
 #'   none = "none",
 #'   res = "agg"
 #' )
-#' }
 "cbc"

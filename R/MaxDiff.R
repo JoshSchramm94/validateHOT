@@ -29,12 +29,12 @@
 #' @docType data
 #' @keywords datasets
 #' @name maxdiff
-#' @source TBD
-#' @usage data(maxdiff)
+#' @source \url{https://osf.io/m5x3a/}
+#' @usage maxdiff
 #' @format A data frame with 118 rows and 20 variables
 #'
 #' @examples
-#' \dontrun{
+#'
 #' # create total utility of validation tasks
 #'
 #' hot_mxd <- create_hot(
@@ -84,5 +84,4 @@
 #'   items = c(option_01:option_16),
 #'   res = "agg"
 #' )
-#' }
 "maxdiff"

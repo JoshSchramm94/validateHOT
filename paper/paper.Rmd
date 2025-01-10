@@ -1,31 +1,29 @@
 ---
 title: "validateHOT - an R package for validating validation tasks and choice modelling tools"
 tags:
-- R
-- MaxDiff
-- Conjoint Analysis
-- Market Simulations
-- Predictive Validity
-date: "10 January"
-output:
-  md_document:
-    df_print: paged
-citation_author: Schramm & Lichters
+  - R
+  - MaxDiff
+  - Conjoint Analysis
+  - Market Simulations
+  - Predictive Validity
 authors:
-- name: Joshua Benjamin Schramm
-  orcid: "0000-0001-5602-4632"
-  corresponding: true
-  affiliation: 1
-- name: Marcel Lichters
-  orcid: "0000-0002-3710-2292"
-  corresponding: false
-  affiliation: 1
+  - name: Joshua Benjamin Schramm
+    orcid: 0000-0001-5602-4632
+    corresponding: True
+    affiliation: 1
+  - name: Marcel Lichters
+    orcid: 0000-0002-3710-2292
+    corresponding: FALSE
+    affiliation: 1    
+affiliations:
+ - name: Otto von Guericke University of Magdeburg, Germany
+   index: 1
+citation_author: Schramm & Lichters
+date: 10 Januar
 year: 2025
 bibliography: paper.bib
 link-citations: true
-affiliations:
-- name: Otto von Guericke University of Magdeburg, Germany
-  index: 1
+output: pdf_document
 ---
 
 ```{r include=FALSE}
