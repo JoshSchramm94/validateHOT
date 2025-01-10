@@ -47,7 +47,6 @@
 #' @docType data
 #' @keywords datasets
 #' @name acbc
-#' @usage acbc
 #' @source \url{https://osf.io/m5x3a/}
 #' @format A data frame with 110 rows and 37 variables
 #'

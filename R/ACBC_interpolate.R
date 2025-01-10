@@ -58,7 +58,6 @@
 #' @docType data
 #' @keywords datasets
 #' @name acbc_interpolate
-#' @usage acbc_interpolate
 #' @source \url{https://osf.io/m5x3a/}
 #' @format A data frame with 110 rows and 39 variables
 #' @examples

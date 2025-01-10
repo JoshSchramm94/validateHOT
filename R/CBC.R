@@ -51,7 +51,6 @@
 #' @keywords datasets
 #' @name cbc
 #' @source \url{https://osf.io/m5x3a/}
-#' @usage cbc
 #' @format A data frame with 105 rows and 41 variables
 #'
 #' @examples

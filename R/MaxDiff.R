@@ -30,7 +30,6 @@
 #' @keywords datasets
 #' @name maxdiff
 #' @source \url{https://osf.io/m5x3a/}
-#' @usage maxdiff
 #' @format A data frame with 118 rows and 20 variables
 #'
 #' @examples

@@ -46,7 +46,6 @@
 #' @docType data
 #' @keywords datasets
 #' @name cbc_linear
-#' @usage cbc_linear
 #' @source \url{https://osf.io/m5x3a/}
 #' @format A data frame with 105 rows and 36 variables
 #'
