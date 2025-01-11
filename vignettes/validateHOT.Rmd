@@ -1,10 +1,8 @@
 ---
-title: "validateHOT - An R Package to an R package for validating validation tasks and choice modelling tools &#127919;"
-author: "Joshua Schramm"
-date: "`r Sys.Date()`"
+title: "validateHOT - An Introduction"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{validateHOT - An Intrdocution;}
+  %\VignetteIndexEntry{validateHOT - An Introduction}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
   %\\VignetteDepends{dplyr}
@@ -19,8 +17,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-
-options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
 validateHOT is a package for conjoint and MaxDiff users. It provides functions to validate validation tasks, to run market simulations, and convert raw utility estimates into scores that are easier to interpret. All three components are key functions for preference measurement techniques such as choice-based conjoint (CBC), adaptive choice-based conjoint (ACBC), or Maximum Difference Scaling (MaxDiff).
