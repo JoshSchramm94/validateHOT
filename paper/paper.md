@@ -19,26 +19,26 @@ authors:
 affiliations:
 - name: Otto von Guericke University of Magdeburg, Germany
   index: 1
-date: 10 January 2025
+date: 11 January 2025
 bibliography: paper.bib
 output: pdf_document
 ---
 
 # Summary
 
-validateHOT is an R package that provides functions for preference measurement techniques like (adaptive) choice-based conjoint analyses (hereafter (A)CBC) and maximum difference scaling (hereafter MaxDiff). More specifically with the package, users can validate validation tasks, perform market simulations, and rescaleg raw utility scores. The package works with data obtained using, for example, the ChoiceModelR package [@ChoiceModelR] or Sawtooth's Lighthouse Studio.[^1]
+validateHOT is an R package that provides functions for preference measurement techniques like (adaptive) choice-based conjoint analyses (hereafter (A)CBC) and maximum difference scaling (hereafter MaxDiff). More specifically with the package, users can validate validation tasks, perform market simulations, and rescale raw utility scores. The package works with data obtained using, for example, the ChoiceModelR package [@ChoiceModelR] or Sawtooth's Lighthouse Studio [@sawtooth2024].[^1]
 
 [^1]: We refer to both validation and holdout tasks interchangeably.
 
 # Statement of need
 
-Researchers and practitioners use preference measurement techniques for many reasons, for example, simulating markets or to determine the importance of attributes to name a few [@steiner2018]. Their ultimate goal is to predict future behavior [@green1990]. In order to predict accurately and make the right decision, it is essential to ensure that the collected data is valid. One way to test the model's validity is by including validation tasks [e.g., @Orme2015], which are usually fixed tasks (i.e., same across participants) and excluded for utility estimation in hierarchical Bayes (HB) estimation.
+Researchers and practitioners use preference measurement techniques for many reasons, for example, simulating markets or to determine the importance of attributes [@steiner2018]. Their ultimate goal is to predict future behavior [@green1990]. In order to predict accurately and make the right decisions, it is essential to ensure that the collected data is valid. One way to test the model's validity is by including validation tasks [e.g., @Orme2015], which are usually fixed tasks (i.e., same across participants) and excluded for utility estimation in hierarchical Bayes (HB) estimation.
 
 The validateHOT provides the relevant tools for these steps: (1) it assesses the model's validity, (2) runs relevant market simulations, (3) converts raw utilities scores into scores that are easy to interpret. Finally, it is an open source tool helping researchers reporting accompanied scripts for their research papers.
 
 # State of the field in R
 
-Other packages provide functions to calculate validation metrics, however, these are not always specified for individual part-worth utilities. The Metrics package [@Metrics], for example, provide functions to run validation metrics such as *mean absolute error* or the five metrics of the confusion matrix. However, converting the output of, for example, estimations using Sawtooth Software or the ChoiceModelR package [@ChoiceModelR] into the right format, requires some data wrangling. The conjoint package [@conjoint] provides functions most similar to validateHOT's ones, but no validation functions are included and the package focuses on classical conjoint analysis. Thus, it is limited when applying more common conjoint methods. The logitr package [@logitr] provides market simulations tools, however, no validation metrics such as mean hit probability or hit rate. \autoref{comparison} shows a comparison of validateHOT's functions with current R packages. To the best of our knowledge, a package that converts raw utility scores into validation metrics or running a variety of marketing simulations (especially TURF and TURF ladder) is missing.
+Other packages provide functions to calculate validation metrics, however, these are not always specified for individual raw utilities extracted from preference measurement techniques. The Metrics package [@Metrics], for example, provide functions to run validation metrics such as *mean absolute error* or the five metrics of the confusion matrix. However, converting the output of, for example, estimations using Sawtooth Software [@sawtooth2024] or the ChoiceModelR package [@ChoiceModelR] into the right format, requires some data wrangling. The conjoint package [@conjoint] provides functions most similar to the ones of validateHOT, but no validation functions are included and the package focuses on classical conjoint analysis. Thus, it is limited when applying more common conjoint methods. The logitr package [@logitr] provides market simulations tools, however, no validation metrics such as mean hit probability or hit rate. \autoref{comparison} shows a comparison of validateHOT's functions with current R packages. To the best of our knowledge, a package that converts raw utility scores into validation metrics or running a variety of marketing simulations (especially TURF and TURF ladder) is missing.
 
 \begin{figure}[ht]
   \includegraphics{figures/functioncomparison.png}

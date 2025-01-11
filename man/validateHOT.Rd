@@ -4,7 +4,7 @@
 \name{validateHOT}
 \alias{validateHOT-package}
 \alias{validateHOT}
-\title{validateHOT: validateHOT - An R Package to validate holdout tasks and run market simulations}
+\title{validateHOT: validateHOT - an R package for validating validation tasks and choice modelling tools}
 \description{
 validateHOT is a package to validate validation tasks in preference
 measurement techniques, run market simulations, and convert raw utilities

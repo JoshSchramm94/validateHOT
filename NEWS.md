@@ -6,6 +6,7 @@
 * added examples for parth-worth coded attributes but later treat this attribute continuously
 * added turf_ladder() function
 * bug fixes
+* adjusted DESCRIPTION file title slightly
 
 # validateHOT 1.0.2
 
