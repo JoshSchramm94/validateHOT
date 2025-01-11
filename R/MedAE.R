@@ -60,7 +60,6 @@
 #'
 #' @export
 medae <- function(data, group, opts, choice) {
-
   # check for missing arguments ------------------------------------------------
   if (missing(opts)) {
     stop('Error: argument "opts" must be provided.')

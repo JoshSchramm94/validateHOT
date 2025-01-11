@@ -61,7 +61,6 @@
 #'
 #' @export
 mae <- function(data, group, opts, choice) {
-
   # check for missing arguments ------------------------------------------------
   if (missing(opts)) {
     stop('Error: argument "opts" must be provided.')
@@ -120,10 +119,8 @@ mae <- function(data, group, opts, choice) {
       )
     ) %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
-
     # count choices
     dplyr::count(merger, .drop = FALSE) %>%
-
     # calculate percentage
     dplyr::mutate(chosen = percentage(n) * 100) %>%
     dplyr::select(-"n")
@@ -133,11 +130,9 @@ mae <- function(data, group, opts, choice) {
 
   # predicted share of choice
   WS2 <- data %>%
-
     # run multinomial logit analysis
     mnl({{ opts }}) %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
-
     # calculate mean of predicted shares
     dplyr::reframe(
       dplyr::across({{ opts }}, \(x) mean(x))
@@ -147,7 +142,6 @@ mae <- function(data, group, opts, choice) {
       names_to = "alternatives",
       values_to = "share"
     ) %>%
-
     # prepare for merging
     dplyr::mutate(
       merger = factor(

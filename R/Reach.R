@@ -66,7 +66,6 @@
 #'
 #' @export
 reach <- function(data, group, none, opts) {
-
   # check for missing arguments ------------------------------------------------
   if (missing(none)) {
     stop('Error: argument "none" must be provided.')
@@ -116,7 +115,6 @@ reach <- function(data, group, none, opts) {
   variables <- dplyr::select(data, {{ opts }}) %>% colnames()
 
   reach_data <- data %>%
-
     # mark those with higher than none utility as purchase option
     dplyr::mutate(
       dplyr::across(
@@ -124,7 +122,6 @@ reach <- function(data, group, none, opts) {
         \(x) ifelse(x > {{ none }}, 1, 0)
       )
     ) %>%
-
     # count the percentage of people with purchase option
     dplyr::mutate(options = apply(.[variables], 1, sum)) %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%

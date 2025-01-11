@@ -50,13 +50,11 @@
 #' @docType data
 #' @keywords datasets
 #' @name cbc
-#' @usage data(cbc)
 #' @source \url{https://osf.io/m5x3a/}
 #' @format A data frame with 105 rows and 41 variables
 #'
 #' @examples
 #'
-#' data(cbc)
 #'
 #' # create total utility of validation tasks
 #'

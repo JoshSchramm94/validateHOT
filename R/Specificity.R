@@ -174,7 +174,6 @@ specificity <- function(data, group, opts, choice, none) {
       predicted = ifelse(predicted != none, 1, 2)
     ) %>%
     dplyr::group_by(pick({{ group }})) %>%
-
     # calculate specificity
     dplyr::reframe(
       specificity = 100 * (sum(actual == 2 & predicted == 2) /

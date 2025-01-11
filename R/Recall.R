@@ -173,7 +173,6 @@ recall <- function(data, group, opts, choice, none) {
       predicted = ifelse(predicted != none, 1, 2)
     ) %>%
     dplyr::group_by(pick({{ group }})) %>%
-
     # calculate recall score
     dplyr::reframe(
       recall = 100 * (sum(actual == 1 & predicted == 1) /

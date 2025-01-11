@@ -180,8 +180,8 @@
 #'   interpolate.levels = list(c(121.95, 507.95)),
 #'   piece.p = list(
 #'     list(
-#'     c(33, 34), c(33, 34), c(33, 34),
-#'     c(33, 34), c(33, 34), c(33, 34)
+#'       c(33, 34), c(33, 34), c(33, 34),
+#'       c(33, 34), c(33, 34), c(33, 34)
 #'     )
 #'   ),
 #'   method = "acbc",
@@ -208,8 +208,8 @@
 #'   ),
 #'   piece.p = list(
 #'     list(
-#'     c(33, 34), c(33, 34), c(34, 35),
-#'     c(32, 33), c(33, 34), c(32, 33)
+#'       c(33, 34), c(33, 34), c(34, 35),
+#'       c(32, 33), c(33, 34), c(32, 33)
 #'     )
 #'   ),
 #'   method = "acbc",
@@ -228,7 +228,6 @@ create_hot <- function(data,
                        method = c("acbc", "cbc", "maxdiff"),
                        varskeep = NULL,
                        choice = NULL) {
-
   # check for missing arguments ------------------------------------------------
   if (missing(id)) {
     stop('Error: argument "id" must be provided.')
@@ -252,7 +251,6 @@ create_hot <- function(data,
 
   # if coding contains 1 or 2, column indexes needs to be provided
   if (!missing(coding) && any(coding %in% c(1, 2))) {
-
     attribute_levels <- unlist(prod.levels)[coding %in% 0]
     attribute_levels <- attribute_levels[!is.na(attribute_levels)]
     numeric_vector(attribute_levels)
@@ -367,7 +365,6 @@ create_hot <- function(data,
 
   # interpolate.levels
   if (!missing(interpolate.levels)) {
-
     # needs to be a list
     list_input(interpolate.levels)
 
@@ -398,13 +395,10 @@ create_hot <- function(data,
 
   # start for loop for each of the alternatives
   for (q in seq_len(alternatives)) {
-
     # start for loop for each of the attribute levels
     for (p in seq_along(coding)) {
-
       # if coding == 0, use raw utility an additive utility model
       if (coding[p] == 0 && !is.na(prod.levels[[q]][p])) {
-
         # store variable name
         variable <- colnames(data[unlist(prod.levels[[q]][p])])
 
@@ -415,7 +409,6 @@ create_hot <- function(data,
 
       # if attribute level is linear-coded
       if (coding[p] == 1 && !is.na(prod.levels[[q]][p])) {
-
         # create helping vector to get right position of interpolate.levels
         helper_lin <- sum(coding[1:p] > 0)
 
@@ -458,7 +451,6 @@ create_hot <- function(data,
 
       # if piecewise coded
       if (coding[p] == 2 && !is.na(prod.levels[[q]][p])) {
-
         # create helping vector to get right position of interpolate.levels
         helper_lin <- sum(coding[1:p] > 0)
 
@@ -485,7 +477,6 @@ create_hot <- function(data,
           lower_break <- max(linear_levels[linear_levels <= prod.levels[[q]][p]])
 
           upper_break <- min(linear_levels[linear_levels > prod.levels[[q]][p]])
-
         }
 
         if (min(linear_levels) != prod.levels[[q]][p]) {

@@ -79,14 +79,12 @@
 #'   approach = "thres"
 #' )
 #'
-#'
 #' @export
 turf_ladder <- function(data,
                         opts,
                         none,
                         approach = c("thres", "fc"),
                         fixed = NULL) {
-
   # check for missing arguments ------------------------------------------------
   if (missing(opts)) {
     stop('Error: argument "opts" must be provided.')
@@ -204,7 +202,6 @@ turf_ladder <- function(data,
 
   # create all possible combinations
   for (i in seq_len(length_opts)) {
-
     # skip first loop if fixed is not provided
     if (i == 1 && missing(fixed)) {
       next
@@ -284,15 +281,16 @@ turf_ladder <- function(data,
 
     # update working set (i.e., reset from previous round)
     working_set <- dplyr::select(working_set, {{ opts }})
-
   }
 
   # prepare final output
   results_df <- results_df %>%
     dplyr::select(-combo) %>%
-    dplyr::mutate(size = apply(.[items], 1, sum),
-                  add_reach = reach - dplyr::lag(reach),
-                  add_freq = freq - dplyr::lag(freq)) %>%
+    dplyr::mutate(
+      size = apply(.[items], 1, sum),
+      add_reach = reach - dplyr::lag(reach),
+      add_freq = freq - dplyr::lag(freq)
+    ) %>%
     dplyr::relocate(add_reach, .after = reach) %>%
     dplyr::relocate(add_freq, .after = freq) %>%
     dplyr::relocate(size, .before = tidyselect::everything())

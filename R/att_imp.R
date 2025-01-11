@@ -62,8 +62,6 @@
 #'
 #' @examples
 #'
-#' data(cbc)
-#'
 #' att_imp(
 #'   data = cbc,
 #'   attrib = list(
@@ -81,7 +79,6 @@
 #'   res = "agg"
 #' )
 #'
-#' data(cbc_linear)
 #' att_imp(
 #'   data = cbc_linear,
 #'   attrib = list(
@@ -107,7 +104,6 @@ att_imp <- function(data,
                     coding,
                     interpolate.levels = NULL,
                     res = c("agg", "ind")) {
-
   # check for missing arguments ------------------------------------------------
   if (missing(attrib)) {
     stop('Error: argument "attrib" must be provided!')
@@ -145,7 +141,6 @@ att_imp <- function(data,
 
   # check for interpolate.levels argument --------------------------------------
   if (any(coding == 1)) {
-
     # interpolate.levels must be provided if coding includes 1
     if (missing(interpolate.levels)) {
       stop('Error: argument "interpolate.levels" must be provided.')
@@ -209,7 +204,6 @@ att_imp <- function(data,
   new_col_names <- paste0("att_imp_", c(seq_along(coding)))
 
   for (i in seq_along(coding)) {
-
     # store the attribute levels
     att_levels <- attrib[[i]]
 

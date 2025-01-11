@@ -303,7 +303,6 @@ test_that("warning if extrapolation is applied ", {
 })
 
 test_that("Error if extrapolation is applied for piecewise coded ", {
-
   prod1 <- c(3, 6, 10, 13, 16, 20, 24, 32, 248.55)
   prod2 <- c(3, 5, 10, 14, 16, 18, 22, 27, 237.39)
   prod3 <- c(4, 6, 9, 14, 15, 20, 25, 30, 273.15)
@@ -319,10 +318,10 @@ test_that("Error if extrapolation is applied for piecewise coded ", {
     coding = c(rep(0, times = 8), 2),
     interpolate.levels = list(c(121.95, 507.95)),
     piece.p = list(
-       list(
-         c(33, 34), c(33, 34), c(33, 34),
-         c(33, 34), c(33, 34), c(33, 34)
-       )
+      list(
+        c(33, 34), c(33, 34), c(33, 34),
+        c(33, 34), c(33, 34), c(33, 34)
+      )
     ),
     method = "acbc",
     choice = "hot"
@@ -330,7 +329,6 @@ test_that("Error if extrapolation is applied for piecewise coded ", {
 })
 
 test_that("No error if piecewise coded level equals range limits ", {
-
   prod1 <- c(3, 6, 10, 13, 16, 20, 24, 32, 507.95)
   prod2 <- c(3, 5, 10, 14, 16, 18, 22, 27, 237.39)
   prod3 <- c(4, 6, 9, 14, 15, 20, 25, 30, 273.15)

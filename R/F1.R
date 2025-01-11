@@ -100,7 +100,6 @@
 #'
 #' @export
 f1 <- function(data, group, opts, choice, none) {
-
   # check for missing arguments ------------------------------------------------
   if (missing(none)) {
     stop('Error: argument "none" must be provided.')
@@ -175,7 +174,6 @@ f1 <- function(data, group, opts, choice, none) {
       predicted = ifelse(predicted != none, 1, 2)
     ) %>%
     dplyr::group_by(pick({{ group }})) %>%
-
     # calculate f1 score
     dplyr::reframe(
       f1 = 100 * ((2 * (sum(actual == 1 & predicted == 1))) /

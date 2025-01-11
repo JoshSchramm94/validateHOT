@@ -47,14 +47,12 @@
 #' @docType data
 #' @keywords datasets
 #' @name acbc
-#' @usage data(acbc)
 #' @source \url{https://osf.io/m5x3a/}
 #' @format A data frame with 110 rows and 37 variables
 #'
 #' @examples
 #' # create total utility of validation tasks
 #'
-#' data(acbc)
 #'
 #' prod1 <- c(3, 10, 9, 12, 15, 19, 23, 31, 248.55)
 #' prod2 <- c(3, 9, 9, 13, 15, 17, 21, 26, 237.39)
@@ -76,8 +74,8 @@
 #'   ),
 #'   piece.p = list(
 #'     list(
-#'     c(33, 34), c(33, 34), c(34, 35),
-#'     c(32, 33), c(33, 34), c(32, 33)
+#'       c(33, 34), c(33, 34), c(34, 35),
+#'       c(32, 33), c(33, 34), c(32, 33)
 #'     )
 #'   ),
 #'   method = "acbc",

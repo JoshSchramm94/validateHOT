@@ -285,8 +285,8 @@ list_input <- function(input,
 
 
 nested_list_input <- function(input,
-                       arg = rlang::caller_arg(input),
-                       call = rlang::caller_env()) {
+                              arg = rlang::caller_arg(input),
+                              call = rlang::caller_env()) {
   input_correct <- unlist(lapply(input, is.list))
 
   if (!any(input_correct)) {
@@ -406,7 +406,6 @@ number_piecewise <- function(coding,
 
 piecewise_coded <- function(piece.p,
                             call = rlang::caller_env()) {
-
   lengths_list <- lengths(unlist(piece.p, recursive = FALSE))
 
   if (!all(lengths_list == 2)) {

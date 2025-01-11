@@ -78,22 +78,11 @@ alternative.
 }
 \examples{
 
-hot <- create_hot(
-  data = maxdiff,
-  id = "id",
-  none = "none",
-  prod.levels = list(
-    2, 3, 4, 5, 6, 7, 8, 9, 10,
-    11, 12, 13, 14, 15, 16, 17
-  ),
-  method = "maxdiff",
-  choice = "hot"
-)
 
 # turf no fixed alternatives + no prohibitions
 t1 <- turf(
-  data = hot,
-  opts = c(option_1:option_16),
+  data = maxdiff,
+  opts = c(option_01:option_16),
   none = none,
   size = 3L,
   approach = "thres"
@@ -103,11 +92,11 @@ head(t1)
 
 # turf alternative 4 and 5 fixed, no prohibitions
 t2 <- turf(
-  data = hot,
-  opts = c(option_1:option_16),
+  data = maxdiff,
+  opts = c(option_01:option_16),
   none = none,
   size = 4L,
-  fixed = c("option_4", "option_5"),
+  fixed = c("option_04", "option_05"),
   approach = "thres"
 )
 
@@ -115,12 +104,12 @@ head(t2)
 
 #' # turf alternative 4 and 5 fixed, 2 and 9 not allowed together
 t3 <- turf(
-  data = hot,
-  opts = c(option_1:option_16),
+  data = maxdiff,
+  opts = c(option_01:option_16),
   none = none,
   size = 4L,
-  fixed = c("option_4", "option_5"),
-  prohib = list(c("option_2", "option_9")),
+  fixed = c("option_04", "option_05"),
+  prohib = list(c("option_02", "option_09")),
   approach = "thres"
 )
 

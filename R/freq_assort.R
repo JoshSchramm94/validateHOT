@@ -64,7 +64,6 @@
 #'
 #' @export
 freqassort <- function(data, group, none, opts) {
-
   # check for missing arguments ------------------------------------------------
   if (missing(none)) {
     stop('Error: argument "none" must be provided.')
@@ -114,7 +113,6 @@ freqassort <- function(data, group, none, opts) {
   variables <- dplyr::select(data, {{ opts }}) %>% colnames()
 
   freqassort_data <- data %>%
-
     # recode as purchase option if utility is larger than no-buy
     dplyr::mutate(
       dplyr::across(
@@ -122,7 +120,6 @@ freqassort <- function(data, group, none, opts) {
         \(x) ifelse(x > {{ none }}, 1, 0)
       )
     ) %>%
-
     # calculate number of purchase options
     dplyr::mutate(options = apply(.[variables], 1, sum)) %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%

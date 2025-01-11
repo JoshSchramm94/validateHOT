@@ -62,7 +62,6 @@
 #'
 #' @export
 mhp <- function(data, group, opts, choice) {
-
   # check for missing arguments ------------------------------------------------
   if (missing(opts)) {
     stop('Error: argument "opts" must be provided.')
@@ -113,11 +112,9 @@ mhp <- function(data, group, opts, choice) {
 
   mhp_data <- data %>%
     mnl(variables = {{ opts }}) %>%
-
     # get actual choice
     dplyr::mutate(ch_share = opts_names[{{ choice }}]) %>%
     dplyr::rowwise() %>%
-
     # get choice probability of actual choice
     dplyr::mutate(mhp = get(ch_share)) %>%
     dplyr::ungroup() %>%

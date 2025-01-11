@@ -174,10 +174,8 @@ accuracy <- function(data, group, opts, choice, none) {
       # store whether it is a purchase option
       actual = ifelse({{ choice }} != none, 1, 2),
       predicted = ifelse(predicted != none, 1, 2)
-
     ) %>%
     dplyr::group_by(pick({{ group }})) %>%
-
     # calculate accuracy
     dplyr::reframe(
       accuracy = 100 * mean(actual == predicted)

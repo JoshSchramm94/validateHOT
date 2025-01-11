@@ -144,8 +144,10 @@ zero_anchored <- function(data,
   if (missing(anchor)) {
     zero_anchored_data <- zero_anchor_utilities(data, items = {{ items }})
   } else {
-    zero_anchored_data <- zero_anchor_utilities(data, items = {{ items }},
-                                                anchor = {{ anchor }})
+    zero_anchored_data <- zero_anchor_utilities(data,
+      items = {{ items }},
+      anchor = {{ anchor }}
+    )
   }
 
   # if res == "agg" aggregate results

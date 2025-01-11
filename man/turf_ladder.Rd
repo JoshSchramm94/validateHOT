@@ -80,7 +80,6 @@ turf_ladder(
   approach = "thres"
 )
 
-
 }
 \references{
 {

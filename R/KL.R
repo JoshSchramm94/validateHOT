@@ -195,10 +195,8 @@ kl <- function(data,
       )
     ) %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
-
     # count choices
     dplyr::count(alt, .drop = FALSE) %>%
-
     # calculate percentage
     dplyr::mutate(chosen = percentage(n)) %>%
     dplyr::select(-"n")
@@ -214,10 +212,8 @@ kl <- function(data,
       )
     ) %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%
-
     # count choices
     dplyr::count(alt, .drop = FALSE) %>%
-
     # calculate percentage
     dplyr::mutate(pred = percentage(n)) %>%
     dplyr::select(-"n")

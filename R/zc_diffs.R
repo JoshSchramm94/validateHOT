@@ -110,7 +110,7 @@
 #'   none = "none",
 #'   res = "agg"
 #' )
-#'}
+#' }
 #'
 #' @export
 zc_diffs <- function(data,
@@ -236,7 +236,6 @@ zc_diffs <- function(data,
   new_col_names <- paste0("att_imp_", c(seq_along(coding)))
 
   for (i in seq_along(coding)) {
-
     att_levels <- attrib[[i]]
 
     # if not linearly coded, calculate range of attributes

@@ -81,7 +81,6 @@ prob_scores <- function(data,
                         set.size,
                         res = c("agg", "ind"),
                         anchor = NULL) {
-
   # check for missing arguments ------------------------------------------------
   if (missing(items)) {
     stop('Error: argument "items" must be provided.')

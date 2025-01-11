@@ -169,38 +169,35 @@ marksim <- function(data,
   }
 
   if (res == "agg") {
-
     # get actual sample size for creating standard error
     n_sample <- sample_size(data, group = {{ group }})
 
     marksim_data <- marksim_data %>%
-    dplyr::group_by(dplyr::pick({{ group }})) %>%
-    dplyr::reframe(dplyr::across({{ opts }},
-      c(mw = mean, std = sd),
-      .names = "{.col}___{.fn}"
-    )) %>%
-
-    # change to longer format
-    tidyr::pivot_longer(
-      cols = tidyselect::ends_with(c("___mw", "___std")),
-      names_to = c("alternative", ".value"),
-      names_sep = "___"
-    ) %>%
-
-    # get sample size
-    merge(
-      x = .,
-      y = n_sample,
-      by = c(dplyr::select(data, {{ group }}) %>%
-        colnames())
-    ) %>% # merge
-    dplyr::mutate(
-      se = std / sqrt(n), # calculate standard error
-      lo.ci = mw - (1.96 * se), # lower ci
-      up.ci = mw + (1.96 * se) # upper ci
-    ) %>%
-    # delete variables that are not reported
-    dplyr::select(!tidyselect::all_of(c("std", "n")))
+      dplyr::group_by(dplyr::pick({{ group }})) %>%
+      dplyr::reframe(dplyr::across({{ opts }},
+        c(mw = mean, std = sd),
+        .names = "{.col}___{.fn}"
+      )) %>%
+      # change to longer format
+      tidyr::pivot_longer(
+        cols = tidyselect::ends_with(c("___mw", "___std")),
+        names_to = c("alternative", ".value"),
+        names_sep = "___"
+      ) %>%
+      # get sample size
+      merge(
+        x = .,
+        y = n_sample,
+        by = c(dplyr::select(data, {{ group }}) %>%
+          colnames())
+      ) %>% # merge
+      dplyr::mutate(
+        se = std / sqrt(n), # calculate standard error
+        lo.ci = mw - (1.96 * se), # lower ci
+        up.ci = mw + (1.96 * se) # upper ci
+      ) %>%
+      # delete variables that are not reported
+      dplyr::select(!tidyselect::all_of(c("std", "n")))
   }
 
   return(marksim_data)
