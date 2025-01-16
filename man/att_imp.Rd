@@ -14,7 +14,7 @@ att_imp(
 )
 }
 \arguments{
-\item{data}{A data.frame object.}
+\item{data}{A data frame containing all relevant variables.}
 
 \item{group}{Optional variable to to get \code{att_imp()} by group(s).}
 
@@ -23,11 +23,11 @@ att_imp(
 \item{coding}{A vector of the coding of each attribute, \code{0} = part-worth
 coding, \code{1} = linear coding, or \code{2} = piecewise coding.}
 
-\item{interpolate.levels}{A list to specify the values of variables that
-are linear coded. These have to be the same as specified in model estimation
-(e.g., if you center attribute levels before estimation, insert the centered
-levels). Please make sure to provide the whole list (i.e., all levels). Only
-has to be specified for the variables that are coded as \code{1} (linear).}
+\item{interpolate.levels}{A list of the levels of the attribute that should
+be interpolated. These levels must match those specified in model
+estimation (e.g., if you scale or center attribute levels before estimation,
+insert the scaled or centered levels). Ensure to provide the entire list.
+It has to be specified only for the variables that are coded as '1' (linear).}
 
 \item{res}{A vector indicating whether individual results (\code{ind}) or
 aggregated (\code{agg}) results should be returned.}
@@ -47,11 +47,11 @@ levels. Attribute levels need to be the raw utilities of hierarchical Bayes
 estimation.
 
 \code{group} optional grouping variable, if results should be displayed by
-different groups.
+different groups. Has to be column name of variables in \code{data}.
 
 \code{attrib} specifies the attribute levels for each alternative.
-Input for \code{attrib} has to be a list. Needs to specify the column names
-or column indexes of the attribute levels.
+Input for \code{attrib} has to be a list. It is required to specify the column
+names of the attribute levels.
 
 \code{coding} is required to indicate the attributes' coding. \code{0}
 to indicate part-worth coding, \code{1} for linear coding, or \code{2} for

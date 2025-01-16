@@ -15,43 +15,45 @@ turf(
 )
 }
 \arguments{
-\item{data}{A data frame with all relevant variables.}
+\item{data}{A data frame containing all relevant variables.}
 
 \item{opts}{Column names of the alternatives included in the assortment.}
 
 \item{none}{Column name of none / threshold alternative.}
 
-\item{size}{An integer to determine size of the assortment.}
+\item{size}{An integer to determine the size of the assortment.}
 
 \item{fixed}{An optional vector to determine alternatives / items that have
 to be included in the assortment.}
 
-\item{prohib}{An optional list with vectors to determine prohibitions, i.e.,
-alternatives / items that are not allowed to be together in one assortment.}
+\item{prohib}{An optional list containing vectors to determine
+prohibitions, i.e., alternatives / items that are not allowed to be together
+in one assortment.}
 
-\item{approach}{A character whether to run first choice approach ('fc') or
-threshold approach ('thres').}
+\item{approach}{A character whether to run the first-choice approach
+(\code{'fc'}) or threshold approach (\code{'thres'}).}
 }
 \value{
 data frame
 }
 \description{
 T(otal) U(nduplicated) R(each) and F(requency) is a "product line extension
-model" (Miaoulis et al., 1990, p. 29). For each possible combination,
-\code{turf()} looks for the reach and frequency of this combination. Participants
-are reached, if at least one of the alternatives in a combination has a
-higher utility than \code{none}. On the contrary, frequency calculates the
-averaged number of alternatives that have a
+model" (Miaoulis et al., 1990, p. 29). For every possible combination,
+\code{turf()} calculates the reach and frequency of every combination.
+Participants are reached, if at least one of the alternatives in a
+combination has a higher utility than \code{none}. On the contrary, frequency
+calculates the average number of alternatives that have a
 higher utility than \code{none}.
 }
 \details{
-\code{data} a data.frame object including the alternatives that should be tested.
+\code{data} a \code{data.frame} object containing the alternatives that
+should be tested.
 
 \code{opts} to specify the different alternatives in the product assortment that
-should be considered. Input of \code{opts} has to be column name of variables
+should be considered. Input of \code{opts} has to be the column names of variables
 in \code{data}.
 
-\code{none} to specify column name of the \code{none} alternative in \code{data}
+\code{none} to specify the column name of the \code{none} alternative in \code{data}
 that needs to be exceeded.
 
 \code{size} an integer to determine the size of the assortment.
@@ -65,12 +67,12 @@ one assortment.
 
 \code{approach} character defining whether first choice \code{approach = 'fc'} or
 threshold \code{approach = 'thres'} should be applied for running \code{turf()}. If
-\code{approach = 'fc'}, participants are considered being reached, if their
+\code{approach = 'fc'}, participants are considered to be reached, if their
 alternative with the highest utility is included in the assortment and this
 alternative's utility is larger than the threshold's utility (Chrzan & Orme,
 2019, p. 111).
 On the contrary, if \code{approach = 'thres'}, participants are considered
-being reached, if utility of one product is higher than the one of the
+to be reached, if the utility of one product is higher than the one of the
 \code{none} alternative (Chrzan & Orme, 2019, p. 112).
 If \code{approach = 'fc'}, \code{reach} equals \code{freq} since participants have at
 maximum their most preferred alternative that exceeds the \code{none}

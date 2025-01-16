@@ -1,6 +1,6 @@
 #' Function to calculate zero-anchored interval scores for (anchored) MaxDiff
 #'
-#' @param data A data frame with all relevant variables.
+#' @param data A data frame containing all relevant variables.
 #' @param group Optional column name(s) to specify grouping variable(s).
 #' @param items Vector that specifies the items.
 #' @param res A vector indicating whether individual results (`ind`) or
@@ -9,15 +9,15 @@
 #'
 #'
 #' @details
-#' `zero_anchored()` converts raw utilities of a MaxDiff to zero-anchored
+#' `zero_anchored()` converts raw utilities from a MaxDiff to zero-anchored
 #' interval scores that have a range of 100.
 #'
 #' For anchored MaxDiff the anchor is set to 0.
 #'
-#' `data` a data.frame object with the items (raw utilities).
+#' `data` a data.frame object containing the items (raw utilities).
 #'
-#' `group` optional grouping variable, if results should be displayed by
-#' different groups. Has to be column name of variables in `data`.
+#' `group` optional grouping variable(s) to display results by group(s).
+#' different groups. Has to be the column name(s) of variables in `data`.
 #'
 #' `items` specifies the items of the MaxDiff. Has to be column name of
 #' variables in `data`.
@@ -26,8 +26,8 @@
 #' or across `group` (`res` needs to be set to `agg`) or if scores should be
 #' converted for individuals only (`res` needs to be set to `ind`).
 #'
-#' `anchor` only needs to be specified if anchored MaxDiff is applied.
-#' Input for `anchor` has to to be column name of variables in `data`.
+#' `anchor` only required if anchored MaxDiff is applied.
+#' Input for `anchor` has to  be column name of variables in `data`.
 #'
 #'
 #' @return a tibble

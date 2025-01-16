@@ -15,20 +15,20 @@ zc_diffs(
 )
 }
 \arguments{
-\item{data}{A data frame with all relevant variables.}
+\item{data}{A data frame containing all relevant variables.}
 
-\item{group}{Optional column name(s) to specify grouping variable(s).}
+\item{group}{Optional variable to to get \code{zc_diffs()} by group(s).}
 
 \item{attrib}{A list that specifies the attribute levels for each attribute.}
 
 \item{coding}{A vector of the coding of each attribute, '0' = part-worth
 coding, '1' = linear coding, or '2' = piecewise coding.}
 
-\item{interpolate.levels}{A list of the attribute levels that should
-be interpolated. These have to be the same as specified in model estimation
-(e.g., if you scale or center attribute levels before estimation, insert
-these levels). Please make sure to provide all levels. Only has to be
-specified for the variables that are coded as '1' (linear).}
+\item{interpolate.levels}{A list of the levels of the attribute that should
+be interpolated. These levels must match those specified in model
+estimation (e.g., if you scale or center attribute levels before estimation,
+insert the scaled or centered levels). Ensure to provide the entire list.
+It has to be specified only for the variables that are coded as '1' (linear).}
 
 \item{res}{A character vector indicating whether individual zero-centered
 diffs  (\code{ind}) or aggregated (\code{agg}) zero-centered diffs should be returned.}
@@ -47,17 +47,17 @@ Function to calculate zero-centered diffs for (A)CBCs
 zero-centered diffs (Orme, 2020, p. 78). This allows for comparison between
 the attributes.
 
-\code{data} has to be a data.frame object with the relevant attribute levels.
+\code{data} a \code{data.frame} object containing all the relevant attribute levels.
 Attribute levels have to be the raw utilities.
 
 \code{group} optional grouping variable, if results should be displayed by
 different groups. Has to be column name of variables in \code{data}.
 
 \code{attrib} specifies the attribute levels for each alternative.
-Input for \code{attrib} has to be a list. Needs to specify the column names or
-column indexes of the attribute levels.
+Input for \code{attrib} has to be a list. It is required to specify the column
+names of the attribute levels.
 
-\code{coding} indicates the attribute coding. \code{0}to indicated part-worth coding,
+\code{coding} indicates the attribute coding. \code{0} to indicate part-worth coding,
 \code{1} for linear coding, or \code{2} for piecewise coding.
 
 \code{interpolate.levels} is required for linear-coded variables.
@@ -71,8 +71,8 @@ or across \code{group} (\code{res} needs to be set to \code{agg}) or if scores
 should be converted for individuals only (\code{ind}).
 
 \code{none} specifies whether none option was included or not, if yes,
-column name or column index of \code{none} needs to be specified. If no
-\code{none} option was included, leave it empty.
+column name or column index of \code{none} needs to be specified. Leave empty
+if no none parameter is included.
 }
 \examples{
 

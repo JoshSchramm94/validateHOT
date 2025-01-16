@@ -1,81 +1,82 @@
-#' @title  Function to create total utilities for validation task alternatives
-#' or market scenario
+#' @title  Function to calculate total utilities for validation task
+#' alternatives or market scenario
 #'
-#' @param data A data.frame object.
+#' @param data A data frame containing all relevant variables.
 #' @param id Column name of the unique identifier.
-#' @param none An optional vector to specify column name of a `none`
+#' @param none An optional vector to specify column name of the `none`
 #' alternative.
 #' @param prod.levels A list to define the attribute levels of the
 #' alternatives (`prod`). If linear-coded or piecewise-coded
 #' attributes are included, column indexes are required for the input.
 #' @param interpolate.levels A list of the levels of the attribute that should
-#' be interpolated. These have to be the same as specified in model estimation
-#' (e.g., if you scale or center attribute levels before estimation, insert the
-#' scaled or centered levels). Please make sure to provide the whole list.
-#' Only has to be specified for the attributes that are coded as `1` (linear)
-#' or `2` (piecewise).
-#' @param piece.p A nested list, with a list for each of the piecewise-coded
-#' variables. List for a piecewise-coded attribute must be the columns that
-#' shoud be the lower and the upper level that should be used for interpolating.
+#' be interpolated. These levels must match those specified in model
+#' estimation (e.g., if you scale or center attribute levels before estimation,
+#' insert the scaled or centered levels). Ensure to provide the
+#' entire list. It has to be specified only for the attributes that are coded
+#' as `1` (linear) or `2` (piecewise).
+#' @param piece.p A nested list containing lists each of the piecewise-coded
+#' variables. The list for a piecewise-coded attribute must specify the columns
+#' representing the lower and upper levels to be used for interpolation.
 #' @param lin.p A vector to specify column index or column names of
-#' linear coded variables.
+#' linear-coded variables.
 #' @param coding A vector to define attributes coding, `0` = part-worth
-#' coding,`1` = linear coding, `2` = piecewise coding; please make sure to code
+#' coding, `1` = linear coding, `2` = piecewise coding; please make sure to code
 #' linear price of ACBC as piecewise. For more details, see the example
 #' provided below. If you want to treat a part-worth coded variable
 #' continuously, use the code `2` for this variable and provide the values in
 #' `interpolate.levels` accordingly.
-#' @param method A character to specify the `method` of your study.
+#' @param method A character string to specify the `method` of your study.
 #' `method` has to be one of the following: `"maxdiff"`, `"cbc"`, or `"acbc"`.
 #' @param varskeep A vector specifying column names of the variables that should
 #' be kept in the data frame.
-#' @param choice Actual choice in the validation task. Leave empty for
-#' specifying market scenario (warning will be displayed, however).
+#' @param choice Actual choice in the validation task. Leave `choice` empty for
+#' specifying market scenario (a warning will be displayed).
 #'
 #' @details
-#' To test the validation metrics of a validation task or to run a
-#' market scenario, the scenario first has to be created by summing up
-#' the alternatives raw utilities. This is done with the `create_hot()`
-#' function.  Make sure you upload the raw utilities of your study (either
-#' from Sawtooth Software or ChoiceModelR, Sermas, 2022).
-#' The function then creates the alternatives' utility based on the additive
-#' utility model (Rao, 2014, p. 82). If you are working with alternative
-#' specific-designs, insert `NA` if attribute is not specified.
+#' To test the validation metrics of a validation task or to run a market
+#' scenario, the scenario first has to be created by summing up the raw
+#' utilities of the alternatives. This is achieved using the `create_hot()`
+#' function.  Make sure that you upload the raw utilities of your study (either
+#' from Sawtooth Software Lighthouse Studio or ChoiceModelR, Sermas, 2022).
+#' The function then calculates the alternatives' utilities based on the
+#' additive utility model (Rao, 2014, p. 82). For alternative-specific designs,
+#' insert `NA` for attributes not specified.
 #'
-#' `data` must to be a data.frame object with raw scores of the attribute
+#' `data` must be a `data.frame` object with raw scores of the attribute
 #' levels.
 #'
 #' `id` has to be the column index or column name of the id (unique for each
-#' participant) in data frame.
+#' participant) in the data frame.
 #'
-#' `none` to specify variable name of the `none` alternative if it is included
-#' in the validation task. Leave it empty, if there was no `none` alternative
+#' `none` to specify name of the `none` alternative if it is included
+#' in the validation task. Leave `none` empty, if no `none` alternative is
 #' included.
 #'
 #' `prod.levels` specifies the attribute levels for each alternative.
-#' Input for `prod.levels` has to be a list. If values for one attribute are
-#' supposed to be interpolated (assuming linear or piecewise coding), the
-#' value to be interpolated has to be specified (numeric input). In addition,
-#' `lin.p` and/or `piece.p`, `interpolate.levels`, and `coding` have to be
+#' Input for `prod.levels` has to be a list. For attributes requiring
+#' interpolation (linear or piecewise coding), specify the values to
+#' interpolate (numeric input). In addition, `lin.p` and/or `piece.p`,
+#' `interpolate.levels`, and `coding` have to be
 #' specified.
 #'
-#' `interpolate.levels` is required in case interpolating is used (only if
-#' variables are coded as linear or piecewise or if you want to treat a part-
-#' worth coded variable as continuously). If scaled or centered values
+#' `interpolate.levels` is required in case interpolation is used (only if
+#' variables are coded as linear or piecewise or if you want to treat a
+#' part-worth coded variable as continuous). If scaled or centered values
 #' were used for hierarchical Bayes estimation, the exact same levels are
-#' required (all of them). For example, if one linear coded attribute
-#' had 5 levels, all 5 levels are required. In case for linear coded price for
-#' `method = "acbc"`, specify both lower bound and upper bound and code as
+#' required (all of them). For example, if one linear-coded attribute
+#' had 5 levels, all 5 levels are required. In the case of linear-coded price
+#' for `method = "acbc"` (and you have two price coefficients which sum up to
+#' `0`), specify both lower and upper bound and code as
 #' piecewise in `coding`. For piecewise-coded price, specify each breakpoint.
 #' Input for `interpolate.levels` has to be a list.
 #'
 #' `piece.p` is required in case a variable is coded as piecewise (see coding).
 #' Positions of both lower and upper bound are required. In case interpolated
-#' values (see `prod.levels`) is equal to a lower or upper bound, this can be
+#' values (see `prod.levels`) are equal to a lower or upper bound, this can be
 #' specified either as lower or upper bound. Input for  `piece.p` has to be a
 #' nested list and must contain a list for each piecewise-coded attribute.
 #'
-#' `lin.p` is required in case a variable is coded as linear
+#' `lin.p` is required in case a variable is linear-coded
 #' (see coding). Since for linear coding (except for price
 #' in `method = "acbc"`) only one coefficient is provided in the output,
 #' provide this column name accordingly.
@@ -84,8 +85,8 @@
 #' part-worth coding, `1` for linear coding, and `2` for piecewise coding.
 #' In case `method = "acbc"` and linear price function is used, this variable
 #' has to be coded as piecewise (`2`). In case `method` is set to `"maxdiff"`
-#' leave `coding` empty. If a part-worth coded variable should be treated
-#' continuously, set it to `2`. Input for `coding` has to be a vector.
+#' leave `coding` empty. If a part-worth coded variable should be treated as
+#' continuous, set it to `2`. Input for `coding` has to be a vector.
 #'
 #' `method` specifies the preference measurement method. Can be set to
 #' `"maxdiff"`, `"cbc"`, or `"acbc"`.
@@ -95,8 +96,7 @@
 #' names of the variable(s) that should be kept.
 #'
 #' `choice` specifies the column name of the actual choice
-#' in the validation task. If only a market scenario is specified, leave
-#' `choice` empty, however, a warning will be displayed in this case.
+#' in the validation task.
 #'
 #' Instead of the column names, one can also provide column indexes.
 #'

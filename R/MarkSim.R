@@ -1,17 +1,16 @@
-#' Function to run market simulations for validation task / market scenario
+#' Function to run market simulations for market scenario
 #'
 #' @description
-#' `marksim()` runs market simulations with options in a validation
-#' task or a market scenario.
+#' `marksim()` performs market simulations with options in a market scenario.
 #'
-#' @param data A data frame with all relevant variables.
+#' @param data A data frame containing all relevant variables.
 #' @param group Optional column name(s) to specify grouping variable(s)
 #' to get `marksim()` by group(s).
 #' @param opts Column names of the alternatives included in the
-#' validation task or market scenario.
+#' market scenario.
 #' @param method Name of the market simulation method that should be used.
 #' Set either to `method = "sop"` to run share of preference
-#' as method or `method = "fc"` to run first choice rule. Default
+#' as method or `method = "fc"` to run first-choice rule. The default
 #' is set to `"sop"`.
 #' @param res A vector indicating whether individual results (`ind`) or
 #' aggregated (`agg`) results should be returned.
@@ -19,31 +18,30 @@
 #' @details
 #' `marksim()` provides the market shares of each alternative specified. For
 #' aggregated results, `marksim()` also provides standard error plus the lower
-#' and upper confidence interval. Latter is calculated according to the
+#' and upper confidence interval. The latter is calculated according to the
 #' following formula \eqn{mean +/- 1.96 x \frac{sd}{\sqrt(n)}} (Orme, 2020,
 #' p. 94). `method` can either be set to `method = "sop"` to run share of
-#' preference rule or to `method = "fc"` to run first choice rule to simulate
+#' preference rule or to `method = "fc"` to run first-choice rule to simulate
 #' market shares.
 #'
-#' `data` a data.frame object including the alternatives shown in
-#' the validation task or market scenario. Scenario can be created
-#' using the `create_hot()` function.
+#' `data` a `data.frame` object including the alternatives shown in the market
+#' scenario. Scenario can be created using the `create_hot()` function.
 #'
-#' `group` optional grouping variable(s), if results should be displayed by
-#' different groups. Has to be column name(s) of variables in `data`.
+#' `group` optional grouping variable(s) to display results by group(s).
+#' different groups. Has to be the column name(s) of variables in `data`.
 #'
 #' `opts` to specify the different alternatives in the validation task or
-#' market scenario. Input of `opts` has to be column names of variables in
+#' market scenario. Input of `opts` has to be the column names of variables in
 #' `data`.
 #'
 #' `method` can either be set to `method = "sop"` to run share of
-#' preference as method or `method = "fc"` to run first choice rule.
-#' Default is set to `method = "sop"`.
+#' preference as method or `method = "fc"` to run first-choice rule.
+#' The default is set to `method = "sop"`.
 #'
 #' `res` specifies whether results should be aggregated across all participants
-#' or across `group` (`res` needs to be set to `agg`) or if scores should be
-#' converted for individuals only (`res` needs to be set to `ind`). Default is
-#' set to `agg`.
+#' or across `group` (`res` needs to be set to `agg`) or if choice shares
+#' should be calculated for individuals only (`res` needs to be set to `ind`).
+#' The default is set to `agg`.
 #'
 #' @return a tibble
 #'

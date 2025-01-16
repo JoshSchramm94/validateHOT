@@ -8,7 +8,7 @@ assortment}
 freqassort(data, group, none, opts)
 }
 \arguments{
-\item{data}{A data frame with all relevant variables.}
+\item{data}{A data frame containing all relevant variables.}
 
 \item{group}{Optional column name(s) to specify grouping variable(s)
 to get \code{freqassort()} by group(s).}
@@ -22,19 +22,19 @@ a tibble
 }
 \description{
 Frequency function of T(otal) U(nduplicated) R(each) and F(requency)
-analysis to measure the average time a consumer is reached with a particular
-product bundle assortment.
+analysis is designed to measure the average time a consumer is reached
+with a particular product bundle assortment.
 }
 \details{
-Frequency calculates the average times a consumer would be reached with the
-tested product assortment. The current logic of \code{freqassort()} is that the
-utility of an alternative has to exceed a threshold. For \code{freqassort()}
+\code{freqassort()} calculates the average times a consumer would be reached with
+the tested product assortment. The current logic of \code{freqassort()} is that
+the utility of an alternative has to exceed a threshold. For \code{freqassort()}
 this threshold is referred to the \code{none} argument in \code{data}.
 The frequency is calculated based on the 'threshold' approach, i.e.,
 each alternative that exceeds utility of \code{none} alternative is
 considered as, for example, purchase option.
 
-\code{data} a data.frame object including the alternatives that should
+\code{data} a \code{data.frame} object containing the alternatives that should
 be tested.
 
 \code{group} optional grouping variable, if results should be displayed

@@ -8,7 +8,7 @@ demand}
 specificity(data, group, opts, choice, none)
 }
 \arguments{
-\item{data}{A data frame with all relevant variables.}
+\item{data}{A data frame containing all relevant variables.}
 
 \item{group}{Optional column name(s) to specify grouping variable(s)
 to get \code{specificity()} by group(s).}
@@ -30,34 +30,34 @@ matrix and is defined as \eqn{\frac{TN}{TN + FP}}, where TN =
 True Negatives, FP = False Positives (see, e.g., Burger, 2018).
 }
 \details{
-The current logic of \code{specificity()} is to determine whether a binary coded
+The current logic of \code{specificity()} is to determine whether a binary-coded
 choice is correctly predicted by the model. To use the function, the
 validation task must include a \code{none} alternative.
-One possible application is, for example, whether a buy or a no-buy choice
-has been correctly predicted. For example, suppose you have three
-alternatives plus a \code{none} alternative and want to check whether a buy
-or no-buy was correctly predicted. This function can be useful if you, for
-example, test whether your model significantly overestimates or
-underestimates a purchase likelihood.
+A potential application could involve evaluating whether a buy or a no-buy
+choice has been correctly predicted. For example, consider a scenario with
+three alternatives plus a \code{none} alternative. You may want to verify if the
+model correctly predicted a buy or no-buy decision (i.e., overestimates or
+underestimates the purchase likelihood). The \code{specificity()} function can be
+useful for assessing the specificity of that 2x2 matrix.
 
-\code{data} a data.frame object including the alternatives shown in the
-validation task. Can be created using the \code{create_hot()} function.
+\code{data} a \code{data.frame} object including the alternatives shown in the
+validation task. It can be created using the \code{create_hot()} function.
 
-\code{group} optional grouping variable(s), if results should be displayed by
-different groups. Has to be column name(s) of variables in \code{data}.
+\code{group} optional grouping variable(s) to display results by group(s).
+different groups. Has to be the column name(s) of variables in \code{data}.
 
 \code{opts} to specify the different alternatives in the
 validation task (also includes the \code{none} alternative).
 Input of \code{opts} has to be column names of variables in \code{data}.
 
-\code{choice} to specify column of actual choice in the validation
-task. Input of \code{choice} has to be column name of actual choice.
+\code{choice} to specify the column of actual choice in the validation
+task. The input of \code{choice} has to be the column name of actual choice.
 
-\code{none} to specify column name of the \code{none}
+\code{none} to specify the column name of the \code{none}
 alternative in the validation task.
 
-Please be aware about the following 2x2 table regarding coding of buy and
-no-buy choice:
+Please be aware of the following 2x2 table regarding the coding of buy and
+no-buy choices:
 
 \tabular{crcc}{
 \tab \tab  Predicted           \tab    \cr

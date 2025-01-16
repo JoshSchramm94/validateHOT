@@ -14,13 +14,13 @@ prob_scores(
 )
 }
 \arguments{
-\item{data}{A data frame with all relevant variables.}
+\item{data}{A data frame containing all relevant variables.}
 
 \item{group}{Optional column name(s) to specify grouping variable(s).}
 
 \item{items}{A vector with the column names of the items.}
 
-\item{set.size}{A vector that specifies size of the choice set.}
+\item{set.size}{A vector that specifies the size of the choice set.}
 
 \item{res}{A vector indicating whether individual results (\code{ind}) or
 aggregated (\code{agg}) results should be returned.}
@@ -34,7 +34,7 @@ a tibble
 Function to calculate probability scores for (anchored) MaxDiff
 }
 \details{
-\code{prob_scores()} converts raw utilities of a MaxDiff to probability scores.
+\code{prob_scores()} converts raw utilities from a MaxDiff to probability scores.
 Probability scores for the unanchored MaxDiff are calculated according to the
 formula provided by Chrzan & Orme (2019, p. 56):
 \eqn{\frac{e^U}{(e^U + (a - 1)}}, where \code{U} is the raw utility of the
@@ -44,23 +44,23 @@ For anchored MaxDiff the following formula is applied
 \eqn{\frac{e^U}{(e^U + (a - 1)} * 100 / (1 / a)} (Chrzan & Orme, 2019,
 pp. 59-60).
 
-\code{data} a data.frame object with the items (raw utilities).
+\code{data} a \code{data.frame} object with the items (raw utilities).
 
-\code{group} optional grouping variable, if results should be displayed by
-different groups. Has to be column name of variables in \code{data}.
+\code{group} optional grouping variable(s) to display results by group(s).
+different groups. Has to be the column name(s) of variables in \code{data}.
 
 \code{items} specifies the items of the MaxDiff. Has to be column name of
 variables in \code{data}.
 
 \code{set.size} specifies the size of the choice sets (i.e., MaxDiff tasks, how
-many items were shown in one task). Input needs to be an integer.
+many items were shown in one task). Input must be an integer.
 
 \code{res} specifies whether results should be aggregated across all participants
 or across \code{group} (\code{res} needs to be set to \code{agg}) or if scores should be
 converted for individuals only (\code{res} needs to be set to \code{ind}).
 
-\code{anchor} only needs to be specified if anchored MaxDiff is applied.
-Input for \code{anchor} has to to be column name of variables in \code{data}.
+\code{anchor} only required if anchored MaxDiff is applied.
+Input for \code{anchor} has to  be column name of variables in \code{data}.
 }
 \examples{
 

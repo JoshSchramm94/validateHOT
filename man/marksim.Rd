@@ -2,22 +2,22 @@
 % Please edit documentation in R/marksim.R
 \name{marksim}
 \alias{marksim}
-\title{Function to run market simulations for validation task / market scenario}
+\title{Function to run market simulations for market scenario}
 \usage{
 marksim(data, group, opts, method = c("sop", "fc"), res = c("agg", "ind"))
 }
 \arguments{
-\item{data}{A data frame with all relevant variables.}
+\item{data}{A data frame containing all relevant variables.}
 
 \item{group}{Optional column name(s) to specify grouping variable(s)
 to get \code{marksim()} by group(s).}
 
 \item{opts}{Column names of the alternatives included in the
-validation task or market scenario.}
+market scenario.}
 
 \item{method}{Name of the market simulation method that should be used.
 Set either to \code{method = "sop"} to run share of preference
-as method or \code{method = "fc"} to run first choice rule. Default
+as method or \code{method = "fc"} to run first-choice rule. The default
 is set to \code{"sop"}.}
 
 \item{res}{A vector indicating whether individual results (\code{ind}) or
@@ -27,37 +27,35 @@ aggregated (\code{agg}) results should be returned.}
 a tibble
 }
 \description{
-\code{marksim()} runs market simulations with options in a validation
-task or a market scenario.
+\code{marksim()} performs market simulations with options in a market scenario.
 }
 \details{
 \code{marksim()} provides the market shares of each alternative specified. For
 aggregated results, \code{marksim()} also provides standard error plus the lower
-and upper confidence interval. Latter is calculated according to the
+and upper confidence interval. The latter is calculated according to the
 following formula \eqn{mean +/- 1.96 x \frac{sd}{\sqrt(n)}} (Orme, 2020,
 p. 94). \code{method} can either be set to \code{method = "sop"} to run share of
-preference rule or to \code{method = "fc"} to run first choice rule to simulate
+preference rule or to \code{method = "fc"} to run first-choice rule to simulate
 market shares.
 
-\code{data} a data.frame object including the alternatives shown in
-the validation task or market scenario. Scenario can be created
-using the \code{create_hot()} function.
+\code{data} a \code{data.frame} object including the alternatives shown in the market
+scenario. Scenario can be created using the \code{create_hot()} function.
 
-\code{group} optional grouping variable(s), if results should be displayed by
-different groups. Has to be column name(s) of variables in \code{data}.
+\code{group} optional grouping variable(s) to display results by group(s).
+different groups. Has to be the column name(s) of variables in \code{data}.
 
 \code{opts} to specify the different alternatives in the validation task or
-market scenario. Input of \code{opts} has to be column names of variables in
+market scenario. Input of \code{opts} has to be the column names of variables in
 \code{data}.
 
 \code{method} can either be set to \code{method = "sop"} to run share of
-preference as method or \code{method = "fc"} to run first choice rule.
-Default is set to \code{method = "sop"}.
+preference as method or \code{method = "fc"} to run first-choice rule.
+The default is set to \code{method = "sop"}.
 
 \code{res} specifies whether results should be aggregated across all participants
-or across \code{group} (\code{res} needs to be set to \code{agg}) or if scores should be
-converted for individuals only (\code{res} needs to be set to \code{ind}). Default is
-set to \code{agg}.
+or across \code{group} (\code{res} needs to be set to \code{agg}) or if choice shares
+should be calculated for individuals only (\code{res} needs to be set to \code{ind}).
+The default is set to \code{agg}.
 }
 \examples{
 

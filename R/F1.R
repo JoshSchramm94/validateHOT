@@ -5,7 +5,7 @@
 #' stated differently by Burger (2018) \eqn{\frac{2TP}{2TP + FP + FN}},
 #' where TP = True Positives, FP = False Positives, and FN = False Negatives.
 #'
-#' @param data A data.frame object.
+#' @param data A data frame containing all relevant variables.
 #' @param group Optional column name(s) to specify grouping variable(s)
 #' to get `f1()` by group(s).
 #' @param opts Column names of the alternatives in the validation task.
@@ -14,35 +14,35 @@
 #' @param none Column name of none alternative.
 #'
 #' @details
-#' The current logic of `f1()` is to determine whether a binary coded
+#' The current logic of `f1()` is to determine whether a binary-coded
 #' choice is correctly predicted by the model. To use the function, the
 #' validation task must include a `none` alternative.
-#' One possible application is, for example, whether a buy or a no-buy choice
-#' has been correctly predicted. For example, suppose you have three
-#' alternatives plus a `none` alternative and want to check whether a buy
-#' or no-buy was correctly predicted. This function can be useful if you, for
-#' example, test whether your model significantly overestimates or
-#' underestimates a purchase likelihood.
+#' A potential application could involve evaluating whether a buy or a no-buy
+#' choice has been correctly predicted. For example, consider a scenario with
+#' three alternatives plus a `none` alternative. You may want to verify if the
+#' model correctly predicted a buy or no-buy decision (i.e., overestimates or
+#' underestimates the purchase likelihood). The `f1()` function can be
+#' useful for assessing the F1-score of that 2x2 matrix.
 #'
 #'
-#' `data` a data frame including the alternatives shown in the validation task.
-#' Can be created using the `create_hot()` function.
+#' `data` a `data.frame` object including the alternatives shown in the
+#' validation task. It can be created using the `create_hot()` function.
 #'
-#' `group` optional grouping variable(s), if results should be displayed by
-#' different groups. Has to be column name(s) of variables in `data`.
+#' `group` optional grouping variable(s) to display results by group(s).
+#' different groups. Has to be the column name(s) of variables in `data`.
 #'
 #' `opts` to specify the different alternatives in the
 #' validation task (also includes the `none` alternative).
 #' Input of `opts` has to be column names of variables in `data`.
 #'
-#' `choice` to specify column of actual choice in the validation
-#' task. Input of `choice` has to be column name of actual choice.
+#' `choice` to specify the column of actual choice in the validation
+#' task. The input of `choice` has to be the column name of actual choice.
 #'
-#' `none` to specify column name of the `none`
+#' `none` to specify the column name of the `none`
 #' alternative in the validation task.
 #'
-#' Please be aware about the following 2x2 table regarding coding of buy and
-#' no-buy choice:
+#' Please be aware of the following 2x2 table regarding the coding of buy and
+#' no-buy choices:
 #'
 #' \tabular{crcc}{
 #'    \tab \tab  Predicted           \tab    \cr

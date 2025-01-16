@@ -1,15 +1,15 @@
 #' Function to calculate zero-centered diffs for (A)CBCs
 #'
-#' @param data A data frame with all relevant variables.
-#' @param group Optional column name(s) to specify grouping variable(s).
+#' @param data A data frame containing all relevant variables.
+#' @param group Optional variable to to get `zc_diffs()` by group(s).
 #' @param attrib A list that specifies the attribute levels for each attribute.
 #' @param coding A vector of the coding of each attribute, '0' = part-worth
 #' coding, '1' = linear coding, or '2' = piecewise coding.
-#' @param interpolate.levels A list of the attribute levels that should
-#' be interpolated. These have to be the same as specified in model estimation
-#' (e.g., if you scale or center attribute levels before estimation, insert
-#' these levels). Please make sure to provide all levels. Only has to be
-#' specified for the variables that are coded as '1' (linear).
+#' @param interpolate.levels A list of the levels of the attribute that should
+#' be interpolated. These levels must match those specified in model
+#' estimation (e.g., if you scale or center attribute levels before estimation,
+#' insert the scaled or centered levels). Ensure to provide the entire list.
+#' It has to be specified only for the variables that are coded as '1' (linear).
 #' @param res A character vector indicating whether individual zero-centered
 #' diffs  (`ind`) or aggregated (`agg`) zero-centered diffs should be returned.
 #' @param none An optional vector to specify `none`
@@ -20,17 +20,17 @@
 #' zero-centered diffs (Orme, 2020, p. 78). This allows for comparison between
 #' the attributes.
 #'
-#' `data` has to be a data.frame object with the relevant attribute levels.
+#' `data` a `data.frame` object containing all the relevant attribute levels.
 #' Attribute levels have to be the raw utilities.
 #'
 #' `group` optional grouping variable, if results should be displayed by
 #' different groups. Has to be column name of variables in `data`.
 #'
 #' `attrib` specifies the attribute levels for each alternative.
-#' Input for `attrib` has to be a list. Needs to specify the column names or
-#' column indexes of the attribute levels.
+#' Input for `attrib` has to be a list. It is required to specify the column
+#' names of the attribute levels.
 #'
-#' `coding` indicates the attribute coding. `0`to indicated part-worth coding,
+#' `coding` indicates the attribute coding. `0` to indicate part-worth coding,
 #' `1` for linear coding, or `2` for piecewise coding.
 #'
 #' `interpolate.levels` is required for linear-coded variables.
@@ -44,8 +44,8 @@
 #' should be converted for individuals only (`ind`).
 #'
 #' `none` specifies whether none option was included or not, if yes,
-#' column name or column index of `none` needs to be specified. If no
-#' `none` option was included, leave it empty.
+#' column name or column index of `none` needs to be specified. Leave empty
+#' if no none parameter is included.
 #'
 #'
 #'

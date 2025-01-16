@@ -1,9 +1,9 @@
 #' Function to calculate probability scores for (anchored) MaxDiff
 #'
-#' @param data A data frame with all relevant variables.
+#' @param data A data frame containing all relevant variables.
 #' @param group Optional column name(s) to specify grouping variable(s).
 #' @param items A vector with the column names of the items.
-#' @param set.size A vector that specifies size of the choice set.
+#' @param set.size A vector that specifies the size of the choice set.
 #' @param res A vector indicating whether individual results (`ind`) or
 #' aggregated (`agg`) results should be returned.
 #' @param anchor An optional variable to specify anchor variable.
@@ -12,7 +12,7 @@
 #' @return a tibble
 #'
 #' @details
-#' `prob_scores()` converts raw utilities of a MaxDiff to probability scores.
+#' `prob_scores()` converts raw utilities from a MaxDiff to probability scores.
 #' Probability scores for the unanchored MaxDiff are calculated according to the
 #' formula provided by Chrzan & Orme (2019, p. 56):
 #' \eqn{\frac{e^U}{(e^U + (a - 1)}}, where `U` is the raw utility of the
@@ -22,23 +22,23 @@
 #' \eqn{\frac{e^U}{(e^U + (a - 1)} * 100 / (1 / a)} (Chrzan & Orme, 2019,
 #' pp. 59-60).
 #'
-#' `data` a data.frame object with the items (raw utilities).
+#' `data` a `data.frame` object with the items (raw utilities).
 #'
-#' `group` optional grouping variable, if results should be displayed by
-#' different groups. Has to be column name of variables in `data`.
+#' `group` optional grouping variable(s) to display results by group(s).
+#' different groups. Has to be the column name(s) of variables in `data`.
 #'
 #' `items` specifies the items of the MaxDiff. Has to be column name of
 #' variables in `data`.
 #'
 #' `set.size` specifies the size of the choice sets (i.e., MaxDiff tasks, how
-#' many items were shown in one task). Input needs to be an integer.
+#' many items were shown in one task). Input must be an integer.
 #'
 #' `res` specifies whether results should be aggregated across all participants
 #' or across `group` (`res` needs to be set to `agg`) or if scores should be
 #' converted for individuals only (`res` needs to be set to `ind`).
 #'
-#' `anchor` only needs to be specified if anchored MaxDiff is applied.
-#' Input for `anchor` has to to be column name of variables in `data`.
+#' `anchor` only required if anchored MaxDiff is applied.
+#' Input for `anchor` has to  be column name of variables in `data`.
 #'
 #'
 #' @seealso {

@@ -2,33 +2,35 @@
 #'
 #' @description
 #' T(otal) U(nduplicated) R(each) and F(requency) is a "product line extension
-#' model" (Miaoulis et al., 1990, p. 29). For each possible combination,
-#' `turf()` looks for the reach and frequency of this combination. Participants
-#' are reached, if at least one of the alternatives in a combination has a
-#' higher utility than `none`. On the contrary, frequency calculates the
-#' averaged number of alternatives that have a
+#' model" (Miaoulis et al., 1990, p. 29). For every possible combination,
+#' `turf()` calculates the reach and frequency of every combination.
+#' Participants are reached, if at least one of the alternatives in a
+#' combination has a higher utility than `none`. On the contrary, frequency
+#' calculates the average number of alternatives that have a
 #' higher utility than `none`.
 #'
-#' @param data A data frame with all relevant variables.
+#' @param data A data frame containing all relevant variables.
 #' @param opts Column names of the alternatives included in the assortment.
 #' @param none Column name of none / threshold alternative.
-#' @param size An integer to determine size of the assortment.
+#' @param size An integer to determine the size of the assortment.
 #' @param fixed An optional vector to determine alternatives / items that have
 #' to be included in the assortment.
-#' @param prohib An optional list with vectors to determine prohibitions, i.e.,
-#' alternatives / items that are not allowed to be together in one assortment.
-#' @param approach A character whether to run first choice approach ('fc') or
-#' threshold approach ('thres').
+#' @param prohib An optional list containing vectors to determine
+#' prohibitions, i.e., alternatives / items that are not allowed to be together
+#' in one assortment.
+#' @param approach A character whether to run the first-choice approach
+#' (`'fc'`) or threshold approach (`'thres'`).
 #'
 #' @details
 #'
-#' `data` a data.frame object including the alternatives that should be tested.
+#' `data` a `data.frame` object containing the alternatives that
+#' should be tested.
 #'
 #' `opts` to specify the different alternatives in the product assortment that
-#' should be considered. Input of `opts` has to be column name of variables
+#' should be considered. Input of `opts` has to be the column names of variables
 #' in `data`.
 #'
-#' `none` to specify column name of the `none` alternative in `data`
+#' `none` to specify the column name of the `none` alternative in `data`
 #' that needs to be exceeded.
 #'
 #' `size` an integer to determine the size of the assortment.
@@ -42,12 +44,12 @@
 #'
 #' `approach` character defining whether first choice `approach = 'fc'` or
 #' threshold `approach = 'thres'` should be applied for running `turf()`. If
-#' `approach = 'fc'`, participants are considered being reached, if their
+#' `approach = 'fc'`, participants are considered to be reached, if their
 #' alternative with the highest utility is included in the assortment and this
 #' alternative's utility is larger than the threshold's utility (Chrzan & Orme,
 #' 2019, p. 111).
 #' On the contrary, if `approach = 'thres'`, participants are considered
-#' being reached, if utility of one product is higher than the one of the
+#' to be reached, if the utility of one product is higher than the one of the
 #' `none` alternative (Chrzan & Orme, 2019, p. 112).
 #' If `approach = 'fc'`, `reach` equals `freq` since participants have at
 #' maximum their most preferred alternative that exceeds the `none`

@@ -8,7 +8,7 @@ task}
 kl(data, group = NULL, opts, choice, epsilon = NULL, log_base = NULL)
 }
 \arguments{
-\item{data}{A data frame with all relevant variables.}
+\item{data}{A data frame containing all relevant variables.}
 
 \item{group}{Optional column name(s) to specify grouping variable(s)
 to get \code{kl()} by group(s).}
@@ -20,10 +20,10 @@ validation task.}
 task.}
 
 \item{epsilon}{A vector of noise that should be added to \code{0} values, per
-default set to \code{1e-05} (see Drost, 2018).}
+default set to \code{1e-05}.}
 
 \item{log_base}{A character string to define the logarithm base, currently
-two are provided, namely \code{log} (default) and \code{log2}.}
+\code{log} (default) and \code{log2} are provided.}
 }
 \value{
 a tibble
@@ -33,7 +33,7 @@ Function to calculate Kullback-Leibler divergence of validation
 task
 }
 \details{
-Kullback-Leibler-Divergence measures the divergence between the actual
+Kullback-Leibler-Divergence calculates the divergence between the actual
 choice distribution and the predicted choice distribution (Ding et al., 2011;
 Drost, 2018). Currently \code{kl()} provides the deviation measured based on
 \eqn{log} and \eqn{log{_2}} algorithm. \eqn{log} is set as default.
@@ -42,25 +42,25 @@ Due to Kullback-Leibler divergence's asymmetry, the output provides both
 \code{KL_O_P} which is equivalent to (Observed || Predicted) and
 \code{KL_P_O} which is equivalent to (Predicted || Observed).
 
-\code{data} a data.frame object including the alternatives shown in the
-validation task. Can be created using the \code{create_hot()} function.
+\code{data} a \code{data.frame} object including the alternatives shown in the
+validation task. It can be created using the \code{create_hot()} function.
 
-\code{group} optional grouping variable(s), if results should be displayed by
-different groups. Has to be column name(s) of variables in \code{data}.
+\code{group} optional grouping variable(s) to calculate results by group(s).
+different groups. Has to be the column name(s) of variables in \code{data}.
 
-\code{opts} to specify the different alternatives in the validation task.
-Input of \code{opts} has to be column names of variables in \code{data}.
+\code{opts} to specify the different alternatives in the
+validation task (also includes the \code{none} alternative).
 
-\code{choice} to specify column of actual choice in the validation
-task. Input of \code{choice} has to be column name of actual choice.
+\code{choice} to specify the column of actual choice in the validation
+task. The input of \code{choice} has to be the column name of actual choice.
 
-\code{epsilon} numeric input in case of 0 in the numerator or
-denominator. 0 then will be replaced by \code{epsilon}. Default value
+\code{epsilon} numeric input in case of \code{0} in the numerator or
+denominator. \code{0} then will be replaced by \code{epsilon}. The default value
 is \code{epsilon = 1e-5} but can be adopted (see also Drost, 2018).
 
 \code{log_base} has to be a character string, deciding which logarithm base
 you want to apply to calculate Kullback-Leibler. You can choose
-between \eqn{log} and \eqn{log{_2}}. Default is set to \eqn{log}.
+between \eqn{log} and \eqn{log{_2}}. The default is set to \eqn{log}.
 }
 \examples{
 

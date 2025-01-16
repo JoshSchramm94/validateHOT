@@ -7,23 +7,24 @@
 #' and then subsequently adds the next best alternative to add for increasing
 #' the reach.
 #'
-#' @param data A data frame with all relevant variables.
+#' @param data A data frame containing all relevant variables.
 #' @param opts Column names of the alternatives included in the assortment.
 #' @param none Column name of none / threshold alternative.
 #' @param fixed An optional vector to determine alternatives / items that have
 #' to be included in the assortment.
-#' @param approach A character whether to run first choice approach ('fc') or
-#' threshold approach ('thres').
+#' @param approach A character whether to run the first-choice approach
+#' (`'fc'`) or threshold approach (`'thres'`).
 #'
 #' @details
 #'
-#' `data` a data.frame object including the alternatives that should be tested.
+#' `data` a `data.frame` object containing the alternatives that
+#' should be tested.
 #'
 #' `opts` to specify the different alternatives in the product assortment that
-#' should be considered. Input of `opts` has to be column name of variables
+#' should be considered. Input of `opts` has to be the column names of variables
 #' in `data`.
 #'
-#' `none` to specify column name of the `none` alternative in `data`
+#' `none` to specify the column name of the `none` alternative in `data`
 #' that needs to be exceeded.
 #'
 #' `fixed` has to be a vector of variables that are fixed in the
@@ -31,12 +32,12 @@
 #'
 #' `approach` character defining whether first choice `approach = 'fc'` or
 #' threshold `approach = 'thres'` should be applied for running `turf()`. If
-#' `approach = 'fc'`, participants are considered being reached, if their
+#' `approach = 'fc'`, participants are considered to be reached, if their
 #' alternative with the highest utility is included in the assortment and this
 #' alternative's utility is larger than the threshold's utility (Chrzan & Orme,
 #' 2019, p. 111).
 #' On the contrary, if `approach = 'thres'`, participants are considered
-#' being reached, if utility of one product is higher than the one of the
+#' to be reached, if the utility of one product is higher than the one of the
 #' `none` alternative (Chrzan & Orme, 2019, p. 112).
 #' If `approach = 'fc'`, `reach` equals `freq` since participants have at
 #' maximum their most preferred alternative that exceeds the `none`

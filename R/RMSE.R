@@ -1,14 +1,14 @@
 #' Function to calculate Root Mean Square Error of validation task
 #'
 #' @description
-#' `rmse()` measures the root mean square error of a validation task.
+#' `rmse()` calculates the root mean square error of a validation task.
 #' Calculates the averaged root mean square error of the stated and predicted
 #' share of alternatives in the validation task.
 #'
 #'
-#' @param data A data frame with all relevant variables.
+#' @param data A data frame containing all relevant variables.
 #' @param group Optional column name(s) to specify grouping variable(s)
-#' to get `rmse()` by group(s).
+#' to calculate `rmse()` by group(s).
 #' @param opts Column names of the alternatives included in the
 #' validation task.
 #' @param choice Column name of the actual choice in the validation
@@ -19,17 +19,17 @@
 #' comparing the share of the actual choice in the holdout task and the
 #' predicted share.
 #'
-#' `data` a data frame including the alternatives shown in the validation task.
-#' Can be created using the `create_hot()` function.
+#' `data` a `data.frame` object including the alternatives shown in the
+#' validation task. It can be created using the `create_hot()` function.
 #'
-#' `group` optional grouping variable(s), if results should be displayed by
-#' different groups. Has to be column name(s) of variables in `data`.
+#' `group` optional grouping variable(s) to display results by group(s).
+#' different groups. Has to be the column name(s) of variables in `data`.
 #'
-#' `opts` to specify the different alternatives in the validation task.
-#' Input of `opts` has to be column names of variables in `data`.
+#' `opts` to specify the different alternatives in the
+#' validation task (also includes the `none` alternative).
 #'
-#' `choice` to specify column of actual choice in the validation
-#' task. Input of `choice` has to be column name of actual choice.
+#' `choice` to specify the column of actual choice in the validation
+#' task. The input of `choice` has to be the column name of actual choice.
 #'
 #'
 #' @return a tibble

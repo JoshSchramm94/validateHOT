@@ -8,7 +8,7 @@ assortment}
 reach(data, group, none, opts)
 }
 \arguments{
-\item{data}{A data frame with all relevant variables.}
+\item{data}{A data frame containing all relevant variables.}
 
 \item{group}{Optional column name(s) to specify grouping variable(s)
 to get \code{reach()} by group(s).}
@@ -22,19 +22,19 @@ a tibble
 }
 \description{
 \code{reach()} of T(otal) U(nduplicated) R(each) and F(requency)
-analysis to measure the number of  the averaged percentage of how
+analysis is designed to measure the number of  the averaged percentage of how
 many participants you can reach (at least one of the products resemble
 a purchase option) is reached with a specific product bundle assortment.
 }
 \details{
-\code{reach()} calculates the the percentage of consumers that are
+\code{reach()} calculates the percentage of consumers that are
 reached with a particular product assortment. The current
 logic of \code{reach()} is that the utility of an alternative has to
 exceed a threshold. In the case of \code{reach()} this threshold is referred
-to the \code{none} argument in \code{data}, however, could also be, e.g., a
+to the \code{none} argument in \code{data}, however, it could also be, e.g., a
 current product.
 
-\code{data} a data.frame object including the alternatives that should
+\code{data} a \code{data.frame} object containing the alternatives that should
 be tested.
 
 \code{group} optional grouping variable, if results should be displayed

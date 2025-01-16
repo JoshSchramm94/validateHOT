@@ -3,26 +3,26 @@
 #'
 #' @description
 #' `reach()` of T(otal) U(nduplicated) R(each) and F(requency)
-#' analysis to measure the number of  the averaged percentage of how
+#' analysis is designed to measure the number of  the averaged percentage of how
 #' many participants you can reach (at least one of the products resemble
 #' a purchase option) is reached with a specific product bundle assortment.
 #'
-#' @param data A data frame with all relevant variables.
+#' @param data A data frame containing all relevant variables.
 #' @param group Optional column name(s) to specify grouping variable(s)
 #' to get `reach()` by group(s).
 #' @param opts Column names of the alternatives included in the assortment.
 #' @param none Column name of none / threshold alternative.
 #'
 #' @details
-#' `reach()` calculates the the percentage of consumers that are
+#' `reach()` calculates the percentage of consumers that are
 #' reached with a particular product assortment. The current
 #' logic of `reach()` is that the utility of an alternative has to
 #' exceed a threshold. In the case of `reach()` this threshold is referred
-#' to the `none` argument in `data`, however, could also be, e.g., a
+#' to the `none` argument in `data`, however, it could also be, e.g., a
 #' current product.
 #'
 #'
-#' `data` a data.frame object including the alternatives that should
+#' `data` a `data.frame` object containing the alternatives that should
 #' be tested.
 #'
 #' `group` optional grouping variable, if results should be displayed

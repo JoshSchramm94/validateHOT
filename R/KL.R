@@ -1,7 +1,7 @@
 #' Function to calculate Kullback-Leibler divergence of validation
 #' task
 #'
-#' @param data A data frame with all relevant variables.
+#' @param data A data frame containing all relevant variables.
 #' @param group Optional column name(s) to specify grouping variable(s)
 #' to get `kl()` by group(s).
 #' @param opts Column names of the alternatives included in the
@@ -9,14 +9,14 @@
 #' @param choice Column name of the actual choice in the validation
 #' task.
 #' @param epsilon A vector of noise that should be added to `0` values, per
-#' default set to `1e-05` (see Drost, 2018).
+#' default set to `1e-05`.
 #' @param log_base A character string to define the logarithm base, currently
-#' two are provided, namely `log` (default) and `log2`.
+#' `log` (default) and `log2` are provided.
 #'
 #' @return a tibble
 #'
 #' @details
-#' Kullback-Leibler-Divergence measures the divergence between the actual
+#' Kullback-Leibler-Divergence calculates the divergence between the actual
 #' choice distribution and the predicted choice distribution (Ding et al., 2011;
 #' Drost, 2018). Currently `kl()` provides the deviation measured based on
 #' \eqn{log} and \eqn{log{_2}} algorithm. \eqn{log} is set as default.
@@ -25,25 +25,25 @@
 #' `KL_O_P` which is equivalent to (Observed || Predicted) and
 #' `KL_P_O` which is equivalent to (Predicted || Observed).
 #'
-#' `data` a data.frame object including the alternatives shown in the
-#' validation task. Can be created using the `create_hot()` function.
+#' `data` a `data.frame` object including the alternatives shown in the
+#' validation task. It can be created using the `create_hot()` function.
 #'
-#' `group` optional grouping variable(s), if results should be displayed by
-#' different groups. Has to be column name(s) of variables in `data`.
+#' `group` optional grouping variable(s) to calculate results by group(s).
+#' different groups. Has to be the column name(s) of variables in `data`.
 #'
-#' `opts` to specify the different alternatives in the validation task.
-#' Input of `opts` has to be column names of variables in `data`.
+#' `opts` to specify the different alternatives in the
+#' validation task (also includes the `none` alternative).
 #'
-#' `choice` to specify column of actual choice in the validation
-#' task. Input of `choice` has to be column name of actual choice.
+#' `choice` to specify the column of actual choice in the validation
+#' task. The input of `choice` has to be the column name of actual choice.
 #'
-#' `epsilon` numeric input in case of 0 in the numerator or
-#' denominator. 0 then will be replaced by `epsilon`. Default value
+#' `epsilon` numeric input in case of `0` in the numerator or
+#' denominator. `0` then will be replaced by `epsilon`. The default value
 #' is `epsilon = 1e-5` but can be adopted (see also Drost, 2018).
 #'
 #' `log_base` has to be a character string, deciding which logarithm base
 #' you want to apply to calculate Kullback-Leibler. You can choose
-#' between \eqn{log} and \eqn{log{_2}}. Default is set to \eqn{log}.
+#' between \eqn{log} and \eqn{log{_2}}. The default is set to \eqn{log}.
 #'
 #' @references {
 #'

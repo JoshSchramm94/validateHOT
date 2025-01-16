@@ -1,32 +1,32 @@
 #' Function to calculate Mean Hit Probability (MHP) of validation task
 #'
 #' @description
-#' `mhp()` measures the mean hit probability of a validation
+#' `mhp()` calculates the mean hit probability of a validation
 #' task.
 #'
-#' @param data A data frame with all relevant variables.
+#' @param data A data frame containing all relevant variables.
 #' @param group Optional column name(s) to specify grouping variable(s)
-#' to get `mhp()` by group(s).
+#' to calculate `mhp()` by group(s).
 #' @param opts Column names of the alternatives included in the
 #' validation task.
 #' @param choice Column name of the actual choice in the validation
 #' task.
 #'
 #' @details
-#' Mean hit probability (MHP) measures the averaged hit probability of
+#' Mean hit probability (MHP) calculates the averaged hit probability of
 #' participants actual choices in the validation task.
 #'
-#' `data` a data.frame object including the alternatives shown in the
-#' validation task. Can be created using the `create_hot()` function.
+#' `data` a `data.frame` object including the alternatives shown in the
+#' validation task. It can be created using the `create_hot()` function.
 #'
-#' `group` optional grouping variable, if results should be displayed by
-#' different groups. Has to be column name of variables in `data`.
+#' `group` optional grouping variable(s) to display results by group(s).
+#' different groups. Has to be the column name(s) of variables in `data`.
 #'
-#' `opts` is required to specify the different alternatives in the validation
-#' task. Input of `opts` has to be column names of variables in `data`.
+#' `opts` to specify the different alternatives in the
+#' validation task (also includes the `none` alternative).
 #'
-#' `choice` to specify column of actual choice in the validation
-#' task. Input of opts `choice` has to be column name of actual choice.
+#' `choice` to specify the column of actual choice in the validation
+#' task. The input of `choice` has to be the column name of actual choice.
 #'
 #' Output will display both mean hit probability and its corresponding standard
 #' error (both in percentage).

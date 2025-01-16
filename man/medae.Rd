@@ -7,10 +7,10 @@
 medae(data, group, opts, choice)
 }
 \arguments{
-\item{data}{A data frame with all relevant variables.}
+\item{data}{A data frame containing all relevant variables.}
 
 \item{group}{Optional column name(s) to specify grouping variable(s)
-to get \code{medae()} by group(s).}
+to calculate \code{medae()} by group(s).}
 
 \item{opts}{Column names of the alternatives included in the
 validation task.}
@@ -22,7 +22,7 @@ task.}
 a tibble
 }
 \description{
-\code{medae()} measures the median absolute error (MedAE) of a
+\code{medae()} calculates the median absolute error (MedAE) of a
 validation task.
 }
 \details{
@@ -30,17 +30,17 @@ validation task.
 stated (actual) choice share and returns the median error in the
 validation task, which is less likely to be influenced by outliers.
 
-\code{data} a data.frame object including the alternatives shown in the
-validation task. Can be created using the \code{create_hot()} function.
+\code{data} a \code{data.frame} object including the alternatives shown in the
+validation task. It can be created using the \code{create_hot()} function.
 
-\code{group} optional grouping variable(s), if results should be displayed by
-different groups. Has to be column name(s) of variables in \code{data}.
+\code{group} optional grouping variable(s) to display results by group(s).
+different groups. Has to be the column name(s) of variables in \code{data}.
 
-\code{opts} to specify the different alternatives in the validation task.
-Input of \code{opts} has to be column names of variables in \code{data}.
+\code{opts} to specify the different alternatives in the
+validation task (also includes the \code{none} alternative).
 
-\code{choice} to specify column of actual choice in the validation
-task. Input of \code{choice} has to be column name of actual choice.
+\code{choice} to specify the column of actual choice in the validation
+task. The input of \code{choice} has to be the column name of actual choice.
 }
 \examples{
 
