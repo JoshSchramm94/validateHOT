@@ -2,8 +2,8 @@
 % Please edit documentation in R/create_hot.R
 \name{create_hot}
 \alias{create_hot}
-\title{Function to calculate total utilities for validation task
-alternatives or market scenario}
+\title{Function to calculate total utilities for the atlernatives of a
+validation task or a market scenario}
 \usage{
 create_hot(
   data,
@@ -22,14 +22,15 @@ create_hot(
 \arguments{
 \item{data}{A data frame containing all relevant variables.}
 
-\item{id}{Column name of the unique identifier.}
+\item{id}{Column name of a unique identifier.}
 
 \item{none}{An optional vector to specify column name of the \code{none}
 alternative.}
 
 \item{prod.levels}{A list to define the attribute levels of the
 alternatives (\code{prod}). If linear-coded or piecewise-coded
-attributes are included, column indexes are required for the input.}
+attributes are included, column indexes are required for the input. Otherwise
+column names can be provided.}
 
 \item{coding}{A vector to define attributes coding, \code{0} = part-worth
 coding, \code{1} = linear coding, \code{2} = piecewise coding; please make sure to code
@@ -46,9 +47,9 @@ entire list. It has to be specified only for the attributes that are coded
 as \code{1} (linear) or \code{2} (piecewise).}
 
 \item{lin.p}{A vector to specify column index or column names of
-linear-coded variables.}
+linear-coded variables. Input can be column name or column index.}
 
-\item{piece.p}{A nested list containing lists each of the piecewise-coded
+\item{piece.p}{A nested list containing lists of the piecewise-coded
 variables. The list for a piecewise-coded attribute must specify the columns
 representing the lower and upper levels to be used for interpolation.}
 
@@ -59,11 +60,11 @@ representing the lower and upper levels to be used for interpolation.}
 be kept in the data frame.}
 
 \item{choice}{Actual choice in the validation task. Leave \code{choice} empty for
-specifying market scenario (a warning will be displayed).}
+specifying market scenario. \code{create_hot()} will display a warning.}
 }
 \description{
-Function to calculate total utilities for validation task
-alternatives or market scenario
+Function to calculate total utilities for the atlernatives of a
+validation task or a market scenario
 }
 \details{
 To test the validation metrics of a validation task or to run a market
@@ -89,8 +90,7 @@ included.
 Input for \code{prod.levels} has to be a list. For attributes requiring
 interpolation (linear or piecewise coding), specify the values to
 interpolate (numeric input). In addition, \code{lin.p} and/or \code{piece.p},
-\code{interpolate.levels}, and \code{coding} have to be
-specified.
+\code{interpolate.levels}, and \code{coding} have to be specified.
 
 \code{interpolate.levels} is required in case interpolation is used (only if
 variables are coded as linear or piecewise or if you want to treat a
@@ -99,20 +99,21 @@ were used for hierarchical Bayes estimation, the exact same levels are
 required (all of them). For example, if one linear-coded attribute
 had 5 levels, all 5 levels are required. In the case of linear-coded price
 for \code{method = "acbc"} (and you have two price coefficients which sum up to
-\code{0}), specify both lower and upper bound and code as
-piecewise in \code{coding}. For piecewise-coded price, specify each breakpoint.
-Input for \code{interpolate.levels} has to be a list.
+\code{0}), specify both lower and upper bound and code as piecewise in \code{coding}.
+For piecewise-coded price, specify each break point. Input for
+\code{interpolate.levels} has to be a list.
 
 \code{piece.p} is required in case a variable is coded as piecewise (see coding).
 Positions of both lower and upper bound are required. In case interpolated
 values (see \code{prod.levels}) are equal to a lower or upper bound, this can be
 specified either as lower or upper bound. Input for  \code{piece.p} has to be a
-nested list and must contain a list for each piecewise-coded attribute.
+nested list and must contain a list for each piecewise-coded attribute. For
+the upper and lower bound either provide the column indexes or column names.
 
-\code{lin.p} is required in case a variable is linear-coded
-(see coding). Since for linear coding (except for price
-in \code{method = "acbc"}) only one coefficient is provided in the output,
-provide this column name accordingly.
+\code{lin.p} is required in case a variable is linear-coded (see coding). Since
+for linear coding (except for price in \code{method = "acbc"}) only one
+coefficient is provided in the output, provide this column name or column
+index accordingly.
 
 \code{coding} is required if \code{method = "cbc"} or \code{method = "acbc"}. Use \code{0} for
 part-worth coding, \code{1} for linear coding, and \code{2} for piecewise coding.
@@ -126,12 +127,10 @@ continuous, set it to \code{2}. Input for \code{coding} has to be a vector.
 
 \code{varskeep} is required in case other variables should be kept
 in the data frame (for example, a grouping variable). Provide the column
-names of the variable(s) that should be kept.
+names or indexes of the variable(s) that should be kept.
 
 \code{choice} specifies the column name of the actual choice
 in the validation task.
-
-Instead of the column names, one can also provide column indexes.
 }
 \examples{
 \dontrun{

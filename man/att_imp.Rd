@@ -24,7 +24,7 @@ att_imp(
 coding, \code{1} = linear coding, or \code{2} = piecewise coding.}
 
 \item{interpolate.levels}{A list of the levels of the attribute that should
-be interpolated. These levels must match those specified in model
+be interpolated. These levels must match those specified in the model
 estimation (e.g., if you scale or center attribute levels before estimation,
 insert the scaled or centered levels). Ensure to provide the entire list.
 It has to be specified only for the variables that are coded as '1' (linear).}
@@ -46,12 +46,11 @@ importance scores (see, Orme, 2020, p. 80, for more information).
 levels. Attribute levels need to be the raw utilities of hierarchical Bayes
 estimation.
 
-\code{group} optional grouping variable, if results should be displayed by
-different groups. Has to be column name of variables in \code{data}.
+\code{group} optional grouping variable(s) to display results by group(s).
+Has to be the column name(s) of variables in \code{data}.
 
 \code{attrib} specifies the attribute levels for each alternative.
-Input for \code{attrib} has to be a list. It is required to specify the column
-names of the attribute levels.
+Input for \code{attrib} has to be a list.
 
 \code{coding} is required to indicate the attributes' coding. \code{0}
 to indicate part-worth coding, \code{1} for linear coding, or \code{2} for
@@ -61,7 +60,7 @@ piecewise coding.
 If scaled or centered values were used for hierarchical Bayes
 estimation, these need to be defined in \code{att_imp()}.
 All values have to be specified. For example, if one linear coded attribute
-has 5 levels, all 5 levels have to be inserted.
+has 5 levels, all 5 levels have to be provided to the list.
 
 \code{res} specifies whether results should be aggregated across all
 participants or across \code{group} (\code{res} needs to be set to

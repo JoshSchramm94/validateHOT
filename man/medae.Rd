@@ -22,25 +22,24 @@ task.}
 a tibble
 }
 \description{
-\code{medae()} calculates the median absolute error (MedAE) of a
-validation task.
+\code{medae()} calculates the median absolute error of a validation task.
 }
 \details{
 \code{medae()} calculates the deviation between predicted and
-stated (actual) choice share and returns the median error in the
-validation task, which is less likely to be influenced by outliers.
+stated (actual) choice shares and returns the median error in the
+validation task.
 
 \code{data} a \code{data.frame} object including the alternatives shown in the
 validation task. It can be created using the \code{create_hot()} function.
 
 \code{group} optional grouping variable(s) to display results by group(s).
-different groups. Has to be the column name(s) of variables in \code{data}.
+Has to be the column name(s) of variables in \code{data}.
 
 \code{opts} to specify the different alternatives in the
 validation task (also includes the \code{none} alternative).
 
-\code{choice} to specify the column of actual choice in the validation
-task. The input of \code{choice} has to be the column name of actual choice.
+\code{choice} to specify the column of the actual choice in the validation
+task. The input of \code{choice} has to be the column name of the actual choice.
 }
 \examples{
 

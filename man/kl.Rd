@@ -35,7 +35,7 @@ task
 \details{
 Kullback-Leibler-Divergence calculates the divergence between the actual
 choice distribution and the predicted choice distribution (Ding et al., 2011;
-Drost, 2018). Currently \code{kl()} provides the deviation measured based on
+Drost, 2018). Currently, \code{kl()} provides the deviation measured based on
 \eqn{log} and \eqn{log{_2}} algorithm. \eqn{log} is set as default.
 
 Due to Kullback-Leibler divergence's asymmetry, the output provides both
@@ -45,14 +45,14 @@ Due to Kullback-Leibler divergence's asymmetry, the output provides both
 \code{data} a \code{data.frame} object including the alternatives shown in the
 validation task. It can be created using the \code{create_hot()} function.
 
-\code{group} optional grouping variable(s) to calculate results by group(s).
-different groups. Has to be the column name(s) of variables in \code{data}.
+\code{group} optional grouping variable(s) to display results by group(s).
+Has to be the column name(s) of variables in \code{data}.
 
 \code{opts} to specify the different alternatives in the
 validation task (also includes the \code{none} alternative).
 
-\code{choice} to specify the column of actual choice in the validation
-task. The input of \code{choice} has to be the column name of actual choice.
+\code{choice} to specify the column of the actual choice in the validation
+task. The input of \code{choice} has to be the column name of the actual choice.
 
 \code{epsilon} numeric input in case of \code{0} in the numerator or
 denominator. \code{0} then will be replaced by \code{epsilon}. The default value

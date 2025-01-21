@@ -9,7 +9,7 @@
 #'
 #' @param data A data frame containing all relevant variables.
 #' @param opts Column names of the alternatives included in the assortment.
-#' @param none Column name of none / threshold alternative.
+#' @param none Column name of the none / threshold alternative.
 #' @param fixed An optional vector to determine alternatives / items that have
 #' to be included in the assortment.
 #' @param approach A character whether to run the first-choice approach
@@ -24,18 +24,18 @@
 #' should be considered. Input of `opts` has to be the column names of variables
 #' in `data`.
 #'
-#' `none` to specify the column name of the `none` alternative in `data`
-#' that needs to be exceeded.
+#' `none` to specify the column name of the `none` alternative in `data` (i.e.,
+#' variable that needs to be exceeded).
 #'
 #' `fixed` has to be a vector of variables that are fixed in the
 #' assortment, i.e., they must be part of the assortment.
 #'
-#' `approach` character defining whether first choice `approach = 'fc'` or
-#' threshold `approach = 'thres'` should be applied for running `turf()`. If
-#' `approach = 'fc'`, participants are considered to be reached, if their
-#' alternative with the highest utility is included in the assortment and this
-#' alternative's utility is larger than the threshold's utility (Chrzan & Orme,
-#' 2019, p. 111).
+#' `approach` character defining whether first choice approach (`approach = 'fc'`)
+#' or threshold approach (`approach = 'thres'`) should be applied for running
+#' `turf_ladder()`. If `approach = 'fc'`, participants are considered to be
+#' reached, if their alternative with the highest utility is included in the
+#' assortment and this alternative's utility is larger than the threshold's
+#' utility (Chrzan & Orme, 2019, p. 111).
 #' On the contrary, if `approach = 'thres'`, participants are considered
 #' to be reached, if the utility of one product is higher than the one of the
 #' `none` alternative (Chrzan & Orme, 2019, p. 112).
@@ -60,6 +60,10 @@
 #' }
 #'
 #' @return data frame
+#'
+#' @seealso {
+#' [`turf()`][turf]
+#' }
 #'
 #' @examples
 #'

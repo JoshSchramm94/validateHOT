@@ -1,24 +1,25 @@
-#' @title  Function to calculate total utilities for validation task
-#' alternatives or market scenario
+#' @title  Function to calculate total utilities for the atlernatives of a
+#' validation task or a market scenario
 #'
 #' @param data A data frame containing all relevant variables.
-#' @param id Column name of the unique identifier.
+#' @param id Column name of a unique identifier.
 #' @param none An optional vector to specify column name of the `none`
 #' alternative.
 #' @param prod.levels A list to define the attribute levels of the
 #' alternatives (`prod`). If linear-coded or piecewise-coded
-#' attributes are included, column indexes are required for the input.
+#' attributes are included, column indexes are required for the input. Otherwise
+#' column names can be provided.
 #' @param interpolate.levels A list of the levels of the attribute that should
 #' be interpolated. These levels must match those specified in model
 #' estimation (e.g., if you scale or center attribute levels before estimation,
 #' insert the scaled or centered levels). Ensure to provide the
 #' entire list. It has to be specified only for the attributes that are coded
 #' as `1` (linear) or `2` (piecewise).
-#' @param piece.p A nested list containing lists each of the piecewise-coded
+#' @param piece.p A nested list containing lists of the piecewise-coded
 #' variables. The list for a piecewise-coded attribute must specify the columns
 #' representing the lower and upper levels to be used for interpolation.
 #' @param lin.p A vector to specify column index or column names of
-#' linear-coded variables.
+#' linear-coded variables. Input can be column name or column index.
 #' @param coding A vector to define attributes coding, `0` = part-worth
 #' coding, `1` = linear coding, `2` = piecewise coding; please make sure to code
 #' linear price of ACBC as piecewise. For more details, see the example
@@ -30,7 +31,7 @@
 #' @param varskeep A vector specifying column names of the variables that should
 #' be kept in the data frame.
 #' @param choice Actual choice in the validation task. Leave `choice` empty for
-#' specifying market scenario (a warning will be displayed).
+#' specifying market scenario. `create_hot()` will display a warning.
 #'
 #' @details
 #' To test the validation metrics of a validation task or to run a market
@@ -56,8 +57,7 @@
 #' Input for `prod.levels` has to be a list. For attributes requiring
 #' interpolation (linear or piecewise coding), specify the values to
 #' interpolate (numeric input). In addition, `lin.p` and/or `piece.p`,
-#' `interpolate.levels`, and `coding` have to be
-#' specified.
+#' `interpolate.levels`, and `coding` have to be specified.
 #'
 #' `interpolate.levels` is required in case interpolation is used (only if
 #' variables are coded as linear or piecewise or if you want to treat a
@@ -66,20 +66,21 @@
 #' required (all of them). For example, if one linear-coded attribute
 #' had 5 levels, all 5 levels are required. In the case of linear-coded price
 #' for `method = "acbc"` (and you have two price coefficients which sum up to
-#' `0`), specify both lower and upper bound and code as
-#' piecewise in `coding`. For piecewise-coded price, specify each breakpoint.
-#' Input for `interpolate.levels` has to be a list.
+#' `0`), specify both lower and upper bound and code as piecewise in `coding`.
+#' For piecewise-coded price, specify each break point. Input for
+#' `interpolate.levels` has to be a list.
 #'
 #' `piece.p` is required in case a variable is coded as piecewise (see coding).
 #' Positions of both lower and upper bound are required. In case interpolated
 #' values (see `prod.levels`) are equal to a lower or upper bound, this can be
 #' specified either as lower or upper bound. Input for  `piece.p` has to be a
-#' nested list and must contain a list for each piecewise-coded attribute.
+#' nested list and must contain a list for each piecewise-coded attribute. For
+#' the upper and lower bound either provide the column indexes or column names.
 #'
-#' `lin.p` is required in case a variable is linear-coded
-#' (see coding). Since for linear coding (except for price
-#' in `method = "acbc"`) only one coefficient is provided in the output,
-#' provide this column name accordingly.
+#' `lin.p` is required in case a variable is linear-coded (see coding). Since
+#' for linear coding (except for price in `method = "acbc"`) only one
+#' coefficient is provided in the output, provide this column name or column
+#' index accordingly.
 #'
 #' `coding` is required if `method = "cbc"` or `method = "acbc"`. Use `0` for
 #' part-worth coding, `1` for linear coding, and `2` for piecewise coding.
@@ -93,12 +94,10 @@
 #'
 #' `varskeep` is required in case other variables should be kept
 #' in the data frame (for example, a grouping variable). Provide the column
-#' names of the variable(s) that should be kept.
+#' names or indexes of the variable(s) that should be kept.
 #'
 #' `choice` specifies the column name of the actual choice
 #' in the validation task.
-#'
-#' Instead of the column names, one can also provide column indexes.
 #'
 #'
 #' @references {

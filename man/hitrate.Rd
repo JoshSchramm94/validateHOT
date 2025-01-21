@@ -39,13 +39,13 @@ choices) in percentages
 validation task. It can be created using the \code{create_hot()} function.
 
 \code{group} optional grouping variable(s) to display results by group(s).
-different groups. Has to be the column name(s) of variables in \code{data}.
+Has to be the column name(s) of variables in \code{data}.
 
 \code{opts} to specify the different alternatives in the
 validation task (also includes the \code{none} alternative).
 
-\code{choice} to specify the column of actual choice in the validation
-task. The input of \code{choice} has to be the column name of actual choice.
+\code{choice} to specify the column of the actual choice in the validation
+task. The input of \code{choice} has to be the column name of the actual choice.
 }
 \examples{
 

@@ -17,7 +17,7 @@ to get \code{f1()} by group(s).}
 \item{choice}{Column name of the actual choice in the validation
 task.}
 
-\item{none}{Column name of none alternative.}
+\item{none}{Column name of the none alternative.}
 }
 \value{
 a tibble
@@ -42,15 +42,15 @@ useful for assessing the F1-score of that 2x2 matrix.
 \code{data} a \code{data.frame} object including the alternatives shown in the
 validation task. It can be created using the \code{create_hot()} function.
 
-\code{group} optional grouping variable(s) to display results by group(s).
-different groups. Has to be the column name(s) of variables in \code{data}.
+\code{group} optional grouping variable(s) to display results by group(s)
+Has to be the column name(s) of variables in \code{data}.
 
 \code{opts} to specify the different alternatives in the
 validation task (also includes the \code{none} alternative).
 Input of \code{opts} has to be column names of variables in \code{data}.
 
-\code{choice} to specify the column of actual choice in the validation
-task. The input of \code{choice} has to be the column name of actual choice.
+\code{choice} to specify the column of the actual choice in the validation
+task. The input of \code{choice} has to be the column name of the actual choice.
 
 \code{none} to specify the column name of the \code{none}
 alternative in the validation task.

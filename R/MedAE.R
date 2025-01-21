@@ -1,8 +1,7 @@
 #' Function to calculate median absolute error
 #'
 #' @description
-#' `medae()` calculates the median absolute error (MedAE) of a
-#' validation task.
+#' `medae()` calculates the median absolute error of a validation task.
 #'
 #' @param data A data frame containing all relevant variables.
 #' @param group Optional column name(s) to specify grouping variable(s)
@@ -14,20 +13,20 @@
 #'
 #' @details
 #' `medae()` calculates the deviation between predicted and
-#' stated (actual) choice share and returns the median error in the
-#' validation task, which is less likely to be influenced by outliers.
+#' stated (actual) choice shares and returns the median error in the
+#' validation task.
 #'
 #' `data` a `data.frame` object including the alternatives shown in the
 #' validation task. It can be created using the `create_hot()` function.
 #'
 #' `group` optional grouping variable(s) to display results by group(s).
-#' different groups. Has to be the column name(s) of variables in `data`.
+#' Has to be the column name(s) of variables in `data`.
 #'
 #' `opts` to specify the different alternatives in the
 #' validation task (also includes the `none` alternative).
 #'
-#' `choice` to specify the column of actual choice in the validation
-#' task. The input of `choice` has to be the column name of actual choice.
+#' `choice` to specify the column of the actual choice in the validation
+#' task. The input of `choice` has to be the column name of the actual choice.
 #'
 #' @return a tibble
 #'

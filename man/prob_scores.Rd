@@ -47,7 +47,7 @@ pp. 59-60).
 \code{data} a \code{data.frame} object with the items (raw utilities).
 
 \code{group} optional grouping variable(s) to display results by group(s).
-different groups. Has to be the column name(s) of variables in \code{data}.
+Has to be the column name(s) of variables in \code{data}.
 
 \code{items} specifies the items of the MaxDiff. Has to be column name of
 variables in \code{data}.
@@ -60,7 +60,7 @@ or across \code{group} (\code{res} needs to be set to \code{agg}) or if scores s
 converted for individuals only (\code{res} needs to be set to \code{ind}).
 
 \code{anchor} only required if anchored MaxDiff is applied.
-Input for \code{anchor} has to  be column name of variables in \code{data}.
+Input for \code{anchor} has to be the column name of variables in \code{data}.
 }
 \examples{
 

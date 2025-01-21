@@ -12,7 +12,7 @@
 #' validation task.
 #' @param choice Column name of the actual choice in the validation
 #' task.
-#' @param none Column name of none alternative.
+#' @param none Column name of the none alternative.
 #'
 #' @details
 #' The current logic of `recall()` is to determine whether a binary-coded
@@ -22,21 +22,21 @@
 #' choice has been correctly predicted. For example, consider a scenario with
 #' three alternatives plus a `none` alternative. You may want to verify if the
 #' model correctly predicted a buy or no-buy decision (i.e., overestimates or
-#' underestimates the purchase likelihood). The `f1()` function can be
+#' underestimates the purchase likelihood). The `recall()` function can be
 #' useful for assessing the recall score of that 2x2 matrix.
 #'
 #' `data` a `data.frame` object including the alternatives shown in the
 #' validation task. It can be created using the `create_hot()` function.
 #'
 #' `group` optional grouping variable(s) to display results by group(s).
-#' different groups. Has to be the column name(s) of variables in `data`.
+#' Has to be the column name(s) of variables in `data`.
 #'
 #' `opts` to specify the different alternatives in the
 #' validation task (also includes the `none` alternative).
 #' Input of `opts` has to be column names of variables in `data`.
 #'
-#' `choice` to specify the column of actual choice in the validation
-#' task. The input of `choice` has to be the column name of actual choice.
+#' `choice` to specify the column of the actual choice in the validation
+#' task. The input of `choice` has to be the column name of the actual choice.
 #'
 #' `none` to specify the column name of the `none`
 #' alternative in the validation task.

@@ -12,23 +12,21 @@
 #' It has to be specified only for the variables that are coded as '1' (linear).
 #' @param res A character vector indicating whether individual zero-centered
 #' diffs  (`ind`) or aggregated (`agg`) zero-centered diffs should be returned.
-#' @param none An optional vector to specify `none`
+#' @param none An optional vector to specify the `none`
 #' alternative in `data`.
 #'
 #' @details
 #' `zc_diffs()` converts raw utilities of a CBC or an ACBC to
-#' zero-centered diffs (Orme, 2020, p. 78). This allows for comparison between
-#' the attributes.
+#' zero-centered diffs (see, e.g., Orme, 2020, p. 78).
 #'
 #' `data` a `data.frame` object containing all the relevant attribute levels.
 #' Attribute levels have to be the raw utilities.
 #'
-#' `group` optional grouping variable, if results should be displayed by
-#' different groups. Has to be column name of variables in `data`.
+#' `group` optional grouping variable(s) to display results by group(s).
+#' Has to be the column name(s) of variables in `data`.
 #'
 #' `attrib` specifies the attribute levels for each alternative.
-#' Input for `attrib` has to be a list. It is required to specify the column
-#' names of the attribute levels.
+#' Input for `attrib` has to be a list.
 #'
 #' `coding` indicates the attribute coding. `0` to indicate part-worth coding,
 #' `1` for linear coding, or `2` for piecewise coding.
@@ -43,9 +41,9 @@
 #' or across `group` (`res` needs to be set to `agg`) or if scores
 #' should be converted for individuals only (`ind`).
 #'
-#' `none` specifies whether none option was included or not, if yes,
-#' column name or column index of `none` needs to be specified. Leave empty
-#' if no none parameter is included.
+#' `none` specifies whether the none option was included. If yes,
+#' column name or column index of the `none` alternative needs to be specified.
+#' Otherwise leave it empty.
 #'
 #'
 #'
@@ -261,7 +259,7 @@ zc_diffs <- function(data,
   }
 
   # get attribute levels
-  attribute_levels <- unlist(attrib)
+  attribute_levels <- colnames(data[unlist(attrib)])
 
   # add none alternative if not missing
   if (!missing(none)) {

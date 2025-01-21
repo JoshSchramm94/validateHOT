@@ -11,27 +11,27 @@
 #' @param group Optional column name(s) to specify grouping variable(s)
 #' to get `reach()` by group(s).
 #' @param opts Column names of the alternatives included in the assortment.
-#' @param none Column name of none / threshold alternative.
+#' @param none Column name of the none / threshold alternative.
 #'
 #' @details
 #' `reach()` calculates the percentage of consumers that are
 #' reached with a particular product assortment. The current
 #' logic of `reach()` is that the utility of an alternative has to
-#' exceed a threshold. In the case of `reach()` this threshold is referred
-#' to the `none` argument in `data`, however, it could also be, e.g., a
-#' current product.
+#' exceed a threshold. In the case of `reach()`, this threshold is referred
+#' to the `none` argument in `data`. `none` does not necessarily have to be a
+#' no-buy but it could also be, e.g., a current product.
 #'
 #'
 #' `data` a `data.frame` object containing the alternatives that should
 #' be tested.
 #'
-#' `group` optional grouping variable, if results should be displayed
-#' by different groups. Has to be column name of variables in `data`.
+#' `group` optional grouping variable(s) to display results by group(s).
+#' Has to be the column name(s) of variables in `data`.
 #'
 #' `opts` defines product assortment that should be considered.
 #' Input of `opts` has to be column names of variables in `data`.
 #'
-#' `none` to specify column name of the `none` alternative (i.e.,
+#' `none` to specify the column name of the `none` alternative (i.e.,
 #' threshold variable).
 #'
 #'

@@ -17,8 +17,8 @@ market scenario.}
 
 \item{method}{Name of the market simulation method that should be used.
 Set either to \code{method = "sop"} to run share of preference
-as method or \code{method = "fc"} to run first-choice rule. The default
-is set to \code{"sop"}.}
+as method or \code{method = "fc"} to run first-choice rule as method. The default
+is set to share of preference (\code{"sop"}).}
 
 \item{res}{A vector indicating whether individual results (\code{ind}) or
 aggregated (\code{agg}) results should be returned.}
@@ -27,26 +27,24 @@ aggregated (\code{agg}) results should be returned.}
 a tibble
 }
 \description{
-\code{marksim()} performs market simulations with options in a market scenario.
+\code{marksim()} performs market simulations with different alternatives specified
+in a market scenario.
 }
 \details{
 \code{marksim()} provides the market shares of each alternative specified. For
-aggregated results, \code{marksim()} also provides standard error plus the lower
-and upper confidence interval. The latter is calculated according to the
-following formula \eqn{mean +/- 1.96 x \frac{sd}{\sqrt(n)}} (Orme, 2020,
-p. 94). \code{method} can either be set to \code{method = "sop"} to run share of
-preference rule or to \code{method = "fc"} to run first-choice rule to simulate
-market shares.
+aggregated results, \code{marksim()} also provides standard error plus 05\%
+confidence interval. \code{method} can either be set to \code{method = "sop"} to run
+share of preference rule or to \code{method = "fc"} to run first-choice rule to
+simulate market shares.
 
 \code{data} a \code{data.frame} object including the alternatives shown in the market
 scenario. Scenario can be created using the \code{create_hot()} function.
 
 \code{group} optional grouping variable(s) to display results by group(s).
-different groups. Has to be the column name(s) of variables in \code{data}.
+Has to be the column name(s) of variables in \code{data}.
 
-\code{opts} to specify the different alternatives in the validation task or
-market scenario. Input of \code{opts} has to be the column names of variables in
-\code{data}.
+\code{opts} to specify the different alternatives in the market scenario. Input
+of \code{opts} has to be the column names of variables in \code{data}.
 
 \code{method} can either be set to \code{method = "sop"} to run share of
 preference as method or \code{method = "fc"} to run first-choice rule.
@@ -102,13 +100,4 @@ marksim(
 )
 }
 
-}
-\references{
-{
-
-Orme, B. K. (2020). \emph{Getting Started with Conjoint Analysis:
-Strategies for Product Design and Pricing Research}. 4th edition.
-Manhattan Beach, CA: Research Publishers LLC.
-
-}
 }

@@ -13,7 +13,7 @@
 #' validation task.
 #' @param choice Column name of the actual choice in the validation
 #' task.
-#' @param none Column name of none alternative.
+#' @param none Column name of the none alternative.
 #'
 #' @details
 #' The current logic of `specificity()` is to determine whether a binary-coded
@@ -30,7 +30,7 @@
 #' validation task. It can be created using the `create_hot()` function.
 #'
 #' `group` optional grouping variable(s) to display results by group(s).
-#' different groups. Has to be the column name(s) of variables in `data`.
+#' Has to be the column name(s) of variables in `data`.
 #'
 #' `opts` to specify the different alternatives in the
 #' validation task (also includes the `none` alternative).

@@ -6,7 +6,7 @@
 #' @param coding A vector of the coding of each attribute, `0` = part-worth
 #' coding, `1` = linear coding, or `2` = piecewise coding.
 #' @param interpolate.levels A list of the levels of the attribute that should
-#' be interpolated. These levels must match those specified in model
+#' be interpolated. These levels must match those specified in the model
 #' estimation (e.g., if you scale or center attribute levels before estimation,
 #' insert the scaled or centered levels). Ensure to provide the entire list.
 #' It has to be specified only for the variables that are coded as '1' (linear).
@@ -21,12 +21,11 @@
 #' levels. Attribute levels need to be the raw utilities of hierarchical Bayes
 #'  estimation.
 #'
-#' `group` optional grouping variable, if results should be displayed by
-#' different groups. Has to be column name of variables in `data`.
+#' `group` optional grouping variable(s) to display results by group(s).
+#' Has to be the column name(s) of variables in `data`.
 #'
 #' `attrib` specifies the attribute levels for each alternative.
-#' Input for `attrib` has to be a list. It is required to specify the column
-#' names of the attribute levels.
+#' Input for `attrib` has to be a list.
 #'
 #' `coding` is required to indicate the attributes' coding. `0`
 #' to indicate part-worth coding, `1` for linear coding, or `2` for
@@ -36,7 +35,7 @@
 #' If scaled or centered values were used for hierarchical Bayes
 #' estimation, these need to be defined in `att_imp()`.
 #' All values have to be specified. For example, if one linear coded attribute
-#' has 5 levels, all 5 levels have to be inserted.
+#' has 5 levels, all 5 levels have to be provided to the list.
 #'
 #' `res` specifies whether results should be aggregated across all
 #' participants or across `group` (`res` needs to be set to

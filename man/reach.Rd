@@ -13,7 +13,7 @@ reach(data, group, none, opts)
 \item{group}{Optional column name(s) to specify grouping variable(s)
 to get \code{reach()} by group(s).}
 
-\item{none}{Column name of none / threshold alternative.}
+\item{none}{Column name of the none / threshold alternative.}
 
 \item{opts}{Column names of the alternatives included in the assortment.}
 }
@@ -30,20 +30,20 @@ a purchase option) is reached with a specific product bundle assortment.
 \code{reach()} calculates the percentage of consumers that are
 reached with a particular product assortment. The current
 logic of \code{reach()} is that the utility of an alternative has to
-exceed a threshold. In the case of \code{reach()} this threshold is referred
-to the \code{none} argument in \code{data}, however, it could also be, e.g., a
-current product.
+exceed a threshold. In the case of \code{reach()}, this threshold is referred
+to the \code{none} argument in \code{data}. \code{none} does not necessarily have to be a
+no-buy but it could also be, e.g., a current product.
 
 \code{data} a \code{data.frame} object containing the alternatives that should
 be tested.
 
-\code{group} optional grouping variable, if results should be displayed
-by different groups. Has to be column name of variables in \code{data}.
+\code{group} optional grouping variable(s) to display results by group(s).
+Has to be the column name(s) of variables in \code{data}.
 
 \code{opts} defines product assortment that should be considered.
 Input of \code{opts} has to be column names of variables in \code{data}.
 
-\code{none} to specify column name of the \code{none} alternative (i.e.,
+\code{none} to specify the column name of the \code{none} alternative (i.e.,
 threshold variable).
 }
 \examples{

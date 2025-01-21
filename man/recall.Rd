@@ -18,7 +18,7 @@ validation task.}
 \item{choice}{Column name of the actual choice in the validation
 task.}
 
-\item{none}{Column name of none alternative.}
+\item{none}{Column name of the none alternative.}
 }
 \value{
 a tibble
@@ -36,21 +36,21 @@ A potential application could involve evaluating whether a buy or a no-buy
 choice has been correctly predicted. For example, consider a scenario with
 three alternatives plus a \code{none} alternative. You may want to verify if the
 model correctly predicted a buy or no-buy decision (i.e., overestimates or
-underestimates the purchase likelihood). The \code{f1()} function can be
+underestimates the purchase likelihood). The \code{recall()} function can be
 useful for assessing the recall score of that 2x2 matrix.
 
 \code{data} a \code{data.frame} object including the alternatives shown in the
 validation task. It can be created using the \code{create_hot()} function.
 
 \code{group} optional grouping variable(s) to display results by group(s).
-different groups. Has to be the column name(s) of variables in \code{data}.
+Has to be the column name(s) of variables in \code{data}.
 
 \code{opts} to specify the different alternatives in the
 validation task (also includes the \code{none} alternative).
 Input of \code{opts} has to be column names of variables in \code{data}.
 
-\code{choice} to specify the column of actual choice in the validation
-task. The input of \code{choice} has to be the column name of actual choice.
+\code{choice} to specify the column of the actual choice in the validation
+task. The input of \code{choice} has to be the column name of the actual choice.
 
 \code{none} to specify the column name of the \code{none}
 alternative in the validation task.

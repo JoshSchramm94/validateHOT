@@ -19,7 +19,7 @@ turf(
 
 \item{opts}{Column names of the alternatives included in the assortment.}
 
-\item{none}{Column name of none / threshold alternative.}
+\item{none}{Column name of the none / threshold alternative.}
 
 \item{size}{An integer to determine the size of the assortment.}
 
@@ -39,7 +39,7 @@ data frame
 \description{
 T(otal) U(nduplicated) R(each) and F(requency) is a "product line extension
 model" (Miaoulis et al., 1990, p. 29). For every possible combination,
-\code{turf()} calculates the reach and frequency of every combination.
+\code{turf()} calculates the reach and frequency.
 Participants are reached, if at least one of the alternatives in a
 combination has a higher utility than \code{none}. On the contrary, frequency
 calculates the average number of alternatives that have a
@@ -53,8 +53,8 @@ should be tested.
 should be considered. Input of \code{opts} has to be the column names of variables
 in \code{data}.
 
-\code{none} to specify the column name of the \code{none} alternative in \code{data}
-that needs to be exceeded.
+\code{none} to specify the column name of the \code{none} alternative in \code{data} (i.e.,
+variable that needs to be exceeded).
 
 \code{size} an integer to determine the size of the assortment.
 
@@ -65,12 +65,12 @@ assortment, i.e., they have to be part of the assortment.
 in the assortment, i.e., alternatives that are not allowed to be together in
 one assortment.
 
-\code{approach} character defining whether first choice \code{approach = 'fc'} or
-threshold \code{approach = 'thres'} should be applied for running \code{turf()}. If
-\code{approach = 'fc'}, participants are considered to be reached, if their
-alternative with the highest utility is included in the assortment and this
-alternative's utility is larger than the threshold's utility (Chrzan & Orme,
-2019, p. 111).
+\code{approach} character defining whether first choice approach (\code{approach = 'fc'})
+or threshold approach (\code{approach = 'thres'}) should be applied for running
+\code{turf()}. If \code{approach = 'fc'}, participants are considered to be
+reached, if their alternative with the highest utility is included in the
+assortment and this alternative's utility is larger than the threshold's
+utility (Chrzan & Orme, 2019, p. 111).
 On the contrary, if \code{approach = 'thres'}, participants are considered
 to be reached, if the utility of one product is higher than the one of the
 \code{none} alternative (Chrzan & Orme, 2019, p. 112).
@@ -127,5 +127,10 @@ Guide to Best-Worst Scaling} Provo, UT: Sawtooth Software.
 Miaoulis, G., Parsons, H., & Free, V. (1990). Turf: A New Planning Approach
 for Product Line Extensions. \emph{Marketing Research 2} (1): 28-40.
 
+}
+}
+\seealso{
+{
+\code{\link[=turf_ladder]{turf_ladder()}}
 }
 }

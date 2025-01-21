@@ -11,7 +11,7 @@ turf_ladder(data, opts, none, approach = c("thres", "fc"), fixed = NULL)
 
 \item{opts}{Column names of the alternatives included in the assortment.}
 
-\item{none}{Column name of none / threshold alternative.}
+\item{none}{Column name of the none / threshold alternative.}
 
 \item{approach}{A character whether to run the first-choice approach
 (\code{'fc'}) or threshold approach (\code{'thres'}).}
@@ -37,18 +37,18 @@ should be tested.
 should be considered. Input of \code{opts} has to be the column names of variables
 in \code{data}.
 
-\code{none} to specify the column name of the \code{none} alternative in \code{data}
-that needs to be exceeded.
+\code{none} to specify the column name of the \code{none} alternative in \code{data} (i.e.,
+variable that needs to be exceeded).
 
 \code{fixed} has to be a vector of variables that are fixed in the
 assortment, i.e., they must be part of the assortment.
 
-\code{approach} character defining whether first choice \code{approach = 'fc'} or
-threshold \code{approach = 'thres'} should be applied for running \code{turf()}. If
-\code{approach = 'fc'}, participants are considered to be reached, if their
-alternative with the highest utility is included in the assortment and this
-alternative's utility is larger than the threshold's utility (Chrzan & Orme,
-2019, p. 111).
+\code{approach} character defining whether first choice approach (\code{approach = 'fc'})
+or threshold approach (\code{approach = 'thres'}) should be applied for running
+\code{turf_ladder()}. If \code{approach = 'fc'}, participants are considered to be
+reached, if their alternative with the highest utility is included in the
+assortment and this alternative's utility is larger than the threshold's
+utility (Chrzan & Orme, 2019, p. 111).
 On the contrary, if \code{approach = 'thres'}, participants are considered
 to be reached, if the utility of one product is higher than the one of the
 \code{none} alternative (Chrzan & Orme, 2019, p. 112).
@@ -91,5 +91,10 @@ Guide to Best-Worst Scaling} Provo, UT: Sawtooth Software.
 Miaoulis, G., Parsons, H., & Free, V. (1990). Turf: A New Planning Approach
 for Product Line Extensions. \emph{Marketing Research 2} (1): 28-40.
 
+}
+}
+\seealso{
+{
+\code{\link[=turf]{turf()}}
 }
 }

@@ -25,7 +25,7 @@
 #' `data` a `data.frame` object with the items (raw utilities).
 #'
 #' `group` optional grouping variable(s) to display results by group(s).
-#' different groups. Has to be the column name(s) of variables in `data`.
+#' Has to be the column name(s) of variables in `data`.
 #'
 #' `items` specifies the items of the MaxDiff. Has to be column name of
 #' variables in `data`.
@@ -38,7 +38,7 @@
 #' converted for individuals only (`res` needs to be set to `ind`).
 #'
 #' `anchor` only required if anchored MaxDiff is applied.
-#' Input for `anchor` has to  be column name of variables in `data`.
+#' Input for `anchor` has to be the column name of variables in `data`.
 #'
 #'
 #' @seealso {

@@ -28,13 +28,13 @@
 #' validation task. It can be created using the `create_hot()` function.
 #'
 #' `group` optional grouping variable(s) to display results by group(s).
-#' different groups. Has to be the column name(s) of variables in `data`.
+#' Has to be the column name(s) of variables in `data`.
 #'
 #' `opts` to specify the different alternatives in the
 #' validation task (also includes the `none` alternative).
 #'
-#' `choice` to specify the column of actual choice in the validation
-#' task. The input of `choice` has to be the column name of actual choice.
+#' `choice` to specify the column of the actual choice in the validation
+#' task. The input of `choice` has to be the column name of the actual choice.
 #'
 #'
 #' @examples

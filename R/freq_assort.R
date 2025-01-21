@@ -10,27 +10,26 @@
 #' @param group Optional column name(s) to specify grouping variable(s)
 #' to get `freqassort()` by group(s).
 #' @param opts Column names of the alternatives included in the assortment.
-#' @param none Column name of none / threshold alternative.
+#' @param none Column name of the none / threshold alternative.
 #'
 #' @details
 #' `freqassort()` calculates the average times a consumer would be reached with
 #' the tested product assortment. The current logic of `freqassort()` is that
-#' the utility of an alternative has to exceed a threshold. For `freqassort()`
-#' this threshold is referred to the `none` argument in `data`.
-#' The frequency is calculated based on the 'threshold' approach, i.e.,
-#' each alternative that exceeds utility of `none` alternative is
-#' considered as, for example, purchase option.
+#' the utility of an alternative has to exceed a threshold.
+#' In the case of `freqassort()`, this threshold is referred
+#' to the `none` argument in `data`. `none` does not necessarily have to be a
+#' no-buy but it could also be, e.g., a current product.
 #'
 #' `data` a `data.frame` object containing the alternatives that should
 #' be tested.
 #'
-#' `group` optional grouping variable, if results should be displayed
-#' by different groups. Has to be column name of variables in `data`.
+#' `group` optional grouping variable(s) to display results by group(s).
+#' Has to be the column name(s) of variables in `data`.
 #'
 #' `opts` defines product assortment that should be considered.
 #' Input of `opts` has to be column names of variables in `data`.
 #'
-#' `none` to specify column name of the `none` alternative (i.e.,
+#' `none` to specify the column name of the `none` alternative (i.e.,
 #' threshold variable).
 #'
 #' @return a tibble
