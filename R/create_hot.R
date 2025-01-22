@@ -67,7 +67,7 @@
 #' had 5 levels, all 5 levels are required. In the case of linear-coded price
 #' for `method = "acbc"` (and you have two price coefficients which sum up to
 #' `0`), specify both lower and upper bound and code as piecewise in `coding`.
-#' For piecewise-coded price, specify each break point. Input for
+#' For piecewise-coded price, specify each breakpoint. Input for
 #' `interpolate.levels` has to be a list.
 #'
 #' `piece.p` is required in case a variable is coded as piecewise (see coding).
@@ -486,10 +486,10 @@ create_hot <- function(data,
           upper_break <- min(linear_levels[linear_levels >= prod.levels[[q]][p]])
         }
 
-        # store utilities of lower break point
+        # store utilities of lower breakpoint
         utilities_lower <- data[, pos_lower]
 
-        # store utilities of upper break point
+        # store utilities of upper breakpoint
         utilities_upper <- data[, pos_upper]
 
         # finally interpolate utility for specified value

@@ -11,19 +11,19 @@
 
 <!-- badges: end -->
 
-validateHOT is a package for conjoint and MaxDiff users. It provides
-functions to evaluate validation tasks, run market simulations, and
-convert raw utility estimates into scores that are easier to interpret.
-All three components are key functions for preference measurement
-techniques such as choice-based conjoint (CBC), adaptive choice-based
-conjoint (ACBC), or Maximum Difference Scaling (MaxDiff). This package
-is particularly relevant for the [Sawtooth
+validateHOT is a package for preference measurement techniques. It
+provides functions to evaluate validation tasks, perform market
+simulations, and convert raw utility estimates into scores that are
+easier to interpret. All three components are key functions for
+preference measurement techniques such as choice-based conjoint (CBC),
+adaptive choice-based conjoint (ACBC), or Maximum Difference Scaling
+(MaxDiff). This package is particularly relevant for the [Sawtooth
 Software](https://sawtoothsoftware.com/) community who would like to
 report their analysis in *R* for open science purposes. In addition, it
 is compatible with other packages, for example, the ChoiceModelR package
 (Sermas 2022). Further, the validateHOT package is valuable for
-practitioners, who would like to conduct the analyses using open-source
-software.
+practitioners, who would like to conduct the analyses using an
+open-source software.
 
 Researchers and practitioners use preference measurement techniques for
 various purposes, such as calculating the importance of specific
@@ -35,7 +35,7 @@ outcomes for tasks that were not included in the estimation of the
 utility scores. Including validation tasks is highly recommended (Orme
 2015; Rao 2014). They do not only verify data validity but can also help
 to test different models. The validateHOT package offers helpful tools,
-to facilitate these functions (i.e., validate a validation task, run
+to facilitate these functions (i.e., validate a validation task, perform
 market simulations, and communicate results of preference measurement
 techniques) - all within an open-source tool.
 
@@ -45,15 +45,11 @@ techniques) - all within an open-source tool.
 > (especially for linear and piecewise-coded variables).
 
 👉🏾 <u>**What you need to provide**</u>: <br> After collecting your data
-and running your initial hierarchical Bayes model, the validateHOT
-package allows you to test how well your model predicts choices in the
-validation task, perform market simulations or convert your data into
-scores that are easier to interpret. To use the validateHOT package, you
-need to import in your raw utility scores. If you plan to validate a
-validation task you also need to provide the actual choice made in this
-task. We provide a short tutorial in this markdown. For a more
-comprehensive tutorial, please see the vignette provided with the
-validateHOT package
+and running your initial hierarchical Bayes model, you need to import
+your raw utility scores. If you plan to validate a validation task you
+also need to provide the actual choice made in this task. We provide a
+short tutorial in this markdown. For a more comprehensive tutorial,
+please see the vignette provided with the validateHOT package
 (`vignette("validateHOT", package = "validateHOT")`).
 
 👈🏾 <u>**What you get**</u>:<br> The validateHOT package currently
@@ -69,9 +65,9 @@ provides functions for four key components:
 
 For the first three components, the `create_hot()` function is
 essential. This function calculates the total utilities for each
-alternative in the validation task and the market simulation. The
-`create_hot()` finction computes the total utility of each alternative
-based on the additive utility model (Rao 2014, 82).
+alternative in the validation task or the market scenario to be tested.
+The `create_hot()` function computes the total utility of each
+alternative based on the additive utility model (Rao 2014, 82).
 
 ### Classical validation metrics
 
@@ -88,16 +84,16 @@ based on the additive utility model (Rao 2014, 82).
 - `medae()`: calculates the median absolute error
 - `mhp()`: calculates the averaged hit probability of participant’s
   actual choice in the validation task
-- `rmse()`: provides the root mean square error of deviation between
+- `rmse()`: calculates the root mean square error of deviation between
   predicted and stated choice shares
 
-All functions can be extended with the `group` argument to get output
-split by group(s).
+All functions can be extended with the `group` argument to get the
+output split by group(s).
 
 ### Confusion Matrix
 
 The validateHOT package includes metrics from machine learning, i.e.,
-the confusion matrix (e.g., Burger (March 2018)). For all of the five
+the confusion matrix (e.g., Burger (March 2018)). For all of the 5
 provided functions, a **none** alternative has to be included in the
 validation task. The logic of the implemented confusion matrix is to
 test, for example, whether a buy or no-buy was correctly predicted.
@@ -107,7 +103,7 @@ stands for true positives, `FP` for false positives, `TN` for true
 negatives, and `FN` for false negatives (Burger March 2018; Kuhn 2008).
 To translate this to the logic of the validateHOT package, imagine you
 have a validation task with five alternatives plus the alternative of
-not buying. The validateHOT package now calculates whether or not a buy
+not buying. The validateHOT package now calculates whether a buy
 (participant opts for one of the five alternatives) or a no-buy
 (participant opts for the none alternative), respectively, is correctly
 predicted.
@@ -152,31 +148,26 @@ the output split by group(s).
   and the *first choice* approach (`approach = 'fc'`; only product with
   highest utility is considered as purchase option; Chrzan and Orme
   (2019), p. 111).
-- `turf_ladder()`: starts with one item and then subsequently adds one
-  new item, which adds the maximum possible reach. Alternatively, it is
-  also possible to define fixed alternatives (i.e., alternatives that
-  must be part of the assortment).
+- `turf_ladder()`: starts with one product and then subsequently adds
+  one new product, which adds the maximum possible reach. Alternatively,
+  it is also possible to define fixed products (i.e., products that must
+  be part of the assortment).
 - `freqassort()`: Similar to `turf()`, `freqassort()` will give you the
   average frequency, representing how many products the participants
   will choose from a potential assortment. Again, you have to define a
-  `none` alternative, because `freqassort()` uses the *threshold*
-  approach, meaning that if the utility of one product is above the
-  utility of `none`, it is marked as a potential purchase option (Chrzan
-  and Orme 2019, 112). While `turf()` calculates the reach and frequency
-  for **all** combinations, you specify the combination you are
-  interested in `freqassort()`.
+  `none` alternative. `freqassort()` uses the *threshold* approach (see
+  above). While `turf()` calculates the reach and frequency for **all**
+  combinations, you specify the combination you are interested in
+  `freqassort()`.
 - `reach()`: Similar to `turf()`, `reach()` will give you the average
   percentage of how many participants you can reach (at least one of the
-  products resembles a purchase option) with your in the function
-  determined potential assortment. `reach()` also uses the *threshold*
-  approach (see above). While `turf()` calculates the reach and
-  frequency for **all** combinations, you specify the combination you
-  are interested in `reach()`.
+  products resembles a purchase option) with your defined assortment.
+  `reach()` also uses the *threshold* approach (see above). While
+  `turf()` calculates the reach and frequency for **all** combinations,
+  you specify the combination you are interested in `reach()`.
 - `marksim()`: Runs market simulations (either the share of preference,
   `sop` or first choice rule, `fc`), including the standard error, and
-  the lower and upper confidence intervals, which are calculated
-  according to the following formula
-  $mean +/- 1.96 x \frac{sd}{\sqrt(n)}$ (Orme 2020, 94).
+  the lower and upper confidence intervals (see also Orme 2020, 94).
 
 ### Converting raw utilities
 
@@ -194,9 +185,9 @@ namely:
   they are transformed by the following formula
   $\frac{exp^{U_i}}{(exp^{U_i} + a - 1)}$ (Chrzan and Orme 2019, 56),
   where $U_i$ is the raw utility of item *i* and `a` is the number of
-  items shown simultaneously per MaxDiff task.
+  items shown per MaxDiff task.
 
-- For anchored MaxDiff a slightly different formula is applied:
+- For anchored MaxDiff the following formula is applied:
   $\frac{exp^{U_i}}{(exp^{U_i} + a - 1)} * 100 * \frac{1}{a}$ (Chrzan
   and Orme 2019, 59).
 
@@ -218,13 +209,13 @@ functions as well as the structure of the input, especially for the
   (Sablotny-Wackershauser et al. 2024; Sawtooth Software Inc. 2024).
 
 - `acbc_interpolate`: Example data set with raw utilities of an ACBC
-  study conducted in Sawtooth Software (Sawtooth Software Inc. 2024)
+  study conducted in Sawtooth Software (Sawtooth Software Inc. 2024).
   Price was piecewise-coded, another attribute was linear-coded while
-  the other attributes were coded as part-worths (Sablotny-Wackershauser
+  the other attributes were coded as part-worth (Sablotny-Wackershauser
   et al. 2024; Sawtooth Software Inc. 2024).
 
 - `cbc`: Example data set with raw utilities of a CBC study conducted in
-  Sawtooth Software (Sawtooth Software Inc. 2024) All attributes were
+  Sawtooth Software (Sawtooth Software Inc. 2024). All attributes were
   coded as part-worth (Sablotny-Wackershauser et al. 2024; Sawtooth
   Software Inc. 2024).
 
@@ -246,18 +237,18 @@ with R. One of the chapters in this class is about model validation by
 checking holdout tasks and we teach this, of course, in *R* 😍. We
 emphasize open science, and providing tools to run the analyses and
 share the code afterward. The validateHOT package makes this process
-look easy 🤹‍♀️. Of course, there are other great packages (i.e., Metricy
-package by Hamner and Frasco (2018)), however, these packages need some
-more data wrangling to use the appropriate functions with the raw
-utilities, which might be a burden or barrier some users.
+look easy 🤹‍♀️. Of course, there are other great packages (i.e., the
+Metrics package by Hamner and Frasco (2018)), however, these packages
+need some more data wrangling to use the appropriate functions with the
+raw utilities, which might be a burden or barrier for some users.
 
 Moreover, as Yang, Toubia, and Jong (2018) report, commercial studies
-often do not use any validation task. Again, the lack of experience in
+often do not use any validation tasks. Again, the lack of experience in
 *R* could be one explanation. Since these functions are not always
-implemented in other software, this might be one reason why they do not
-include one simply because they do not know how to apply it correctly.
-Having a package to evaluate the validation task can be very beneficial
-from this perspective.
+implemented in other software, not knowing how to apply it correctly
+might be the reason of not including it in the first instance. Having a
+package to evaluate the validation task can be very beneficial from this
+perspective.
 
 ## Installation
 
@@ -280,26 +271,22 @@ library("validateHOT")
 ### Example I - CBC
 
 Since *CBC’s* are applied more commonly compared to *ACBC* and
-*MaxDiff*, we will provide an example with a *CBC*. Let us begin with a
-*CBC* where all of the attributes are part-worth coded and no
-interpolation was applied. Let us load the `cbc` data frame for this
-example (Sablotny-Wackershauser et al. 2024).
+*MaxDiff*, we will provide an example with a *CBC*. Let us load the
+`cbc` data frame for this example (Sablotny-Wackershauser et al. 2024).
 
 ``` r
 data(cbc)
 ```
 
-The data frame has a total of 105 participants and 41 columns.
-
 Now imagine you included a validation task with six alternatives plus a
 no-buy alternative. We specify the `data` argument and the `id`. Since
 we also have a *no-buy* alternative in our validation task, we specify
-the `none` argument, otherwise we would have left it empty. Afterwards,
-we define each alternative with the argument `prod.levels`. If we look
-back at the data frame, we can see that the first alternative in the
-holdout task (`c(3, 6, 10, 13, 16, 20, 24, 32, 35)`) is composed of the
-following attribute levels att1_lev2, att2_lev2, att3_lev4, att4_lev3,
-att5_lev2, att6_lev4, att7_lev4, att8_lev6, and price_3.
+the `none` argument. Afterwards, we define each alternative using the
+argument `prod.levels`. If we look back at the data frame, we can see
+that the first alternative in the holdout task
+(`c(3, 6, 10, 13, 16, 20, 24, 32, 35)`) is composed of the following
+attribute levels att1_lev2, att2_lev2, att3_lev4, att4_lev3, att5_lev2,
+att6_lev4, att7_lev4, att8_lev6, and price_3.
 
 As mentioned above, all the attributes are part-worth coded and the
 alternatives have the same price as one of the levels shown (i.e., no
@@ -335,10 +322,10 @@ hot_cbc <- create_hot(
 > In case you just need to create a market scenario, you can also leave
 > the `choice` argument empty.
 
-Sometimes iy you estimate a part-worth coded attribute but want to treat
+Sometimes you estimate a part-worth coded attribute but want to treat
 this attribute as continuous in the validation task or market
-simulations, please use the code `2` for this variable in the `coding`
-argument.
+simulations (i.e., interpolate values). Please use the code `2` for this
+variable in the `coding` argument.
 
 Let us take a glimpse at the output, which shows the participants’ total
 raw utilities for each of the six alternatives that were included in the
@@ -378,7 +365,7 @@ hitrate(
 #> # A tibble: 1 × 5
 #>      hr    se chance   cor     n
 #>   <dbl> <dbl>  <dbl> <int> <int>
-#> 1  25.7  4.29   14.3    27   105
+#> 1  26.7  4.34   14.3    28   105
 ```
 
 Next, we look at the magnitude of the mean absolute error by running the
@@ -399,9 +386,9 @@ mae(
 
 Finally, let us test, how many participants would buy at least one of
 three products, assuming that this is one potential assortment we would
-like to offer to our consumers. We will use the `reach()` function. To
-specify the bundles we are offering we use the `opts` argument in our
-function.
+like to offer to the consumers. We will use the `reach()` function. To
+specify the bundles we are offering we use the `opts` argument in the
+`reach()` function.
 
 ``` r
 reach(
@@ -418,8 +405,9 @@ reach(
 ### Example II - CBC with linear-coded attribute(s)
 
 In the second example, we again use a *CBC*, however, this time we show
-how to use the package if one of the variables is linear-coded. All
-other examples are provided in the accompanied vignette.
+how to use the `create_hot()` function, if one of the variables is
+linear-coded. All other examples are provided in the accompanied
+vignette.
 
 We are using the data frame `cbc_linear` (Sablotny-Wackershauser et al.
 2024). Again, we first load the data frame.
@@ -434,12 +422,12 @@ plus the *no-buy* alternative). The only difference to the previous
 example is that the last attribute (`price`) was linear-coded and this
 time, we want to interpolate values.
 
-Again, we first define data, namely the `id` as well as the `none`
-alternative. Next, we define the `prod.levels` for each alternative.
-Since we have one linear coded attribute, we need to specify the column
-indexes instead of the column names in `prod.levels`. We tell
-`create_hot()` that the last attribute needs to be interpolated by
-specifying the `coding` argument accordingly. This tells us that the
+Again, we first define the `data` argument, the `id` as well as the
+`none` alternative. Next, we define the `prod.levels` for each
+alternative. Since we have one linear coded attribute, we need to
+specify the column indexes instead of the column names in `prod.levels`.
+We tell `create_hot()` that the last attribute needs to be interpolated
+by specifying the `coding` argument accordingly. This tells us that the
 first eight attributes are part-worth coded (`0`) while the last
 attribute is linear-coded (`1`).
 
@@ -449,14 +437,14 @@ to Sawtooth Software (Sawtooth Software Inc. 2024) or `ChoiceModelR`.
 Extrapolation is allowed, however, `create_hot()` will give a warning in
 case extrapolation is applied.
 
-Next, we define the column of the linear coded variable (`lin.p`).
+Next, we define the column name of the linear coded variable (`lin.p`).
 Again, we are running a CBC specified by the `method` argument. This
 time, we would like to keep some of the variables in the data frame,
 which we specify by using the `varskeep` argument. We only keep one
 further variable, however, you can specify as many as you want. This
-could be relevant if you would like to display results per group.
-Finally, we define the actual choice (`choice`) in the validation task
-and we are all set.
+could be relevant if you would like to display the results, for example,
+split by group. Finally, we define the actual choice (`choice`) in the
+validation task and we are all set.
 
 ``` r
 hot_cbc_linear <- create_hot(
@@ -472,7 +460,7 @@ hot_cbc_linear <- create_hot(
     c(2, 5, 7, 12, 16, 20, 26, 29, 184.50)
   ),
   coding = c(rep(0, times = 8), 1),
-  lin.p = 33,
+  lin.p = "price",
   interpolate.levels = list(c(seq(from = 175.99, to = 350.99, by = 35))),
   method = "cbc",
   choice = "hot",
@@ -482,8 +470,7 @@ hot_cbc_linear <- create_hot(
 
 The next steps are the same as above. However, let us take a look at
 some examples in which we display the results per group. Let us again
-begin with the `hitrate()` function. To do so, we specify the column
-name of the grouping variable in the `group` argument.
+begin with the `hitrate()` function.
 
 ``` r
 hitrate(
@@ -501,16 +488,16 @@ hitrate(
 ```
 
 Lastly, this time we also want to use a rescaling function, namely
-`att_imp()` which tells us the importance of each attribute included
+`att_imp()` which gives us the importance of each attribute included
 (Orme 2020). We need the data set with the raw logit coefficients
 (`cbc_linear`; Sablotny-Wackershauser et al. (2024)). Next, we define
 the `attrib` argument. Here, we need to specify each attribute level for
 the corresponding level. Afterwards, we specify the coding again, and
 since we have one linear coded attribute, we need to define the
 `interpolate.levels` argument again, as we did for the `create_hot()`
-function above. Finally, we set `res` to `agg`, which tells `att_imp()`
-to display the aggregated results (to get results for each individual
-set `res` to `ind`).
+function above. Finally, we set `res` to `agg`, which tells the
+`att_imp()` function to display the aggregated results (to get results
+for each individual set argument `res` to `ind`).
 
 ``` r
 att_imp(

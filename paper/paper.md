@@ -19,7 +19,7 @@ authors:
 affiliations:
 - name: Otto von Guericke University of Magdeburg, Germany
   index: 1
-date: 16 January 2025
+date: 21 January 2025
 bibliography: paper.bib
 output: pdf_document
 ---
@@ -38,7 +38,7 @@ The validateHOT package provides the necessary tools for the aforementioned appl
 
 # State of the field
 
-Other R packages offer functions to calculate validation metrics. However, these are not always tailored for individual raw utilities extracted from preference measurement techniques. The Metrics package [@Metrics], for example, provides functions to run validation metrics such as mean absolute error (MAE) or metrics of the confusion matrix. However, converting outputs such as those from estimations using Sawtooth Software's Lighthouse Studio [@sawtooth2024] or the ChoiceModelR package [@ChoiceModelR] into the proper format requires complex data wrangling. The conjoint package [@conjoint] offers functions that are similar to those in validateHOT but it lacks validation functions and focuses primarily on classical conjoint analysis. Thus, it is limited when applied to more common conjoint methods. The logitr package [@logitr] offers market simulation tools but does not include validation metrics such as mean hit probability or hit rate. \autoref{comparison} compares validateHOT's functions with those of other R packages. To the best of our knowledge, no package converts raw utility scores into validation metrics or running a variety of marketing simulations (especially Total Unduplicated Reach and Frequency (TURF) and TURF ladder).
+Other R packages offer functions to calculate validation metrics. However, these are not always tailored for individual raw utilities extracted from preference measurement techniques. The Metrics package [@Metrics], for example, provides functions to run validation metrics such as mean absolute error (MAE) or metrics of the confusion matrix. However, converting outputs such as those from estimations using Sawtooth Software's Lighthouse Studio [@sawtooth2024] or the ChoiceModelR package [@ChoiceModelR] into the proper format requires some data wrangling. The conjoint package [@conjoint] offers functions that are similar to those in validateHOT but it lacks validation functions and focuses primarily on classical conjoint analysis. Thus, it is limited when applied to more common conjoint methods. The logitr package [@logitr] offers market simulation tools but does not include validation metrics such as mean hit probability or hit rate. \autoref{comparison} compares validateHOT's functions with those of other R packages. To the best of our knowledge, no package converts raw utility scores into validation metrics or running a variety of marketing simulations (especially Total Unduplicated Reach and Frequency (TURF) and TURF ladder).
 
 \begin{figure}[ht]
   \includegraphics{figures/functioncomparison.png}
@@ -53,7 +53,7 @@ We introduce validateHOT drawing on data estimated using Sawtooth Software Light
 validateHOT's functions can be categorized into four main components (see \autoref{tab:table1}). To prepare the data in the correct format for most functions, we created the `create_hot()` function, which calculates each alternative's total utility in conjoint studies by applying the additive utility model.
 
 | Validation metrics | Confusion matrix | Market simulations | Rescaling scores |
-|:------------------:|:----------------:|:------------------:|:----------------:|
+|:-----------------:|:----------------:|:-----------------:|:----------------:|
 |     hitrate()      |    accuracy()    |    freqassort()    |    att_imp()     |
 |        kl()        |       f1()       |     marksim()      |  prob_scores()   |
 |       mae()        |   precision()    |      reach()       |    zc_diffs()    |
@@ -71,7 +71,7 @@ We present the workflow for a MaxDiff [@schramm2024] and a CBC study with a line
 
 ### Creating validation task/market scenario
 
-Following hierarchical Bayes estimation, the raw utilities must be imported into an R `data.frame` object. The first example assumes a validation task with seven alternatives plus a no-buy alternative. We define the data set (`data`), define the column name of the `none` alternative. Next, we specify the attribute levels of each alternative (`prod.levels`), the `method`, variables that should be kept in the new data frame (`varskeep`), and finally, the actual `choice` in the validation task.
+Following hierarchical Bayes estimation, the raw utilities must be imported into an R `data.frame` object. The first example assumes a validation task with seven alternatives plus a no-buy alternative. We define the data set (`data`), and the column names of the unique identifier (`id`) and the no-buy alternative (`none`). Next, we specify the attribute levels of each alternative (`prod.levels`), the `method`, variables that should be kept in the new data frame (`varskeep`), and finally, the actual `choice` in the validation task.
 
 ``` r
 hot_mxd <- create_hot(
@@ -101,7 +101,7 @@ hitrate(
 
 `turf()` is a tool helping to find the optimal assortment generating the highest reach. This method is particularly useful for MaxDiff studies [@chrzan2019, p. 108]. Users can specify the arguments `fixed` (i.e., alternatives that are mandatory in an assortment) and `prohib` (i.e., forbid specific combinations).
 
-For example, if the user conducted an anchored MaxDiff analysis with 10 items (`opts`) and wants to find the best assortment with a size of 3 items (`size`). The anchor (no-buy alternative) is the threshold that must be exceeded (`none`). Finally, we fix item `option_01` (`fixed`) meaning that it must be part of each combination.
+Below we assume the user conducted an anchored MaxDiff analysis with 10 items (`opts`) and wants to find the best assortment with a size of 3 items (`size`). The anchor (no-buy alternative) is the threshold that must be exceeded (`none`). Finally, `option_01` (`fixed`) is fixed meaning that it must be part of each combination.
 
 ``` r
 turf(
@@ -119,7 +119,7 @@ turf(
 
 ### Creating validation task/market scenario
 
-The CBC setup of `create_hot()` is nearly the same as for the MaxDiff example. In addition, we must define the linear-coded variable (`lin.p`), the coding of the attributes (`coding`), and the values that were used when estimating the utilities for the linear-coded variable (`interpolate.levels`).
+The CBC setup of `create_hot()` is nearly the same as for the MaxDiff example. Besides the arguments defined above, we must define the linear-coded variable (`lin.p`), the coding of the attributes (`coding`), and the values that were used when estimating the utilities for the linear-coded variable (`interpolate.levels`).
 
 ``` r
 hot_cbc_linear <- create_hot(

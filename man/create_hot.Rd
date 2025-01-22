@@ -100,7 +100,7 @@ required (all of them). For example, if one linear-coded attribute
 had 5 levels, all 5 levels are required. In the case of linear-coded price
 for \code{method = "acbc"} (and you have two price coefficients which sum up to
 \code{0}), specify both lower and upper bound and code as piecewise in \code{coding}.
-For piecewise-coded price, specify each break point. Input for
+For piecewise-coded price, specify each breakpoint. Input for
 \code{interpolate.levels} has to be a list.
 
 \code{piece.p} is required in case a variable is coded as piecewise (see coding).
