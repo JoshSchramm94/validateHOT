@@ -19,14 +19,14 @@ authors:
 affiliations:
 - name: Otto von Guericke University of Magdeburg, Germany
   index: 1
-date: 21 January 2025
+date: 25 January 2025
 bibliography: paper.bib
 output: pdf_document
 ---
 
 # Summary
 
-validateHOT is an R package that provides functions for preference measurement techniques such as (adaptive) choice-based conjoint analyses (hereafter CBC and ACBC, respectively) and maximum difference scaling (hereafter MaxDiff). Specifically, the package allows users to validate validation tasks, perform market simulations, and rescale raw utility scores. It is compatible with data obtained using, for example, the ChoiceModelR package [@ChoiceModelR] or Sawtooth Software's Lighthouse Studio [@sawtooth2024].[^1]
+validateHOT is an R package that provides functions for preference measurement techniques such as (adaptive) choice-based conjoint analyses (hereafter CBC and ACBC, respectively) and maximum difference scaling (hereafter MaxDiff). Specifically, the package allows users to analyze validation tasks, perform market simulations, and rescale raw utility scores. It is compatible with data obtained using, for example, the ChoiceModelR package [@ChoiceModelR] or Sawtooth Software's Lighthouse Studio [@sawtooth2024].[^1]
 
 [^1]: We refer to both validation and holdout tasks interchangeably.
 
@@ -38,7 +38,7 @@ The validateHOT package provides the necessary tools for the aforementioned appl
 
 # State of the field
 
-Other R packages offer functions to calculate validation metrics. However, these are not always tailored for individual raw utilities extracted from preference measurement techniques. The Metrics package [@Metrics], for example, provides functions to run validation metrics such as mean absolute error (MAE) or metrics of the confusion matrix. However, converting outputs such as those from estimations using Sawtooth Software's Lighthouse Studio [@sawtooth2024] or the ChoiceModelR package [@ChoiceModelR] into the proper format requires some data wrangling. The conjoint package [@conjoint] offers functions that are similar to those in validateHOT but it lacks validation functions and focuses primarily on classical conjoint analysis. Thus, it is limited when applied to more common conjoint methods. The logitr package [@logitr] offers market simulation tools but does not include validation metrics such as mean hit probability or hit rate. \autoref{comparison} compares validateHOT's functions with those of other R packages. To the best of our knowledge, no package converts raw utility scores into validation metrics or running a variety of marketing simulations (especially Total Unduplicated Reach and Frequency (TURF) and TURF ladder).
+Other R packages offer functions to calculate validation metrics. However, these are not always tailored to the individual raw utilities extracted from preference measurement techniques. The Metrics package [@Metrics], for example, provides functions to run validation metrics such as mean absolute error (MAE) or metrics of the confusion matrix. However, converting outputs such as those from estimations using Sawtooth Software's Lighthouse Studio [@sawtooth2024] or the ChoiceModelR package [@ChoiceModelR] into the proper format requires some data wrangling. The conjoint package [@conjoint] offers functions that are similar to those in validateHOT but it lacks validation functions and focuses primarily on classical conjoint analysis. Thus, it is limited when applied to more common conjoint methods. The logitr package [@logitr] offers market simulation tools but does not include validation metrics such as mean hit probability or hit rate. \autoref{comparison} compares validateHOT's functions with those of other R packages. To the best of our knowledge, no package converts raw utility scores into validation metrics or running a variety of marketing simulations (especially Total Unduplicated Reach and Frequency (TURF) and TURF ladder).
 
 \begin{figure}[ht]
   \includegraphics{figures/functioncomparison.png}
@@ -46,11 +46,11 @@ Other R packages offer functions to calculate validation metrics. However, these
   \label{comparison}
 \end{figure}
 
-We introduce validateHOT drawing on data estimated using Sawtooth Software Lighthouse Studio [@sawtooth2024]. However, it can also be used with results stemming from packages such as ChoiceModelR [@ChoiceModelR], bayesm [@bayesm], or STAN [@rstan], if used with similar settings.
+We introduce validateHOT drawing on data estimated using Sawtooth Software Lighthouse Studio [@sawtooth2024]. However, it can also be used on results stemming from packages such as ChoiceModelR [@ChoiceModelR], bayesm [@bayesm], or STAN [@rstan], if used with similar settings.
 
 # Key functions
 
-validateHOT's functions can be categorized into four main components (see \autoref{tab:table1}). To prepare the data in the correct format for most functions, we created the `create_hot()` function, which calculates each alternative's total utility in conjoint studies by applying the additive utility model.
+validateHOT's functions can be categorized into four main components (see \autoref{tab:table1}). To convert the data in the correct format for most functions, we created the `create_hot()` function, which calculates each alternative's total utility in conjoint studies by applying the additive utility model.
 
 | Validation metrics | Confusion matrix | Market simulations | Rescaling scores |
 |:-----------------:|:----------------:|:-----------------:|:----------------:|
@@ -71,7 +71,7 @@ We present the workflow for a MaxDiff [@schramm2024] and a CBC study with a line
 
 ### Creating validation task/market scenario
 
-Following hierarchical Bayes estimation, the raw utilities must be imported into an R `data.frame` object. The first example assumes a validation task with seven alternatives plus a no-buy alternative. We define the data set (`data`), and the column names of the unique identifier (`id`) and the no-buy alternative (`none`). Next, we specify the attribute levels of each alternative (`prod.levels`), the `method`, variables that should be kept in the new data frame (`varskeep`), and finally, the actual `choice` in the validation task.
+Following hierarchical Bayes estimation, the raw utilities must be imported into an R `data.frame` object. The first example assumes a validation task with seven alternatives plus a no-buy alternative. We define the data set (`data`), and the column names of the unique identifier (`id`) and the no-buy alternative (`none`). Next, we specify the attribute levels of each alternative (`prod.levels`), the `method`, the variables that should be kept in the new data frame (`varskeep`), and finally, the actual `choice` in the validation task.
 
 ``` r
 hot_mxd <- create_hot(
