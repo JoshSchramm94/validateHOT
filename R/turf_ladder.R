@@ -30,7 +30,7 @@
 #' `fixed` has to be a vector of variables that are fixed in the
 #' assortment, i.e., they must be part of the assortment.
 #'
-#' `approach` character defining whether first choice approach (`approach = 'fc'`)
+#' `approach` character defining whether first choice (`approach = 'fc'`)
 #' or threshold approach (`approach = 'thres'`) should be applied for running
 #' `turf_ladder()`. If `approach = 'fc'`, participants are considered to be
 #' reached, if their alternative with the highest utility is included in the

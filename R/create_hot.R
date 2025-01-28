@@ -473,9 +473,13 @@ create_hot <- function(data,
         )
 
         if (min(linear_levels) == prod.levels[[q]][p]) {
-          lower_break <- max(linear_levels[linear_levels <= prod.levels[[q]][p]])
+          lower_break <- max(
+            linear_levels[linear_levels <= prod.levels[[q]][p]]
+            )
 
-          upper_break <- min(linear_levels[linear_levels > prod.levels[[q]][p]])
+          upper_break <- min(
+            linear_levels[linear_levels > prod.levels[[q]][p]]
+            )
         }
 
         if (min(linear_levels) != prod.levels[[q]][p]) {

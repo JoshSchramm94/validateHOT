@@ -42,7 +42,7 @@
 #' in the assortment, i.e., alternatives that are not allowed to be together in
 #' one assortment.
 #'
-#' `approach` character defining whether first choice approach (`approach = 'fc'`)
+#' `approach` character defining whether first choice (`approach = 'fc'`)
 #' or threshold approach (`approach = 'thres'`) should be applied for running
 #' `turf()`. If `approach = 'fc'`, participants are considered to be
 #' reached, if their alternative with the highest utility is included in the
