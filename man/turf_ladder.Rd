@@ -43,7 +43,7 @@ variable that needs to be exceeded).
 \code{fixed} has to be a vector of variables that are fixed in the
 assortment, i.e., they must be part of the assortment.
 
-\code{approach} character defining whether first choice approach (\code{approach = 'fc'})
+\code{approach} character defining whether first choice (\code{approach = 'fc'})
 or threshold approach (\code{approach = 'thres'}) should be applied for running
 \code{turf_ladder()}. If \code{approach = 'fc'}, participants are considered to be
 reached, if their alternative with the highest utility is included in the

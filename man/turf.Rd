@@ -65,7 +65,7 @@ assortment, i.e., they have to be part of the assortment.
 in the assortment, i.e., alternatives that are not allowed to be together in
 one assortment.
 
-\code{approach} character defining whether first choice approach (\code{approach = 'fc'})
+\code{approach} character defining whether first choice (\code{approach = 'fc'})
 or threshold approach (\code{approach = 'thres'}) should be applied for running
 \code{turf()}. If \code{approach = 'fc'}, participants are considered to be
 reached, if their alternative with the highest utility is included in the
