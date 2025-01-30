@@ -172,6 +172,6 @@ The package validateHOT is available on [GitHub](https://github.com/JoshSchramm9
 
 # Acknowledgments
 
-We would like to thank Sawtooth Software [@sawtooth2024] for their transparent documentation. The first author receives an academic grant from Sawtooth Software, Inc. (USA) during his Ph.D. time.
+We would like to thank Sawtooth Software [@sawtooth2024] for their transparent documentation. The first author receives an [academic grant](https://sawtoothsoftware.com/academics/grants) from Sawtooth Software, Inc. (USA) during his Ph.D. time.
 
 # References
