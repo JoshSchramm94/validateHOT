@@ -4,7 +4,7 @@
 \alias{marksim}
 \title{Function to run market simulations for market scenario}
 \usage{
-marksim(data, group, opts, method = c("sop", "fc"), res = c("agg", "ind"))
+marksim(data, group, opts, method = NULL, res = NULL)
 }
 \arguments{
 \item{data}{A data frame containing all relevant variables.}

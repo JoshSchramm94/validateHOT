@@ -17,7 +17,7 @@
 #' @importFrom fastDummies dummy_cols
 #' @importFrom utils combn
 #' @importFrom cli cli_abort cli_warn
-#' @importFrom rlang caller_arg caller_env
+#' @importFrom rlang caller_arg caller_env "%||%"
 ## usethis namespace: end
 NULL
 

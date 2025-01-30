@@ -567,6 +567,13 @@ fc_share <- function(data, variables) {
     dplyr::select(-fc)
 }
 
+create_shares <- function(data, method, variables) {
+  switch(method,
+         "sop" = mnl(data, {{ variables }}),
+         "fc" = fc_share(data, {{ variables }})
+         )
+}
+
 sample_size <- function(data, group = NULL) {
   data %>%
     dplyr::group_by(dplyr::pick({{ group }})) %>%

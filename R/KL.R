@@ -160,9 +160,7 @@ kl <- function(data,
   # end ------------------------------------------------------------------------
 
   # check epsilon argument -----------------------------------------------------
-  if (missing(epsilon)) {
-    epsilon <- .00001
-  }
+  epsilon <- epsilon %||% .00001
 
   # epsilon needs to be numeric
   numeric_vector(epsilon)
@@ -172,9 +170,7 @@ kl <- function(data,
   # check log_base argument ----------------------------------------------------
 
   # specify log_base if not defined
-  if (missing(log_base)) {
-    log_base <- "log"
-  }
+  log_base <- log_base %||% "log"
 
   # log_base can only be set to "log" or "log2"
   allowed_input(log_base, c("log", "log2"))

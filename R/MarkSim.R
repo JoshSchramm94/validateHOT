@@ -93,8 +93,8 @@
 marksim <- function(data,
                     group,
                     opts,
-                    method = c("sop", "fc"),
-                    res = c("agg", "ind")) {
+                    method = NULL,
+                    res = NULL) {
   # check for missing arguments ------------------------------------------------
   if (missing(opts)) {
     stop('Error: argument "opts" must be provided.')
@@ -124,9 +124,7 @@ marksim <- function(data,
   # check for method argument --------------------------------------------------
 
   # if missing, set to "sop"
-  if (missing(method)) {
-    method <- "sop"
-  }
+  method <- method %||% "sop"
 
   # method can only be set to "sop" or "fc"
   allowed_input(method, c("sop", "fc"))
@@ -136,9 +134,7 @@ marksim <- function(data,
   # check res argument ---------------------------------------------------------
 
   # specify log_base if not defined
-  if (missing(res)) {
-    res <- "agg"
-  }
+  res <- res %||% "agg"
 
   # res can only be set to "agg" or "ind"
   allowed_input(res, c("ind", "agg"))
@@ -147,15 +143,9 @@ marksim <- function(data,
   # run marksim() --------------------------------------------------------------
 
   # share of preference
-  if (method == "sop") {
-    marksim_data <- mnl(data, {{ opts }})
-  }
+  marksim_data <- create_shares(data, method = method, variables = {{ opts }})
 
-  # first choice
-  if (method == "fc") {
-    marksim_data <- fc_share(data, {{ opts }})
-  }
-
+  # prepare results if aggregated results should be returned
   if (res == "agg") {
     # get actual sample size for creating standard error
     n_sample <- sample_size(data, group = {{ group }})
