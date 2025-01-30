@@ -69,8 +69,8 @@ You can install validateHOT by using the remotes package [@remotes].
 ```{r, eval = FALSE}
 install.packages("remotes")
 remotes::install_github(
-  repo = "JoshSchramm94/validateHOT", 
-  dependencies = TRUE, 
+  repo = "JoshSchramm94/validateHOT",
+  dependencies = TRUE,
   build_vignettes = TRUE
 )
 ```
@@ -605,10 +605,10 @@ If we want to run the TURF ladder (i.e., start with one item and then subsequent
 
 ```{r}
 turf_ladder(
- data = maxdiff,
- opts = c(option_01:option_16),
- none = none,
- approach = "thres"
+  data = maxdiff,
+  opts = c(option_01:option_16),
+  none = none,
+  approach = "thres"
 )
 ```
 

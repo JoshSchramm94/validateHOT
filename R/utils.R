@@ -569,9 +569,9 @@ fc_share <- function(data, variables) {
 
 create_shares <- function(data, method, variables) {
   switch(method,
-         "sop" = mnl(data, {{ variables }}),
-         "fc" = fc_share(data, {{ variables }})
-         )
+    "sop" = mnl(data, {{ variables }}),
+    "fc" = fc_share(data, {{ variables }})
+  )
 }
 
 sample_size <- function(data, group = NULL) {
