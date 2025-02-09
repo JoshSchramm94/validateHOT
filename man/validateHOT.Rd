@@ -19,7 +19,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Joshua Schramm \email{joshua.schramm@mail.de} (\href{https://orcid.org/0000-0001-5602-4632}{ORCID})
+\strong{Maintainer}: Joshua Schramm \email{josh.schramm@gmx.de} (\href{https://orcid.org/0000-0001-5602-4632}{ORCID})
 
 Other contributors:
 \itemize{
