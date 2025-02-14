@@ -17,9 +17,9 @@ authors:
   corresponding: false
   affiliation: 1
 affiliations:
-- name: Otto von Guericke University of Magdeburg, Germany
+- name: Otto-von-Guericke-University Magdeburg
   index: 1
-date: 09 February 2025
+date: 14 February 2025
 bibliography: paper.bib
 output: rticles::joss_article
 csl: apa.csl
@@ -42,10 +42,7 @@ The validateHOT package provides the necessary tools for the aforementioned appl
 
 Other R packages offer functions to calculate validation metrics. However, these are not always tailored to the individual raw utilities extracted from preference measurement techniques. The Metrics package [@Metrics], for example, provides functions to run validation metrics such as mean absolute error (MAE) or metrics of the confusion matrix. However, converting outputs such as those from estimations using Sawtooth Software's Lighthouse Studio [@sawtooth2024] or the ChoiceModelR package [@ChoiceModelR] into the proper format requires some data wrangling. The conjoint package [@conjoint] offers functions that are similar to those in validateHOT but it lacks validation functions and focuses primarily on classical conjoint analysis. Thus, it is limited when applied to more common conjoint methods. The logitr package [@logitr] offers market simulation tools but does not include validation metrics such as mean hit probability or hit rate. \autoref{fig:comparison} compares validateHOT's functions with those of other R packages. To the best of our knowledge, no package converts raw utility scores into validation metrics or running a variety of marketing simulations (especially Total Unduplicated Reach and Frequency (TURF) and TURF ladder).
 
-
 ![Comparison of the functions of validateHOT with those of existing R packages\label{fig:comparison}](functioncomparison.png)
-
-
 
 We introduce validateHOT drawing on data estimated using Sawtooth Software Lighthouse Studio [@sawtooth2024]. However, it can also be used on results stemming from packages such as ChoiceModelR [@ChoiceModelR], bayesm [@bayesm], or STAN [@rstan], if used with similar settings.
 
