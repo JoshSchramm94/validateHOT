@@ -1,5 +1,7 @@
 # validateHOT 1.0.5
 
+* implemented suggestions and comments from JOSS review team
+* release for JOSS submission
 * fixes in the marksim() function (method and res arguments set to NULL)
 * fixes in the kl() function (epsilon and log_base arguments set to NULL)
 
