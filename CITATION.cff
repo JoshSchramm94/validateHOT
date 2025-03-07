@@ -1,0 +1,38 @@
+cff-version: "1.2.0"
+authors:
+- family-names: Schramm
+  given-names: Joshua Benjamin
+  orcid: "https://orcid.org/0000-0001-5602-4632"
+- family-names: Lichters
+  given-names: Marcel
+  orcid: "https://orcid.org/0000-0002-3710-2292"
+contact:
+- family-names: Schramm
+  given-names: Joshua Benjamin
+  orcid: "https://orcid.org/0000-0001-5602-4632"
+doi: 10.5281/zenodo.14868050
+message: If you use this software, please cite our article in the
+  Journal of Open Source Software.
+preferred-citation:
+  authors:
+  - family-names: Schramm
+    given-names: Joshua Benjamin
+    orcid: "https://orcid.org/0000-0001-5602-4632"
+  - family-names: Lichters
+    given-names: Marcel
+    orcid: "https://orcid.org/0000-0002-3710-2292"
+  date-published: 2025-03-03
+  doi: 10.21105/joss.06708
+  issn: 2475-9066
+  issue: 107
+  journal: Journal of Open Source Software
+  publisher:
+    name: Open Journals
+  start: 6708
+  title: validateHOT - an R package for the analysis of
+    holdout/validation tasks and other choice modeling tools
+  type: article
+  url: "https://joss.theoj.org/papers/10.21105/joss.06708"
+  volume: 10
+title: validateHOT - an R package for the analysis of holdout/validation
+  tasks and other choice modeling tools
