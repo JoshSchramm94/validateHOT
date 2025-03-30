@@ -1,3 +1,8 @@
+# validateHOT 1.0.6
+
+* slight changes in turf() function, now also possible to set size to 1L
+* fixed bug with naming issues in turf()
+
 # validateHOT 1.0.5
 
 * implemented suggestions and comments from JOSS review team
