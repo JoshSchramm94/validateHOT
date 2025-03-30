@@ -297,17 +297,17 @@ turf <- function(data,
     alternatives_included <- unname(c(unlist(combos[i, ])))
 
     working_set[[paste0(
-      "comb.",
-      paste0(alternatives_included, collapse = "_")
+      "comb__",
+      paste0(alternatives_included, collapse = "__")
     )]] <-
-      apply(working_set[, alternatives_included], 1, sum)
+      apply(working_set[alternatives_included], 1, sum)
   }
 
   # store names of combinations
   combo_names <- dplyr::select(
     working_set,
     tidyselect::all_of(
-      tidyselect::starts_with("comb.")
+      tidyselect::starts_with("comb__")
     )
   ) %>%
     colnames()
@@ -332,8 +332,8 @@ turf <- function(data,
         X = items,
         FUN = function(x) {
           as.integer(grepl(
-            paste0(x, "_"),
-            paste0(turf_df$combo, "_")
+            paste0("__", x, "__"),
+            paste0(turf_df$combo, "__")
           ))
         },
         FUN.VALUE = numeric(length(turf_df$combo))
@@ -347,8 +347,8 @@ turf <- function(data,
       vapply(
         X = items,
         FUN = \(x) as.integer(grepl(
-          paste0(x, "_"),
-          paste0(turf_df$combo, "_")
+          paste0("__", x, "__"),
+          paste0(turf_df$combo, "__")
         )),
         FUN.VALUE = numeric(length(turf_df$combo))
       )
